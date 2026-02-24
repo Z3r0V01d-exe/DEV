@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test 1</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+    <h1>Regional Document Action Tracking Slip (RDATS)</h1>
+
+    <div class="card">
+        <h2>Add New Record</h2>
+        <p> Regional Doc. Number: <input type="text"></p>
+        <p> Originating Office: <input type="text"></p>
+        <p> Sender: <input type="text"></p>
+        <p> Address: <input type="text"></p>
+        <p> Subject: <input type="text"></p>
+        <p> Addresse: <input type="text"></p>
+        <p> Document Type: <input type="text"></p>
+        <p> Attachment(s): <input type="text"></p>
+
+        <textarea id="remarks" placeholder="Remarks / Action Taken"></textarea>
+
+      <button onclick="addRecord()">Add Record</button>
+    </div>
+
+    <div class="card">
+      <h2>Records</h2>
+      <input type="text" id="search" class="search-box" placeholder="Search by title or document number..." onkeyup="renderRecords()" />
+      <div id="recordsContainer"></div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html> 

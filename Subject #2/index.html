@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DENR - Online Applicant</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="register">
+        <h1>Online Applicant Registration</h1>
+
+        <p>
+            By proceeding with this online application, you certify that all information you provide to the 
+            <strong>Department of Environment and Natural Resources (DENR)</strong> 
+            is true, accurate, and complete to the best of your knowledge. 
+            Submission of false or incomplete information may result in disqualification.
+
+            <br><br>
+            You agree to upload only authentic documents for verification. 
+            You also consent to the collection and processing of your personal data 
+            in accordance with the Data Privacy Act of 2012.
+
+            <br><br>
+            By clicking <strong>Submit</strong>, you confirm that you have read and agreed to these terms.
+        </p>
+
+        <hr>
+
+        <form action="#" method="POST" enctype="multipart/form-data">
+
+            <!-- SECTION 1: PERSONAL INFORMATION -->
+            <h3>Section 1: Personal Information</h3>
+
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" name="lastName" required>
+
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="firstName" required>
+
+            <label for="middleName">Middle Name:</label>
+            <input type="text" id="middleName" name="middleName">
+
+            <br><br>
+
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" required>
+
+            <br><br>
+
+            <label for="birthdate">Birthdate:</label>
+            <input type="date" id="birthdate" name="birthdate" required>
+
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" min="18" required>
+
+            <br><br>
+
+            <label>Job Type:</label>
+            <input type="radio" name="jobType" value="Full-Time" required> Full-Time
+            <input type="radio" name="jobType" value="Part-Time"> Part-Time
+            <input type="radio" name="jobType" value="Trainee"> Trainee
+
+            <br><br>
+
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="contact">Contact Number:</label>
+            <input type="tel" id="contact" name="contact" required>
+
+            <hr>
+
+            <!-- SECTION 2: EDUCATION -->
+            <h3>Section 2: Education</h3>
+
+            <label for="school">School:</label>
+            <input type="text" id="school" name="school" required>
+
+            <br><br>
+
+            <label for="schoolFrom">From:</label>
+            <input type="date" id="schoolFrom" name="schoolFrom">
+
+            <label for="schoolTo">To:</label>
+            <input type="date" id="schoolTo" name="schoolTo">
+
+            <br><br>
+
+            <label>Graduated?</label>
+            <input type="radio" name="graduated" value="Yes"> Yes
+            <input type="radio" name="graduated" value="No"> No
+
+            <br><br>
+
+            <label for="degree">Degree Program:</label>
+            <select name="degree" id="degree" required>
+                <option value="">-- Select Degree --</option>
+
+                <optgroup label="Certificate Programs">
+                    <option value="Certificate in Computer Technology">Certificate in Computer Technology</option>
+                    <option value="Certificate in Office Administration">Certificate in Office Administration</option>
+                    <option value="Certificate in Hospitality Services">Certificate in Hospitality Services</option>
+                    <option value="TESDA NC II">TESDA National Certificate (NC II)</option>
+                </optgroup>
+
+                <optgroup label="Associate Degrees">
+                    <option value="Associate in Computer Technology">Associate in Computer Technology</option>
+                    <option value="Associate in Hotel and Restaurant Management">Associate in Hotel and Restaurant Management</option>
+                    <option value="Associate in Business Administration">Associate in Business Administration</option>
+                </optgroup>
+
+                <optgroup label="Bachelor's Degrees - Arts & Humanities">
+                    <option value="BA Communication">Bachelor of Arts in Communication</option>
+                    <option value="BA Political Science">Bachelor of Arts in Political Science</option>
+                    <option value="BA Psychology">Bachelor of Arts in Psychology</option>
+                    <option value="BA English Language Studies">Bachelor of Arts in English Language Studies</option>
+                    <option value="BA Sociology">Bachelor of Arts in Sociology</option>
+                    <option value="BA Public Administration">Bachelor of Arts in Public Administration</option>
+                </optgroup>
+
+                <optgroup label="Bachelor's Degrees - Business & Management">
+                    <option value="BS Business Administration">Bachelor of Science in Business Administration</option>
+                    <option value="BS Accountancy">Bachelor of Science in Accountancy</option>
+                    <option value="BS Accounting Information System">Bachelor of Science in Accounting Information System</option>
+                    <option value="BS Entrepreneurship">Bachelor of Science in Entrepreneurship</option>
+                    <option value="BS Management Accounting">Bachelor of Science in Management Accounting</option>
+                    <option value="BS Hospitality Management">Bachelor of Science in Hospitality Management</option>
+                    <option value="BS Tourism Management">Bachelor of Science in Tourism Management</option>
+                </optgroup>
+
+                <optgroup label="Bachelor's Degrees - Information Technology">
+                    <option value="BS Information Technology">Bachelor of Science in Information Technology</option>
+                    <option value="BS Computer Science">Bachelor of Science in Computer Science</option>
+                    <option value="BS Information Systems">Bachelor of Science in Information Systems</option>
+                    <option value="BS Computer Engineering">Bachelor of Science in Computer Engineering</option>
+                </optgroup>
+
+                <optgroup label="Bachelor's Degrees - Engineering">
+                    <option value="BS Civil Engineering">Bachelor of Science in Civil Engineering</option>
+                    <option value="BS Mechanical Engineering">Bachelor of Science in Mechanical Engineering</option>
+                    <option value="BS Electrical Engineering">Bachelor of Science in Electrical Engineering</option>
+                    <option value="BS Electronics Engineering">Bachelor of Science in Electronics Engineering</option>
+                    <option value="BS Industrial Engineering">Bachelor of Science in Industrial Engineering</option>
+                    <option value="BS Environmental Engineering">Bachelor of Science in Environmental Engineering</option>
+                </optgroup>
+
+                <optgroup label="Bachelor's Degrees - Education">
+                    <option value="BEEd">Bachelor of Elementary Education</option>
+                    <option value="BSEd English">Bachelor of Secondary Education - English</option>
+                    <option value="BSEd Mathematics">Bachelor of Secondary Education - Mathematics</option>
+                    <option value="BSEd Science">Bachelor of Secondary Education - Science</option>
+                    <option value="BSEd Social Studies">Bachelor of Secondary Education - Social Studies</option>
+                    <option value="BTLEd">Bachelor of Technology and Livelihood Education</option>
+                </optgroup>
+
+                <optgroup label="Bachelor's Degrees - Health Sciences">
+                    <option value="BS Nursing">Bachelor of Science in Nursing</option>
+                    <option value="BS Medical Technology">Bachelor of Science in Medical Technology</option>
+                    <option value="BS Pharmacy">Bachelor of Science in Pharmacy</option>
+                    <option value="BS Physical Therapy">Bachelor of Science in Physical Therapy</option>
+                    <option value="BS Radiologic Technology">Bachelor of Science in Radiologic Technology</option>
+                    <option value="BS Public Health">Bachelor of Science in Public Health</option>
+                </optgroup>
+
+                <optgroup label="Bachelor's Degrees - Agriculture & Environment">
+                    <option value="BS Agriculture">Bachelor of Science in Agriculture</option>
+                    <option value="BS Forestry">Bachelor of Science in Forestry</option>
+                    <option value="BS Environmental Science">Bachelor of Science in Environmental Science</option>
+                    <option value="BS Fisheries">Bachelor of Science in Fisheries</option>
+                </optgroup>
+
+                <optgroup label="Bachelor's Degrees - Criminology & Public Safety">
+                    <option value="BS Criminology">Bachelor of Science in Criminology</option>
+                    <option value="BS Public Safety">Bachelor of Science in Public Safety</option>
+                </optgroup>
+
+                <optgroup label="Bachelor's Degrees - Maritime">
+                    <option value="BS Marine Engineering">Bachelor of Science in Marine Engineering</option>
+                    <option value="BS Marine Transportation">Bachelor of Science in Marine Transportation</option>
+                </optgroup>
+
+                <optgroup label="Bachelor's Degrees - Architecture & Design">
+                    <option value="BS Architecture">Bachelor of Science in Architecture</option>
+                    <option value="BS Interior Design">Bachelor of Science in Interior Design</option>
+                    <option value="BS Fine Arts">Bachelor of Science in Fine Arts</option>
+                </optgroup>
+
+                <optgroup label="Master's Degrees">
+                    <option value="MBA">Master in Business Administration</option>
+                    <option value="MPA">Master in Public Administration</option>
+                    <option value="MA Education">Master of Arts in Education</option>
+                    <option value="MS Environmental Science">Master of Science in Environmental Science</option>
+                </optgroup>
+
+                <optgroup label="Doctorate Degrees">
+                    <option value="PhD">Doctor of Philosophy (PhD)</option>
+                    <option value="EdD">Doctor of Education (EdD)</option>
+                    <option value="DBA">Doctor in Business Administration (DBA)</option>
+                </optgroup>
+
+                <optgroup label="Other">
+                    <option value="Others">Others (Please Specify)</option>
+                </optgroup>
+            </select>
+
+            <hr>
+
+            <!-- SECTION 3: WORK EXPERIENCE -->
+            <h3>Section 3: Work Experience</h3>
+
+            <label for="company">Previous Company:</label>
+            <input type="text" id="company" name="company">
+
+            <br><br>
+
+            <label for="companyFrom">From:</label>
+            <input type="date" id="companyFrom" name="companyFrom">
+
+            <label for="companyTo">To:</label>
+            <input type="date" id="companyTo" name="companyTo">
+
+            <br><br>
+
+            <label for="position">Position:</label>
+            <input type="text" id="position" name="position">
+
+            <br><br>
+
+            <label for="reason">Reason for Leaving:</label>
+            <input type="text" id="reason" name="reason">
+
+            <hr>
+
+            <!-- SECTION 4: DOCUMENT UPLOAD -->
+            <h3>Section 4: Document Upload</h3>
+
+            <label for="resume">Resume/CV:</label>
+            <input type="file" id="resume" name="resume" accept=".pdf,.doc,.doc,.docx" required>
+
+            <br><br>
+
+            <label for="coverLetter">Cover Letter:</label>
+            <input type="file" id="coverLetter" name="coverLetter" accept=".pdf,.doc,.docx">
+
+            <br><br>
+
+            <label for="endorsementLetter">Endorsement Letter:</label>
+            <input type="file" id="endorsementLetter" name="endorsementLetter" accept=".pdf,.doc,.docx">
+
+            <br><br>
+
+            <button type="submit">Submit Application</button>
+
+        </form>
+    </div>
+
+    <script>
+        // Form validation on submit
+        document.querySelector('form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // Remove previous error highlighting
+            document.querySelectorAll('.error').forEach(field => {
+                field.classList.remove('error');
+            });
+            
+            let hasErrors = false;
+            
+            // Check all required input fields
+            const requiredFields = document.querySelectorAll('[required]');
+            
+            requiredFields.forEach(field => {
+                let isEmpty = false;
+                
+                // Check different input types
+                if (field.type === 'radio') {
+                    // For radio buttons, check if any in the group is selected
+                    const radioGroup = document.querySelectorAll(`input[name="${field.name}"]`);
+                    const isChecked = Array.from(radioGroup).some(radio => radio.checked);
+                    isEmpty = !isChecked;
+                } else if (field.type === 'checkbox') {
+                    isEmpty = !field.checked;
+                } else if (field.type === 'file') {
+                    isEmpty = !field.value;
+                } else {
+                    isEmpty = !field.value.trim();
+                }
+                
+                if (isEmpty) {
+                    field.classList.add('error');
+                    hasErrors = true;
+                }
+            });
+            
+            if (!hasErrors) {
+                // Form is valid, submit it
+                alert('Form submitted successfully!');
+                // Uncomment below to actually submit the form
+                // this.submit();
+            } else {
+                alert('Please fill in all required fields.');
+            }
+        });
+        
+        // Remove error class when user starts typing/selecting
+        document.querySelectorAll('[required]').forEach(field => {
+            field.addEventListener('input', function() {
+                this.classList.remove('error');
+            });
+            field.addEventListener('change', function() {
+                this.classList.remove('error');
+            });
+        });
+    </script>
+</body>
+</html>
