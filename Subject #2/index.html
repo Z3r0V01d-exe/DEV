@@ -22,52 +22,68 @@
             in accordance with the Data Privacy Act of 2012.
 
             <br><br>
-            By clicking <strong>Submit</strong>, you confirm that you have read and agreed to these terms.
+            By clicking <strong>PROCEED</strong>, you confirm that you have read and agreed to these terms.
         </p>
 
         <hr>
 
-        <form action="#" method="POST" enctype="multipart/form-data">
+        <form action="#" id="applicationForm" method="POST" enctype="multipart/form-data">
 
             <!-- SECTION 1: PERSONAL INFORMATION -->
             <h3>Section 1: Personal Information</h3>
 
-            <label for="lastName">Last Name:</label>
-            <input type="text" id="lastName" name="lastName" required>
-
-            <label for="firstName">First Name:</label>
-            <input type="text" id="firstName" name="firstName" required>
-
-            <label for="middleName">Middle Name:</label>
-            <input type="text" id="middleName" name="middleName">
-
-            <br><br>
+            <div class="form-group-3">
+                <div>
+                    <label for="lastName">Last Name:</label>
+                    <input type="text" id="lastName" name="lastName" required>
+                </div>
+                <div>
+                    <label for="firstName">First Name:</label>
+                    <input type="text" id="firstName" name="firstName" required>
+                </div>
+                <div>
+                    <label for="middleName">Middle Name:</label>
+                    <input type="text" id="middleName" name="middleName">
+                </div>
+            </div>
 
             <label for="address">Address:</label>
             <input type="text" id="address" name="address" required>
 
-            <br><br>
+            <br>
 
-            <label for="birthdate">Birthdate:</label>
-            <input type="date" id="birthdate" name="birthdate" required>
+            <div class="form-group-2">
+                <div>
+                    <label for="birthdate">Birthdate:</label>
+                    <input type="date" id="birthdate" name="birthdate" required>
+                </div>
+                <div>
+                    <label for="age">Age:</label>
+                    <input type="number" id="age" name="age" min="18" required>
+                </div>
+            </div>
 
-            <label for="age">Age:</label>
-            <input type="number" id="age" name="age" min="18" required>
-
-            <br><br>
+            <br>
 
             <label>Job Type:</label>
-            <input type="radio" name="jobType" value="Full-Time" required> Full-Time
-            <input type="radio" name="jobType" value="Part-Time"> Part-Time
-            <input type="radio" name="jobType" value="Trainee"> Trainee
+            <div class="radio-group">
+                <label><input type="radio" name="jobType" value="Full-Time" required> Full-Time</label>
+                <label><input type="radio" name="jobType" value="Part-Time"> Part-Time</label>
+                <label><input type="radio" name="jobType" value="Trainee"> Trainee</label>
+            </div>
 
-            <br><br>
+            <br>
 
-            <label for="email">Email Address:</label>
-            <input type="email" id="email" name="email" required>
-
-            <label for="contact">Contact Number:</label>
-            <input type="tel" id="contact" name="contact" required>
+            <div class="form-group-2">
+                <div>
+                    <label for="email">Email Address:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div>
+                    <label for="contact">Contact Number:</label>
+                    <input type="tel" id="contact" name="contact" required>
+                </div>
+            </div>
 
             <hr>
 
@@ -77,24 +93,30 @@
             <label for="school">School:</label>
             <input type="text" id="school" name="school" required>
 
-            <br><br>
+            <br>
 
-            <label for="schoolFrom">From:</label>
-            <input type="date" id="schoolFrom" name="schoolFrom">
+            <div class="form-group-2">
+                <div>
+                    <label for="schoolFrom">From:</label>
+                    <input type="date" id="schoolFrom" name="schoolFrom">
+                </div>
+                <div>
+                    <label for="schoolTo">To:</label>
+                    <input type="date" id="schoolTo" name="schoolTo">
+                </div>
+            </div>
 
-            <label for="schoolTo">To:</label>
-            <input type="date" id="schoolTo" name="schoolTo">
-
-            <br><br>
-
-            <label>Graduated?</label>
-            <input type="radio" name="graduated" value="Yes"> Yes
-            <input type="radio" name="graduated" value="No"> No
-
-            <br><br>
-
-            <label for="degree">Degree Program:</label>
-            <select name="degree" id="degree" required>
+            <div class="form-group-2">
+                <div>
+                    <label>Graduated?</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="graduated" value="Yes"> Yes</label>
+                        <label><input type="radio" name="graduated" value="No"> No</label>
+                    </div>
+                </div>
+                <div>
+                    <label for="degree">Degree Program:</label>
+                    <select name="degree" id="degree" required>
                 <option value="">-- Select Degree --</option>
 
                 <optgroup label="Certificate Programs">
@@ -202,7 +224,9 @@
                 <optgroup label="Other">
                     <option value="Others">Others (Please Specify)</option>
                 </optgroup>
-            </select>
+                    </select>
+                </div>
+            </div>
 
             <hr>
 
@@ -212,20 +236,25 @@
             <label for="company">Previous Company:</label>
             <input type="text" id="company" name="company">
 
-            <br><br>
+            <br>
 
-            <label for="companyFrom">From:</label>
-            <input type="date" id="companyFrom" name="companyFrom">
+            <div class="form-group-2">
+                <div>
+                    <label for="companyFrom">From:</label>
+                    <input type="date" id="companyFrom" name="companyFrom">
+                </div>
+                <div>
+                    <label for="companyTo">To:</label>
+                    <input type="date" id="companyTo" name="companyTo">
+                </div>
+            </div>
 
-            <label for="companyTo">To:</label>
-            <input type="date" id="companyTo" name="companyTo">
-
-            <br><br>
+            <br>
 
             <label for="position">Position:</label>
             <input type="text" id="position" name="position">
 
-            <br><br>
+            <br>
 
             <label for="reason">Reason for Leaving:</label>
             <input type="text" id="reason" name="reason">
@@ -250,68 +279,89 @@
 
             <br><br>
 
-            <button type="submit">Submit Application</button>
+            <button type="submit" onclick="proceedApplication(event)">proceed</button>
 
+        </form>
+
+        <!-- Review Form -->
+        <form id="review">
+            <h2>Review Your Information</h2>
+            
+            <h3>Section 1: Personal Information</h3>
+            <p><strong>Last Name:</strong> <span id="reviewLastName"></span></p>
+            <p><strong>First Name:</strong> <span id="reviewFirstName"></span></p>
+            <p><strong>Middle Name:</strong> <span id="reviewMiddleName"></span></p>
+            <p><strong>Address:</strong> <span id="reviewAddress"></span></p>
+            <p><strong>Birthdate:</strong> <span id="reviewBirthdate"></span></p>
+            <p><strong>Age:</strong> <span id="reviewAge"></span></p>
+            <p><strong>Job Type:</strong> <span id="reviewJobType"></span></p>
+            <p><strong>Email:</strong> <span id="reviewEmail"></span></p>
+            <p><strong>Contact:</strong> <span id="reviewContact"></span></p>
+
+            <h3>Section 2: Education</h3>
+            <p><strong>School:</strong> <span id="reviewSchool"></span></p>
+            <p><strong>From:</strong> <span id="reviewSchoolFrom"></span></p>
+            <p><strong>To:</strong> <span id="reviewSchoolTo"></span></p>
+            <p><strong>Graduated:</strong> <span id="reviewGraduated"></span></p>
+            <p><strong>Degree Program:</strong> <span id="reviewDegree"></span></p>
+
+            <h3>Section 3: Work Experience</h3>
+            <p><strong>Previous Company:</strong> <span id="reviewCompany"></span></p>
+            <p><strong>From:</strong> <span id="reviewCompanyFrom"></span></p>
+            <p><strong>To:</strong> <span id="reviewCompanyTo"></span></p>
+            <p><strong>Position:</strong> <span id="reviewPosition"></span></p>
+            <p><strong>Reason for Leaving:</strong> <span id="reviewReason"></span></p>
+
+            <h3>Section 4: Document Upload</h3>
+            <p><strong>Resume/CV:</strong> <span id="reviewResume"></span></p>
+            <p><strong>Cover Letter:</strong> <span id="reviewCoverLetter"></span></p>
+            <p><strong>Endorsement Letter:</strong> <span id="reviewEndorsementLetter"></span></p>
+
+            <div class="button-container">
+                <button type="button" onclick="backApplication()">Back</button>
+                <button type="button" onclick="submitApplication()">Submit</button>
+            </div>
+        </form>
+
+        <form id="confirmation">
+            <h2>Application Successfully Submitted</h2>
+            <p>
+            Thank you for submitting your application to the 
+            <strong>Department of Environment and Natural Resources (DENR)</strong>. 
+            Your application has been received and is now under initial review by our recruitment team.
+            </p>
+            <p>
+            Please allow <strong>7–14 working days</strong> for the evaluation process. 
+            During this period, our Human Resource Management Section will carefully assess 
+            your qualifications, submitted documents, and eligibility requirements.
+            </p>
+            <p>
+            Kindly stay tuned to your registered email address for further updates. 
+            You will be formally notified via email whether you are:
+            </p>
+            <ul>
+            <li>✔ Shortlisted for interview</li>
+            <li>✔ For further assessment</li>
+            <li>✔ Approved for the next stage</li>
+            <li>✖ Not selected for the position</li>
+            </ul>
+            <p>
+            If shortlisted, additional instructions regarding interview schedules, 
+            examination details, or required documents will be sent to you.
+            </p>
+            <p>
+            Rest assured that all personal information and uploaded documents 
+            will be handled with strict confidentiality in accordance with the 
+            <strong>Data Privacy Act of 2012</strong> and applicable government regulations.
+            </p>
+            <p>
+            We appreciate your interest in serving the public and contributing to 
+            environmental protection and sustainable development.
+            </p>
+            <button type="button" onclick="returnHome()">Return Home</button>
         </form>
     </div>
 
-    <script>
-        // Form validation on submit
-        document.querySelector('form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            
-            // Remove previous error highlighting
-            document.querySelectorAll('.error').forEach(field => {
-                field.classList.remove('error');
-            });
-            
-            let hasErrors = false;
-            
-            // Check all required input fields
-            const requiredFields = document.querySelectorAll('[required]');
-            
-            requiredFields.forEach(field => {
-                let isEmpty = false;
-                
-                // Check different input types
-                if (field.type === 'radio') {
-                    // For radio buttons, check if any in the group is selected
-                    const radioGroup = document.querySelectorAll(`input[name="${field.name}"]`);
-                    const isChecked = Array.from(radioGroup).some(radio => radio.checked);
-                    isEmpty = !isChecked;
-                } else if (field.type === 'checkbox') {
-                    isEmpty = !field.checked;
-                } else if (field.type === 'file') {
-                    isEmpty = !field.value;
-                } else {
-                    isEmpty = !field.value.trim();
-                }
-                
-                if (isEmpty) {
-                    field.classList.add('error');
-                    hasErrors = true;
-                }
-            });
-            
-            if (!hasErrors) {
-                // Form is valid, submit it
-                alert('Form submitted successfully!');
-                // Uncomment below to actually submit the form
-                // this.submit();
-            } else {
-                alert('Please fill in all required fields.');
-            }
-        });
-        
-        // Remove error class when user starts typing/selecting
-        document.querySelectorAll('[required]').forEach(field => {
-            field.addEventListener('input', function() {
-                this.classList.remove('error');
-            });
-            field.addEventListener('change', function() {
-                this.classList.remove('error');
-            });
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
