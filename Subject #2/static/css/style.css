@@ -60,7 +60,7 @@ body {
 
 /* Form Check Styles (Radio/Checkbox) */
 .form-check {
-    padding-left: 0;
+    padding-left: 2rem;
     margin-bottom: 12px;
 }
 
