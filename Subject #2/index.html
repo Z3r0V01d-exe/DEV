@@ -34,39 +34,39 @@
 
             <div class="form-group-3">
                 <div>
-                    <label for="lastName">Last Name:</label>
+                    <label for="lastName" class="required">Last Name</label>
                     <input type="text" id="lastName" name="lastName" required>
                 </div>
                 <div>
-                    <label for="firstName">First Name:</label>
+                    <label for="firstName" class="required">First Name</label>
                     <input type="text" id="firstName" name="firstName" required>
                 </div>
                 <div>
-                    <label for="middleName">Middle Name:</label>
+                    <label for="middleName">Middle Name</label>
                     <input type="text" id="middleName" name="middleName">
                 </div>
             </div>
 
-            <label for="address">Address:</label>
+            <label for="address" class="required">Address</label>
             <input type="text" id="address" name="address" required>
 
             <br>
 
             <div class="form-group-2">
                 <div>
-                    <label for="birthdate">Birthdate:</label>
+                    <label for="birthdate" class="required">Birthdate</label>
                     <input type="date" id="birthdate" name="birthdate" required>
                 </div>
                 <div>
-                    <label for="age">Age:</label>
+                    <label for="age" class="required">Age</label>
                     <input type="number" id="age" name="age" min="18" required>
                 </div>
             </div>
 
             <br>
 
-            <label>Job Type:</label>
-            <div class="radio-group">
+            <label class="required">Job Type</label><label class="error-message" id="jobTypeError"></label>
+            <div class="radio-group" id="jobTypeGroup">
                 <label><input type="radio" name="jobType" value="Full-Time" required> Full-Time</label>
                 <label><input type="radio" name="jobType" value="Part-Time"> Part-Time</label>
                 <label><input type="radio" name="jobType" value="Trainee"> Trainee</label>
@@ -76,11 +76,11 @@
 
             <div class="form-group-2">
                 <div>
-                    <label for="email">Email Address:</label>
+                    <label for="email" class="required">Email Address</label>
                     <input type="email" id="email" name="email" required>
                 </div>
                 <div>
-                    <label for="contact">Contact Number:</label>
+                    <label for="contact" class="required">Contact Number</label>
                     <input type="tel" id="contact" name="contact" required>
                 </div>
             </div>
@@ -90,33 +90,42 @@
             <!-- SECTION 2: EDUCATION -->
             <h3>Section 2: Education</h3>
 
-            <label for="school">School:</label>
-            <input type="text" id="school" name="school" required>
-
-            <br>
-
-            <div class="form-group-2">
-                <div>
-                    <label for="schoolFrom">From:</label>
-                    <input type="date" id="schoolFrom" name="schoolFrom">
-                </div>
-                <div>
-                    <label for="schoolTo">To:</label>
-                    <input type="date" id="schoolTo" name="schoolTo">
-                </div>
-            </div>
-
-            <div class="form-group-2">
-                <div>
-                    <label>Graduated?</label>
-                    <div class="radio-group">
-                        <label><input type="radio" name="graduated" value="Yes"> Yes</label>
-                        <label><input type="radio" name="graduated" value="No"> No</label>
+            <div id="educationContainer">
+                <div class="entry-item" data-entry="education" data-index="1">
+                    <div class="entry-header">
+                        <h4 class="entry-number">School 1</h4>
+                        <button type="button" class="delete-btn" onclick="deleteEntry(this, 'education')" title="Delete this entry">
+                            <span>✕</span>
+                        </button>
                     </div>
-                </div>
-                <div>
-                    <label for="degree">Degree Program:</label>
-                    <select name="degree" id="degree" required>
+
+                    <label for="school_1" class="required">School</label>
+                    <input type="text" id="school_1" name="school" class="school-input" required>
+
+                    <br>
+
+                    <div class="form-group-2">
+                        <div>
+                            <label for="schoolFrom_1">From</label>
+                            <input type="date" id="schoolFrom_1" name="schoolFrom" class="schoolFrom-input">
+                        </div>
+                        <div>
+                            <label for="schoolTo_1">To</label>
+                            <input type="date" id="schoolTo_1" name="schoolTo" class="schoolTo-input">
+                        </div>
+                    </div>
+
+                    <div class="form-group-2">
+                        <div>
+                            <label class="required">Graduated?</label>
+                            <div class="radio-group">
+                                <label><input type="radio" name="graduated_1" value="Yes" class="graduated-input"> Yes</label>
+                                <label><input type="radio" name="graduated_1" value="No" class="graduated-input"> No</label>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="degree_1" class="required">Degree Program</label>
+                            <select name="degree" id="degree_1" class="degree-input" required>
                 <option value="">-- Select Degree --</option>
 
                 <optgroup label="Certificate Programs">
@@ -224,57 +233,74 @@
                 <optgroup label="Other">
                     <option value="Others">Others (Please Specify)</option>
                 </optgroup>
-                    </select>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <button type="button" class="add-more-btn" onclick="addEducationEntry()">+ Add More Education</button>
 
             <hr>
 
             <!-- SECTION 3: WORK EXPERIENCE -->
             <h3>Section 3: Work Experience</h3>
 
-            <label for="company">Previous Company:</label>
-            <input type="text" id="company" name="company">
+            <div id="experienceContainer">
+                <div class="entry-item" data-entry="experience" data-index="1">
+                    <div class="entry-header">
+                        <h4 class="entry-number">Company 1</h4>
+                        <button type="button" class="delete-btn" onclick="deleteEntry(this, 'experience')" title="Delete this entry">
+                            <span>✕</span>
+                        </button>
+                    </div>
 
-            <br>
+                    <label for="company_1">Previous Company</label>
+                    <input type="text" id="company_1" name="company" class="company-input">
 
-            <div class="form-group-2">
-                <div>
-                    <label for="companyFrom">From:</label>
-                    <input type="date" id="companyFrom" name="companyFrom">
-                </div>
-                <div>
-                    <label for="companyTo">To:</label>
-                    <input type="date" id="companyTo" name="companyTo">
+                    <br>
+
+                    <div class="form-group-2">
+                        <div>
+                            <label for="companyFrom_1">From</label>
+                            <input type="date" id="companyFrom_1" name="companyFrom" class="companyFrom-input">
+                        </div>
+                        <div>
+                            <label for="companyTo_1">To</label>
+                            <input type="date" id="companyTo_1" name="companyTo" class="companyTo-input">
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <label for="position_1">Position</label>
+                    <input type="text" id="position_1" name="position" class="position-input">
+
+                    <br>
+
+                    <label for="reason_1">Reason for Leaving</label>
+                    <input type="text" id="reason_1" name="reason" class="reason-input">
                 </div>
             </div>
 
-            <br>
-
-            <label for="position">Position:</label>
-            <input type="text" id="position" name="position">
-
-            <br>
-
-            <label for="reason">Reason for Leaving:</label>
-            <input type="text" id="reason" name="reason">
+            <button type="button" class="add-more-btn" onclick="addExperienceEntry()">+ Add More Experience</button>
 
             <hr>
 
             <!-- SECTION 4: DOCUMENT UPLOAD -->
             <h3>Section 4: Document Upload</h3>
 
-            <label for="resume">Resume/CV:</label>
+            <label for="resume" class="required">Resume/CV</label>
             <input type="file" id="resume" name="resume" accept=".pdf,.doc,.doc,.docx" required>
 
             <br><br>
 
-            <label for="coverLetter">Cover Letter:</label>
+            <label for="coverLetter">Cover Letter</label>
             <input type="file" id="coverLetter" name="coverLetter" accept=".pdf,.doc,.docx">
 
             <br><br>
 
-            <label for="endorsementLetter">Endorsement Letter:</label>
+            <label for="endorsementLetter">Endorsement Letter</label>
             <input type="file" id="endorsementLetter" name="endorsementLetter" accept=".pdf,.doc,.docx">
 
             <br><br>

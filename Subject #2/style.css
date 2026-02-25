@@ -53,6 +53,12 @@ label {
     font-weight: bold;
 }
 
+.required::after {
+    content: " *";
+    color: #d32f2f;
+    font-weight: bold;
+}
+
 input[type="text"],
 input[type="email"],
 input[type="tel"],
@@ -65,6 +71,16 @@ select {
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+input[type="text"].error,
+input[type="email"].error,
+input[type="tel"].error,
+input[type="date"].error,
+input[type="number"].error,
+select.error {
+    border: 2px solid #d32f2f;
 }
 
 input[type="radio"] {
@@ -176,6 +192,89 @@ button:hover {
 .radio-group input[type="radio"] {
     margin-right: 0;
     margin-left: 0;
+}
+
+.radio-group.error {
+    border: 2px solid #d32f2f;
+    padding: 8px;
+    border-radius: 4px;
+    gap: 15px;
+}
+
+.error-message {
+    color: #d32f2f;
+    font-size: 12px;
+    margin-bottom: 10px;
+    display: none;
+}
+
+.error-message.show {
+    display: block;
+}
+
+/* Entry Item Styling */
+.entry-item {
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 4px solid #2c5aa0;
+    border-radius: 4px;
+}
+
+.entry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.entry-number {
+    color: #2c5aa0;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.delete-btn {
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #d32f2f;
+    cursor: pointer;
+    padding: 4px 8px;
+    transition: transform 0.2s;
+    line-height: 1;
+}
+
+.delete-btn:hover {
+    transform: scale(1.2);
+}
+
+.delete-btn span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.add-more-btn {
+    width: auto;
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 20px 0;
+    display: block;
+}
+
+.add-more-btn:hover {
+    background-color: #45a049;
 }
 
 /* Application Form Styling */
