@@ -1,0 +1,45 @@
+/* Application Form Component */
+.app-form {
+    display: block;
+}
+
+.app-form h1 {
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.app-form form {
+    margin-top: 20px;
+}
+
+.intro-text {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    text-align: justify;
+}
+
+.intro-text strong {
+    font-weight: bold;
+}
+
+.form-error {
+    color: #d32f2f;
+    font-size: 12px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+.education-error {
+    color: #d32f2f;
+    font-weight: bold;
+    padding: 10px;
+    background-color: #fff3e0;
+    border-left: 4px solid #d32f2f;
+    margin-bottom: 15px;
+}
+
+.entry-item.error {
+    border-left-color: #d32f2f;
+}

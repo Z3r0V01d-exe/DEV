@@ -1,0 +1,107 @@
+🔧 POWERSHELL EXECUTION POLICY FIX
+
+═══════════════════════════════════════════════════════════════════════════════
+
+⚠️ ERROR FOUND:
+"File C:\Program Files\nodejs\npm.ps1 cannot be loaded because running scripts 
+is disabled on this system."
+
+✅ SOLUTION:
+
+Step 1: Open PowerShell as Administrator
+────────────────────────────────────────
+  1. Right-click PowerShell
+  2. Select "Run as Administrator"
+
+Step 2: Run this command ONCE:
+────────────────────────────────
+  Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+  (Press 'Y' and Enter when asked to confirm)
+
+Step 3: Close PowerShell and open a new one (REGULAR user, not admin)
+
+Step 4: Now try npm run dev:
+────────────────────────────
+  cd C:\Users\ADMIN\Desktop\OJT\DEV\Subject #2
+  npm run dev
+
+═══════════════════════════════════════════════════════════════════════════════
+
+📋 STEP-BY-STEP INSTRUCTIONS:
+
+1. OPEN POWERSHELL AS ADMIN:
+   ├─ Click Start button
+   ├─ Type "PowerShell"
+   ├─ Right-click "Windows PowerShell"
+   └─ Select "Run as administrator"
+
+2. COPY AND PASTE THIS:
+   └─ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+3. PRESS 'Y' AND ENTER
+
+4. CLOSE THE ADMIN POWERSHELL
+
+5. OPEN NEW POWERSHELL (Regular - NOT admin)
+
+6. NAVIGATE TO PROJECT:
+   └─ cd C:\Users\ADMIN\Desktop\OJT\DEV\Subject #2
+
+7. START DEV SERVER:
+   └─ npm run dev
+
+8. Browser opens automatically at http://localhost:3000 ✨
+
+═══════════════════════════════════════════════════════════════════════════════
+
+✨ AFTER THIS FIX:
+
+All npm commands will work:
+├─ npm install      (install dependencies)
+├─ npm run dev      (start dev server)
+├─ npm run build    (build for production)
+└─ npm run preview  (preview production build)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+🎯 VERIFY FIX WORKS:
+
+After running the Set-ExecutionPolicy command, type this to verify:
+  npm --version
+
+You should see a version number like: 10.2.3
+
+═══════════════════════════════════════════════════════════════════════════════
+
+📌 WHAT THIS DOES:
+
+RemoteSigned policy allows:
+✅ Running local scripts
+✅ Running downloaded scripts (if signed)
+✅ Running npm commands
+✅ Safe for development
+
+═══════════════════════════════════════════════════════════════════════════════
+
+❓ STILL NOT WORKING?
+
+Try using Command Prompt instead of PowerShell:
+  1. Press Windows + R
+  2. Type: cmd
+  3. Press Enter
+  4. Type: cd C:\Users\ADMIN\Desktop\OJT\DEV\Subject #2
+  5. Type: npm run dev
+
+Command Prompt usually doesn't have execution policy issues.
+
+═══════════════════════════════════════════════════════════════════════════════
+
+🎉 AFTER FIX:
+
+Your folder structure is now complete and:
+├─ static/index.html → Works instantly in browser ✅
+├─ npm run dev → Now works with React hot reload ✅
+└─ Both versions ready to use ✅
+
+═══════════════════════════════════════════════════════════════════════════════

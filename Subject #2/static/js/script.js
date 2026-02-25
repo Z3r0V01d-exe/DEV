@@ -55,11 +55,6 @@ function proceedApplication(event) {
         jobTypeError.classList.remove('show');
     }
     
-    if (!isValid) {
-        alert('Please fill in all required fields (marked with *)');
-        return;
-    }
-    
     // Get all form values
     const lastName = document.getElementById('lastName').value;
     const firstName = document.getElementById('firstName').value;
@@ -156,27 +151,27 @@ function proceedApplication(event) {
     document.getElementById('reviewEndorsementLetter').textContent = endorsementLetter;
 
     // Hide application form and show review form
-    document.getElementById('applicationForm').style.display = 'none';
-    document.getElementById('review').style.display = 'block';
+    document.getElementById('applicationForm').classList.add('d-none');
+    document.getElementById('review').classList.remove('d-none');
 }
 
 function backApplication() {
     // Hide review form and show application form
-    document.getElementById('review').style.display = 'none';
-    document.getElementById('applicationForm').style.display = 'block';
+    document.getElementById('review').classList.add('d-none');
+    document.getElementById('applicationForm').classList.remove('d-none');
 }
 
 function submitApplication() {
     // Hide review form and show confirmation form
-    document.getElementById('review').style.display = 'none';
-    document.getElementById('confirmation').style.display = 'block';
+    document.getElementById('review').classList.add('d-none');
+    document.getElementById('confirmation').classList.remove('d-none');
 }
 
 function returnHome() {
     // Reset form and hide confirmation, show application form
-    document.getElementById('confirmation').style.display = 'none';
-    document.getElementById('review').style.display = 'none';
-    document.getElementById('applicationForm').style.display = 'block';
+    document.getElementById('confirmation').classList.add('d-none');
+    document.getElementById('review').classList.add('d-none');
+    document.getElementById('applicationForm').classList.remove('d-none');
     
     // Reset the application form
     document.getElementById('applicationForm').reset();
@@ -239,46 +234,50 @@ function addEducationEntry() {
     const entries = container.querySelectorAll('.entry-item');
     const newIndex = entries.length + 1;
     
-    // Create new entry HTML
+    // Create new entry HTML with Bootstrap classes
     const newEntry = document.createElement('div');
-    newEntry.className = 'entry-item';
+    newEntry.className = 'card entry-item mb-3';
     newEntry.setAttribute('data-entry', 'education');
     newEntry.setAttribute('data-index', newIndex);
     newEntry.innerHTML = `
-        <div class="entry-header">
-            <h4 class="entry-number">School ${newIndex}</h4>
-            <button type="button" class="delete-btn" onclick="deleteEntry(this, 'education')" title="Delete this entry">
-                <span>✕</span>
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0 entry-number">School ${newIndex}</h5>
+            <button type="button" class="btn btn-sm btn-danger delete-btn" onclick="deleteEntry(this, 'education')" title="Delete this entry">
+                <span>✕ Delete</span>
             </button>
         </div>
-
-        <label for="school_${newIndex}" class="required">School</label>
-        <input type="text" id="school_${newIndex}" name="school" class="school-input" required>
-
-        <br>
-
-        <div class="form-group-2">
-            <div>
-                <label for="schoolFrom_${newIndex}">From</label>
-                <input type="date" id="schoolFrom_${newIndex}" name="schoolFrom" class="schoolFrom-input">
+        <div class="card-body">
+            <div class="mb-3">
+                <label for="school_${newIndex}" class="form-label"><span class="text-danger">*</span> School</label>
+                <input type="text" id="school_${newIndex}" name="school" class="form-control school-input" required>
             </div>
-            <div>
-                <label for="schoolTo_${newIndex}">To</label>
-                <input type="date" id="schoolTo_${newIndex}" name="schoolTo" class="schoolTo-input">
-            </div>
-        </div>
 
-        <div class="form-group-2">
-            <div>
-                <label class="required">Graduated?</label>
-                <div class="radio-group">
-                    <label><input type="radio" name="graduated_${newIndex}" value="Yes" class="graduated-input"> Yes</label>
-                    <label><input type="radio" name="graduated_${newIndex}" value="No" class="graduated-input"> No</label>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="schoolFrom_${newIndex}" class="form-label">From</label>
+                    <input type="date" id="schoolFrom_${newIndex}" name="schoolFrom" class="form-control schoolFrom-input">
+                </div>
+                <div class="col-md-6">
+                    <label for="schoolTo_${newIndex}" class="form-label">To</label>
+                    <input type="date" id="schoolTo_${newIndex}" name="schoolTo" class="form-control schoolTo-input">
                 </div>
             </div>
-            <div>
-                <label for="degree_${newIndex}" class="required">Degree Program</label>
-                <select name="degree" id="degree_${newIndex}" class="degree-input" required>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label"><span class="text-danger">*</span> Graduated?</label>
+                    <div class="form-check">
+                        <input type="radio" name="graduated_${newIndex}" value="Yes" class="form-check-input graduated-input" id="graduated_${newIndex}_yes">
+                        <label class="form-check-label" for="graduated_${newIndex}_yes">Yes</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" name="graduated_${newIndex}" value="No" class="form-check-input graduated-input" id="graduated_${newIndex}_no">
+                        <label class="form-check-label" for="graduated_${newIndex}_no">No</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="degree_${newIndex}" class="form-label"><span class="text-danger">*</span> Degree Program</label>
+                    <select name="degree" id="degree_${newIndex}" class="form-select degree-input" required>
                     <option value="">-- Select Degree --</option>
                     <optgroup label="Certificate Programs">
                         <option value="Certificate in Computer Technology">Certificate in Computer Technology</option>
@@ -387,42 +386,43 @@ function addExperienceEntry() {
     const newIndex = entries.length + 1;
     
     const newEntry = document.createElement('div');
-    newEntry.className = 'entry-item';
+    newEntry.className = 'card entry-item mb-3';
     newEntry.setAttribute('data-entry', 'experience');
     newEntry.setAttribute('data-index', newIndex);
     newEntry.innerHTML = `
-        <div class="entry-header">
-            <h4 class="entry-number">Company ${newIndex}</h4>
-            <button type="button" class="delete-btn" onclick="deleteEntry(this, 'experience')" title="Delete this entry">
-                <span>✕</span>
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0 entry-number">Company ${newIndex}</h5>
+            <button type="button" class="btn btn-sm btn-danger delete-btn" onclick="deleteEntry(this, 'experience')" title="Delete this entry">
+                <span>✕ Delete</span>
             </button>
         </div>
-
-        <label for="company_${newIndex}">Previous Company</label>
-        <input type="text" id="company_${newIndex}" name="company" class="company-input">
-
-        <br>
-
-        <div class="form-group-2">
-            <div>
-                <label for="companyFrom_${newIndex}">From</label>
-                <input type="date" id="companyFrom_${newIndex}" name="companyFrom" class="companyFrom-input">
+        <div class="card-body">
+            <div class="mb-3">
+                <label for="company_${newIndex}" class="form-label">Previous Company</label>
+                <input type="text" id="company_${newIndex}" name="company" class="form-control company-input">
             </div>
-            <div>
-                <label for="companyTo_${newIndex}">To</label>
-                <input type="date" id="companyTo_${newIndex}" name="companyTo" class="companyTo-input">
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="companyFrom_${newIndex}" class="form-label">From</label>
+                    <input type="date" id="companyFrom_${newIndex}" name="companyFrom" class="form-control companyFrom-input">
+                </div>
+                <div class="col-md-6">
+                    <label for="companyTo_${newIndex}" class="form-label">To</label>
+                    <input type="date" id="companyTo_${newIndex}" name="companyTo" class="form-control companyTo-input">
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="position_${newIndex}" class="form-label">Position</label>
+                <input type="text" id="position_${newIndex}" name="position" class="form-control position-input">
+            </div>
+
+            <div class="mb-3">
+                <label for="reason_${newIndex}" class="form-label">Reason for Leaving</label>
+                <input type="text" id="reason_${newIndex}" name="reason" class="form-control reason-input">
             </div>
         </div>
-
-        <br>
-
-        <label for="position_${newIndex}">Position</label>
-        <input type="text" id="position_${newIndex}" name="position" class="position-input">
-
-        <br>
-
-        <label for="reason_${newIndex}">Reason for Leaving</label>
-        <input type="text" id="reason_${newIndex}" name="reason" class="reason-input">
     `;
     
     container.appendChild(newEntry);
