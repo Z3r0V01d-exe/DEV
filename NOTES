@@ -13,9 +13,13 @@ flow - UNKNOWN
 ONLINE APPLICANT SYSTEM
 - required to log in first so it can record and sent email
 
-HOME PAGE - SOON
+HOME PAGE -
+nav structore: Home | Vacancies | Login
 
 APPLICANT
+nav: Home | Vacancies | My Application | Account
+
+
 section 1: Personal Info
     - Fullname (Last Name, First name, Middle name)
     - Adddress
@@ -32,6 +36,8 @@ LOGIN:
 
 
 ADMIN/HR
+nav: Dashboard | Applications | Vacancies | Reports | Account
+
 - review applicant
 - approve/reject/shortlist
 - appoint what position and division
