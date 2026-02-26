@@ -12,6 +12,9 @@ flow - UNKNOWN
 
 ONLINE APPLICANT SYSTEM
 - required to log in first so it can record and sent email
+
+HOME PAGE - SOON
+
 APPLICANT
 section 1: Personal Info
     - Fullname (Last Name, First name, Middle name)
@@ -25,13 +28,19 @@ section 2: Education
 section 3: work experience
 section 4: requirement papers
 
+LOGIN:
+
 
 ADMIN/HR
 - review applicant
 - approve/reject/shortlist
 - appoint what position and division
 
+LOGIN:
+
 
 cd "c:\Users\ADMIN\Desktop\OJT\DEV\Subject #2"
 npm install
 npm run dev
+
+

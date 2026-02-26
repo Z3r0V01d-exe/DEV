@@ -123,6 +123,12 @@ function proceedApplication(event) {
     const coverLetter = document.getElementById('coverLetter').files[0]?.name || 'No file';
     const endorsementLetter = document.getElementById('endorsementLetter').files[0]?.name || 'No file';
 
+    const resumeFile = document.getElementById('resume').files[0];
+    if (!resumeFile) {
+        alert("Resume is required and must follow the correct format.");
+        return;
+    }
+
     // Populate review form
     document.getElementById('reviewLastName').textContent = lastName;
     document.getElementById('reviewFirstName').textContent = firstName;
@@ -224,6 +230,88 @@ document.addEventListener('DOMContentLoaded', function() {
             const jobTypeError = document.getElementById('jobTypeError');
             jobTypeGroup.classList.remove('error');
             jobTypeError.classList.remove('show');
+        });
+    });
+
+    const popoverTriggerList = [].slice.call(
+        document.querySelectorAll('[data-bs-toggle="popover"]')
+    );
+
+    popoverTriggerList.map(function (popoverTriggerEl) {
+        return new bootstrap.Popover(popoverTriggerEl);
+    });
+
+    const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+
+    function validateFile(file, type, input, dropZone) {
+        const errorContainer = dropZone.parentElement.querySelector('.file-error');
+        errorContainer.textContent = "";
+        dropZone.classList.remove("error", "success");
+
+        if (!file) return false;
+
+        // Check file type
+        if (file.type !== "application/pdf") {
+            errorContainer.textContent = "Only PDF files are allowed.";
+            dropZone.classList.add("error");
+            input.value = "";
+            return false;
+        }
+
+        // Check file size
+        if (file.size > MAX_SIZE) {
+            errorContainer.textContent = "File must not exceed 5MB.";
+            dropZone.classList.add("error");
+            input.value = "";
+            return false;
+        }
+
+        // Validate filename format
+        const fileName = file.name;
+        const regex = new RegExp(`^[A-Za-z]+_[A-Za-z]+_${type}\\.pdf$`);
+
+        if (!regex.test(fileName)) {
+            errorContainer.textContent =
+                `Invalid filename format. Required: Surname_FirstName_${type}.pdf`;
+            dropZone.classList.add("error");
+            input.value = "";
+            return false;
+        }
+
+        dropZone.classList.add("success");
+        dropZone.querySelector(".drop-text").textContent = fileName;
+        return true;
+    }
+
+    document.querySelectorAll(".drop-zone").forEach(zone => {
+        const input = zone.querySelector("input");
+        const type = zone.dataset.type;
+
+        zone.addEventListener("click", () => input.click());
+
+        input.addEventListener("change", () => {
+            if (input.files.length > 0) {
+                validateFile(input.files[0], type, input, zone);
+            }
+        });
+
+        zone.addEventListener("dragover", e => {
+            e.preventDefault();
+            zone.classList.add("dragover");
+        });
+
+        zone.addEventListener("dragleave", () => {
+            zone.classList.remove("dragover");
+        });
+
+        zone.addEventListener("drop", e => {
+            e.preventDefault();
+            zone.classList.remove("dragover");
+
+            const file = e.dataTransfer.files[0];
+            input.files = e.dataTransfer.files;
+
+            validateFile(file, type, input, zone);
         });
     });
 });
@@ -509,3 +597,52 @@ function updateDeleteButtons(entryType) {
         deleteBtn.style.display = 'block';
     });
 }
+
+window.addEventListener("scroll", function () {
+    const navbar = document.getElementById("mainNavbar");
+
+    if (window.scrollY > 20) {
+        navbar.classList.add("scrolled");
+    } else {
+        navbar.classList.remove("scrolled");
+    }
+});
+
+function renderNavbar() {
+    const menu = document.getElementById("userMenu");
+    const user = localStorage.getItem("userRole");
+
+    if (!user) {
+        menu.innerHTML = `
+            <li><a class="dropdown-item" href="#" onclick="login('applicant')">Login as Applicant</a></li>
+            <li><a class="dropdown-item" href="#" onclick="login('admin')">Login as Admin</a></li>
+        `;
+    } 
+    else if (user === "applicant") {
+        menu.innerHTML = `
+            <li><a class="dropdown-item" href="#">My Application</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" href="#" onclick="logout()">Logout</a></li>
+        `;
+    } 
+    else if (user === "admin") {
+        menu.innerHTML = `
+            <li><a class="dropdown-item" href="#">Admin Dashboard</a></li>
+            <li><a class="dropdown-item" href="#">Manage Applications</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" href="#" onclick="logout()">Logout</a></li>
+        `;
+    }
+}
+
+function login(role) {
+    localStorage.setItem("userRole", role);
+    renderNavbar();
+}
+
+function logout() {
+    localStorage.removeItem("userRole");
+    renderNavbar();
+}
+
+document.addEventListener("DOMContentLoaded", renderNavbar);
