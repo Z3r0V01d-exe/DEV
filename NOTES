@@ -45,7 +45,7 @@ nav: Dashboard | Applications | Vacancies | Reports | Account
 LOGIN:
 
 
-cd "c:\Users\ADMIN\Desktop\OJT\DEV\Subject #2"
+cd "c:\Users\ADMIN\Desktop\OJT\DEV\onlineApplication"
 npm install
 npm run dev
 
