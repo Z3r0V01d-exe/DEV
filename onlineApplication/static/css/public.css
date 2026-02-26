@@ -1,0 +1,220 @@
+/* ================================
+   Bootstrap-Enhanced Custom Styles
+   ============================== */
+
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #ffffff;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    background: linear-gradient(135deg, #1e5631, #2e7d32) !important;
+}
+
+.gov-navbar {
+    background: linear-gradient(135deg, #003d1f, #0b6623);
+    padding: 14px 0;
+    transition: all 0.3s ease;
+}
+
+/* Scroll Shadow Effect */
+.gov-navbar.scrolled {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    padding: 8px 0;
+}
+
+/* Brand Text */
+.navbar-brand span {
+    font-size: 14px;
+}
+
+.agency-name {
+    font-size: 12px;
+    font-weight: 400;
+    opacity: 0.85;
+}
+
+/* Nav Links */
+.navbar .nav-link {
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.navbar .nav-link:hover {
+    color: #ffd700 !important; /* subtle gold accent */
+}
+
+/* Dropdown Style */
+.dropdown-menu {
+    border-radius: 10px;
+    border: none;
+}
+
+.dropdown-item:hover {
+    background-color: #f1f1f1;
+}
+
+/* Main Content */
+
+/* ================= HERO SECTION ================= */
+.hero-section {
+    background: 
+        linear-gradient(rgba(0, 64, 32, 0.75), rgba(0, 64, 32, 0.75)),
+        url('../../assets/images/public-background.jpg');
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    min-height: 110vh;
+    padding-top: 100px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.hero-section h1 {
+    animation: fadeUp 1s ease-in-out;
+}
+
+.hero-stats h3 {
+    font-size: 28px;
+}
+
+.hero-stats small {
+    font-size: 14px;
+    opacity: 0.85;
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 28px;
+    animation: bounce 1.5s infinite;
+    color: #fff;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translate(-50%, 0); }
+    50% { transform: translate(-50%, 8px); }
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ================= QUICK ACTIONS ================= */
+
+.quick-actions {
+    background-color: #ffffff;
+}
+
+.quick-card {
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.quick-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+/* Image Wrapper */
+.card-img-wrapper {
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+}
+
+.card-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.quick-card:hover img {
+    transform: scale(1.1);
+}
+
+/* Card Body */
+.quick-card .card-body {
+    padding: 25px;
+}
+
+/* ================= ABOUT SECTION ================= */
+.about-section {
+    background-color: #ffffff;
+}
+
+.about-section h2 {
+    color: #0b6623;
+}
+
+.about-section p {
+    color: #555;
+    line-height: 1.6;
+    text-align: justify;
+}
+
+/* ================= PROCESS SECTION ================= */
+.process-section {
+    background-color: #ffffff;
+}
+
+.process-section h2 {
+    color: #0b6623;
+}
+
+.process-section h5 {
+    font-weight: 600;
+}
+
+.process-section p {
+    color: #666;
+}
+
+/* ================= ANNOUNCEMENT SECTION ================= */
+.announcement-section {
+    background-color: #ffffff;
+}
+
+.announcement-section .list-group-item {
+    border-radius: 8px;
+    margin-bottom: 10px;
+    transition: 0.2s ease;
+}
+
+.announcement-section .list-group-item:hover {
+    background-color: #f3f8f3;
+}
+
+/* ================= FOOTER ================= */
+footer {
+    background-color: #003d1f;
+}
+
+footer p,
+footer small {
+    margin: 0;
+}
