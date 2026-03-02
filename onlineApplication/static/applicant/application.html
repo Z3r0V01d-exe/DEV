@@ -7,9 +7,9 @@
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/applicant.css">
+    <link rel="stylesheet" href="../css/applicant.css">
 </head>
-<body class="bg-light">
+<body class="application-page">
     <!-- Header Navigation -->
     <nav id="mainNavbar" class="navbar navbar-expand-lg navbar-dark fixed-top gov-navbar">
         <div class="container">
@@ -87,24 +87,24 @@
     <div class="container mt-5 mb-5">
         <div class="card shadow-lg">
             <div class="card-body p-5">
-                <h1 class="text-center text-primary mb-4">Online Applicant Registration</h1>
+                <div id="introContent">
+                    <h1 class="text-center text-primary mb-4">Online Applicant Registration</h1>
 
-                <p class="text-muted">
-                    By proceeding with this online application, you certify that all information you provide to the 
-                    <strong>Department of Environment and Natural Resources (DENR)</strong> 
-                    is true, accurate, and complete to the best of your knowledge. 
-                    Submission of false or incomplete information may result in disqualification.
+                    <p class="text-muted">
+                        By proceeding with this online application, you certify that all information you provide to the 
+                        <strong>Department of Environment and Natural Resources (DENR)</strong> 
+                        is true, accurate, and complete to the best of your knowledge. 
+                        Submission of false or incomplete information may result in disqualification.
+                        <br><br>
+                        You agree to upload only authentic documents for verification. 
+                        You also consent to the collection and processing of your personal data 
+                        in accordance with the Data Privacy Act of 2012.
+                        <br><br>
+                        By clicking <strong>PROCEED</strong>, you confirm that you have read and agreed to these terms.
+                    </p>
 
-                    <br><br>
-                    You agree to upload only authentic documents for verification. 
-                    You also consent to the collection and processing of your personal data 
-                    in accordance with the Data Privacy Act of 2012.
-
-                    <br><br>
-                    By clicking <strong>PROCEED</strong>, you confirm that you have read and agreed to these terms.
-                </p>
-
-                <hr class="my-4">
+                    <hr class="my-4">
+                </div>
 
                 <form action="#" id="applicationForm" method="POST" enctype="multipart/form-data">
                     <!-- SECTION 1: PERSONAL INFORMATION -->
@@ -181,7 +181,7 @@
 
                     <div id="educationContainer">
                         <div class="card entry-item mb-3" data-entry="education" data-index="1">
-                            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                            <div class="card-header entry-header-custom text-white d-flex justify-content-between align-items-center">
                                 <h5 class="mb-0 entry-number">School 1</h5>
                                 <button type="button" class="btn btn-sm btn-danger delete-btn" onclick="deleteEntry(this, 'education')" title="Delete this entry">
                                     <i class="bi bi-trash3"></i>
@@ -346,7 +346,7 @@
 
                     <div id="experienceContainer">
                         <div class="card entry-item mb-3" data-entry="experience" data-index="1">
-                            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                            <div class="card-header entry-header-custom text-white d-flex justify-content-between align-items-center">
                                 <h5 class="mb-0 entry-number">Company 1</h5>
                                 <button type="button" class="btn btn-sm btn-danger delete-btn" onclick="deleteEntry(this, 'experience')" title="Delete this entry">
                                     <i class="bi bi-trash3"></i>
@@ -482,26 +482,10 @@
                     </div>
 
                     <h3 class="text-primary border-bottom pb-3 mb-3">Education</h3>
-                    <div class="mb-3"><strong>School:</strong> <span id="reviewSchool" class="text-muted"></span></div>
-                    <div class="row mb-3">
-                        <div class="col-md-6"><strong>From:</strong> <span id="reviewSchoolFrom" class="text-muted"></span></div>
-                        <div class="col-md-6"><strong>To:</strong> <span id="reviewSchoolTo" class="text-muted"></span></div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6"><strong>Graduated:</strong> <span id="reviewGraduated" class="text-muted"></span></div>
-                        <div class="col-md-6"><strong>Degree Program:</strong> <span id="reviewDegree" class="text-muted"></span></div>
-                    </div>
+                    <div id="reviewEducationContainer"></div>
 
                     <h3 class="text-primary border-bottom pb-3 mb-3">Work Experience</h3>
-                    <div class="mb-3"><strong>Previous Company:</strong> <span id="reviewCompany" class="text-muted"></span></div>
-                    <div class="row mb-3">
-                        <div class="col-md-6"><strong>From:</strong> <span id="reviewCompanyFrom" class="text-muted"></span></div>
-                        <div class="col-md-6"><strong>To:</strong> <span id="reviewCompanyTo" class="text-muted"></span></div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6"><strong>Position:</strong> <span id="reviewPosition" class="text-muted"></span></div>
-                        <div class="col-md-6"><strong>Reason for Leaving:</strong> <span id="reviewReason" class="text-muted"></span></div>
-                    </div>
+                    <div id="reviewExperienceContainer"></div>
 
                     <h3 class="text-primary border-bottom pb-3 mb-3">Document Upload</h3>
                     <div class="mb-3"><strong>Resume/CV:</strong> <span id="reviewResume" class="text-muted"></span></div>
@@ -558,6 +542,6 @@
 
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/applicant.js"></script>
+    <script src="../js/applicant.js"></script>
 </body>
 </html>

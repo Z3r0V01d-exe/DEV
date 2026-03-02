@@ -137,7 +137,7 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
     } 
     // If Applicant logs in → go to Application page
     else if (selectedRole === "applicant") {
-        window.location.assign("/applicant/applicant-homepage.html");
+        window.location.assign("/applicant/applicant-dashboard.html");
         // 🔴 Change filename if needed
     }
 });
@@ -379,7 +379,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         renderNavbar();
 
-        window.location.assign("/applicant/applicant-homepage.html");
+        window.location.assign("/applicant/applicant-dashboard.html");
     });
 
     // ===============================
@@ -402,7 +402,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 // 🔴 Change this to your actual admin page file
             } 
             else if (user === "applicant") {
-                window.location.assign("/applicant/applicant-homepage.html"); 
+                window.location.assign("/applicant/applicant-dashboard.html"); 
             }
         });
     });

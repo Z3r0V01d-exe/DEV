@@ -1,3 +1,49 @@
+function validateFile(file, type, input, dropZone) {
+    const errorContainer = dropZone.parentElement.querySelector('.file-error');
+    errorContainer.textContent = "";
+    dropZone.classList.remove("error", "success");
+
+    if (!file) return false;
+
+    const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+
+    const fileName = file.name.trim();
+    const lowerFileName = fileName.toLowerCase();
+    const expectedType = type.toLowerCase();
+
+    if (!lowerFileName.endsWith(".pdf")) {
+        errorContainer.textContent = "Only PDF files are allowed.";
+        dropZone.classList.add("error");
+        input.value = "";
+        return false;
+    }
+
+    if (file.size > MAX_SIZE) {
+        errorContainer.textContent = "File must not exceed 5MB.";
+        dropZone.classList.add("error");
+        input.value = "";
+        return false;
+    }
+
+    const regex = new RegExp(
+        `^[a-zA-Z]+_[a-zA-Z]+_${expectedType}\\.pdf$`,
+        "i"
+    );
+
+    if (!regex.test(fileName)) {
+        errorContainer.textContent =
+            `Invalid filename format. Required: Surname_FirstName_${type}.pdf`;
+        dropZone.classList.add("error");
+        input.value = "";
+        return false;
+    }
+
+    dropZone.classList.add("success");
+    dropZone.querySelector(".drop-text").textContent = fileName;
+
+    return true;
+}
+
 function proceedApplication(event) {
     event.preventDefault();
     
@@ -94,7 +140,7 @@ function proceedApplication(event) {
         isValid = false;
         return;
     } else {
-        educationContainer.style.borderLeft = '4px solid #2c5aa0';
+        educationContainer.style.borderLeft = '4px solid #005F02';
     }
     
     // Collect all experience entries
@@ -123,8 +169,12 @@ function proceedApplication(event) {
     const coverLetter = document.getElementById('coverLetter').files[0]?.name || 'No file';
     const endorsementLetter = document.getElementById('endorsementLetter').files[0]?.name || 'No file';
 
-    const resumeFile = document.getElementById('resume').files[0];
-    if (!resumeFile) {
+    // Validate resume before proceeding
+    const resumeInput = document.getElementById('resume');
+    const resumeZone = resumeInput.closest('.drop-zone');
+    const resumeFile = resumeInput.files[0];
+
+    if (!resumeFile || !validateFile(resumeFile, "Resume", resumeInput, resumeZone)) {
         alert("Resume is required and must follow the correct format.");
         return;
     }
@@ -141,16 +191,54 @@ function proceedApplication(event) {
     document.getElementById('reviewContact').textContent = contact;
     
     // Display education entries in review
-    const educationReview = educationEntries.map((ed, idx) => 
-        `School ${idx + 1}: ${ed.school} (${ed.from} to ${ed.to}), Graduated: ${ed.graduated}, Degree: ${ed.degree}`
-    ).join(' | ');
-    document.getElementById('reviewSchool').textContent = educationReview || 'No education entered';
+    const reviewEducationContainer = document.getElementById('reviewEducationContainer');
+    reviewEducationContainer.innerHTML = "";
+
+    educationEntries.forEach((ed, idx) => {
+        reviewEducationContainer.innerHTML += `
+            <div class="card mb-3">
+                <div class="card-header bg-success text-white">
+                    School ${idx + 1}
+                </div>
+                <div class="card-body">
+                    <div class="row mb-2">
+                        <div class="col-md-6"><strong>School:</strong> ${ed.school}</div>
+                        <div class="col-md-6"><strong>Degree:</strong> ${ed.degree}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6"><strong>From:</strong> ${ed.from || '-'}</div>
+                        <div class="col-md-6"><strong>To:</strong> ${ed.to || '-'}</div>
+                    </div>
+                    <div><strong>Graduated:</strong> ${ed.graduated}</div>
+                </div>
+            </div>
+        `;
+    });
     
     // Display experience entries in review
-    const experienceReview = experienceEntries.map((exp, idx) => 
-        `Company ${idx + 1}: ${exp.company} (${exp.from} to ${exp.to}), Position: ${exp.position}, Reason: ${exp.reason}`
-    ).join(' | ');
-    document.getElementById('reviewCompany').textContent = experienceReview || 'No experience entered';
+    const reviewExperienceContainer = document.getElementById('reviewExperienceContainer');
+    reviewExperienceContainer.innerHTML = "";
+
+    experienceEntries.forEach((exp, idx) => {
+        reviewExperienceContainer.innerHTML += `
+            <div class="card mb-3">
+                <div class="card-header bg-success text-white">
+                    Company ${idx + 1}
+                </div>
+                <div class="card-body">
+                    <div class="row mb-2">
+                        <div class="col-md-6"><strong>Company:</strong> ${exp.company}</div>
+                        <div class="col-md-6"><strong>Position:</strong> ${exp.position}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6"><strong>From:</strong> ${exp.from || '-'}</div>
+                        <div class="col-md-6"><strong>To:</strong> ${exp.to || '-'}</div>
+                    </div>
+                    <div><strong>Reason for Leaving:</strong> ${exp.reason || '-'}</div>
+                </div>
+            </div>
+        `;
+    });
     
     document.getElementById('reviewResume').textContent = resume;
     document.getElementById('reviewCoverLetter').textContent = coverLetter;
@@ -170,14 +258,15 @@ function backApplication() {
 function submitApplication() {
     // Hide review form and show confirmation form
     document.getElementById('review').classList.add('d-none');
+    document.getElementById('introContent').classList.add('d-none');   
     document.getElementById('confirmation').classList.remove('d-none');
 }
 
 function returnHome() {
     // Reset form and hide confirmation, show application form
     document.getElementById('confirmation').classList.add('d-none');
-    document.getElementById('review').classList.add('d-none');
-    document.getElementById('applicationForm').classList.remove('d-none');
+    document.getElementById('IntroContent').classList.remove('d-none');
+    document.getElementById('applicationForm').reset();
     
     // Reset the application form
     document.getElementById('applicationForm').reset();
@@ -242,46 +331,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     const MAX_SIZE = 5 * 1024 * 1024; // 5MB
-
-    function validateFile(file, type, input, dropZone) {
-        const errorContainer = dropZone.parentElement.querySelector('.file-error');
-        errorContainer.textContent = "";
-        dropZone.classList.remove("error", "success");
-
-        if (!file) return false;
-
-        // Check file type
-        if (file.type !== "application/pdf") {
-            errorContainer.textContent = "Only PDF files are allowed.";
-            dropZone.classList.add("error");
-            input.value = "";
-            return false;
-        }
-
-        // Check file size
-        if (file.size > MAX_SIZE) {
-            errorContainer.textContent = "File must not exceed 5MB.";
-            dropZone.classList.add("error");
-            input.value = "";
-            return false;
-        }
-
-        // Validate filename format
-        const fileName = file.name;
-        const regex = new RegExp(`^[A-Za-z]+_[A-Za-z]+_${type}\\.pdf$`);
-
-        if (!regex.test(fileName)) {
-            errorContainer.textContent =
-                `Invalid filename format. Required: Surname_FirstName_${type}.pdf`;
-            dropZone.classList.add("error");
-            input.value = "";
-            return false;
-        }
-
-        dropZone.classList.add("success");
-        dropZone.querySelector(".drop-text").textContent = fileName;
-        return true;
-    }
 
     document.querySelectorAll(".drop-zone").forEach(zone => {
         const input = zone.querySelector("input");
