@@ -1,23 +1,5 @@
-window.addEventListener("scroll", function () {
-    const navbar = document.getElementById("mainNavbar");
-
-    if (window.scrollY > 20) {
-        navbar.classList.add("scrolled");
-    } else {
-        navbar.classList.remove("scrolled");
-    }
-});
-
-// ===============================
-// NAVBAR LOGIN SYSTEM
-// ===============================
-
-let selectedRole = null;
-
 document.addEventListener("DOMContentLoaded", function () {
-    renderNavbar();
 
-    // Scroll shadow effect
     window.addEventListener("scroll", function () {
         const navbar = document.getElementById("mainNavbar");
         if (window.scrollY > 20) {
@@ -26,65 +8,35 @@ document.addEventListener("DOMContentLoaded", function () {
             navbar.classList.remove("scrolled");
         }
     });
+
+    renderPublicNavbar();
+
+    const protectedButtons = document.querySelectorAll(".require-login");
+
+    protectedButtons.forEach(button => {
+        button.addEventListener("click", function (e) {
+            e.preventDefault(); // prevent page reload
+
+            login("applicant");
+        });
+    });
 });
 
-
-// ===============================
-// RENDER NAVBAR BASED ON ROLE
-// ===============================
-function renderNavbar() {
+function renderPublicNavbar() {
     const menu = document.getElementById("userMenu");
-    const user = localStorage.getItem("userRole");
 
-    if (!user) {
-        menu.innerHTML = `
-            <li>
-                <a class="dropdown-item" href="#" onclick="login('applicant')">
-                    <i class="bi bi-person"></i> Login as Applicant
-                </a>
-            </li>
-            <li>
-                <a class="dropdown-item" href="#" onclick="login('admin')">
-                    <i class="bi bi-shield-lock"></i> Login as Admin
-                </a>
-            </li>
-        `;
-    } 
-    else if (user === "applicant") {
-        menu.innerHTML = `
-            <li>
-                <a class="dropdown-item" href="#">
-                    <i class="bi bi-file-earmark-text"></i> My Application
-                </a>
-            </li>
-            <li><hr class="dropdown-divider"></li>
-            <li>
-                <a class="dropdown-item text-danger" href="#" onclick="logout()">
-                    <i class="bi bi-box-arrow-right"></i> Logout
-                </a>
-            </li>
-        `;
-    } 
-    else if (user === "admin") {
-        menu.innerHTML = `
-            <li>
-                <a class="dropdown-item" href="#">
-                    <i class="bi bi-speedometer2"></i> Admin Dashboard
-                </a>
-            </li>
-            <li>
-                <a class="dropdown-item" href="#">
-                    <i class="bi bi-folder-check"></i> Manage Applications
-                </a>
-            </li>
-            <li><hr class="dropdown-divider"></li>
-            <li>
-                <a class="dropdown-item text-danger" href="#" onclick="logout()">
-                    <i class="bi bi-box-arrow-right"></i> Logout
-                </a>
-            </li>
-        `;
-    }
+    menu.innerHTML = `
+        <li>
+            <a class="dropdown-item" href="#" onclick="login('applicant')">
+                <i class="bi bi-person"></i> Login as Applicant
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="#" onclick="login('admin')">
+                <i class="bi bi-shield-lock"></i> Login as Admin
+            </a>
+        </li>
+    `;
 }
 
 // ===============================
@@ -113,34 +65,27 @@ function login(role) {
 // LOGIN FORM SUBMIT
 // ===============================
 document.getElementById("loginForm").addEventListener("submit", function (e) {
+
     e.preventDefault();
 
     if (!selectedRole) return;
 
-    // ✅ Save logged-in role in browser storage
     localStorage.setItem("userRole", selectedRole);
 
     const modalEl = document.getElementById("loginModal");
-    const modalInstance = bootstrap.Modal.getInstance(modalEl);
-    modalInstance.hide();
+    bootstrap.Modal.getInstance(modalEl).hide();
 
     this.reset();
-    renderNavbar();
 
-    // ===============================
-    // 🔵 REDIRECT AFTER LOGIN
-    // ===============================
-    // If Admin logs in → go to Admin Dashboard
+    // Redirect based on role
     if (selectedRole === "admin") {
-        window.location.assign = "/admin/admin-dashboard.html";
-        // 🔴 Change filename if needed
+        window.location.href = "/admin/admin-dashboard.html";
     } 
-    // If Applicant logs in → go to Application page
-    else if (selectedRole === "applicant") {
-        window.location.assign("/applicant/applicant-dashboard.html");
-        // 🔴 Change filename if needed
+    else {
+        window.location.href = "/applicant/applicant-dashboard.html";
     }
 });
+
 
 function switchToRegister() {
     const loginModalEl = document.getElementById("loginModal");
@@ -160,23 +105,17 @@ function openRegister() {
 }
 
 document.getElementById("registerForm").addEventListener("submit", function (e) {
+
     e.preventDefault();
 
-    if (registerPassword.value !== confirmPassword.value) {
-        confirmPassword.classList.add("is-invalid");
-        return;
-    }
-
-    // Auto-login as applicant
     localStorage.setItem("userRole", "applicant");
 
     const modalEl = document.getElementById("registerModal");
-    const modalInstance = bootstrap.Modal.getInstance(modalEl);
-    modalInstance.hide();
+    bootstrap.Modal.getInstance(modalEl).hide();
 
     this.reset();
-    renderNavbar();
 
+    window.location.href = "/applicant/applicant-dashboard.html";
 });
 
 const emailInput = document.getElementById("registerEmail");
@@ -382,31 +321,6 @@ document.addEventListener("DOMContentLoaded", function () {
         window.location.assign("/applicant/applicant-dashboard.html");
     });
 
-    // ===============================
-    // PROTECT BUTTONS - REQUIRE LOGIN
-    // ===============================
-    const protectedLinks = document.querySelectorAll(".require-login");
-
-    protectedLinks.forEach(link => {
-        link.addEventListener("click", function (e) {
-            e.preventDefault();
-
-            const user = localStorage.getItem("userRole");
-
-            if (!user) {
-                login("applicant");
-            } 
-
-            else if (user === "admin") {
-                window.location.assign("/admin/admin-dashboard.html"); 
-                // 🔴 Change this to your actual admin page file
-            } 
-            else if (user === "applicant") {
-                window.location.assign("/applicant/applicant-dashboard.html"); 
-            }
-        });
-    });
-
 });
 
 function backToLogin() {
@@ -415,13 +329,4 @@ function backToLogin() {
     registerModal.hide();
 
     login("applicant"); // reopen applicant login
-}
-
-
-// ===============================
-// LOGOUT
-// ===============================
-function logout() {
-    localStorage.removeItem("userRole");
-    renderNavbar();
 }

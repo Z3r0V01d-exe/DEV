@@ -1,3 +1,54 @@
+// ========================
+// NAVIGATOR
+// ========================
+let selectedRole = null;
+
+document.addEventListener("DOMContentLoaded", function () {
+    renderNavbar();
+
+    // Scroll shadow effect
+    window.addEventListener("scroll", function () {
+        const navbar = document.getElementById("mainNavbar");
+        if (window.scrollY > 20) {
+            navbar.classList.add("scrolled");
+        } else {
+            navbar.classList.remove("scrolled");
+        }
+    });
+
+    const user = localStorage.getItem("userRole");
+
+    if (user !== "applicant") {
+        window.location.href = "/index.html";
+        return;
+    }
+
+    const menu = document.getElementById("userMenu");
+
+    menu.innerHTML = `
+        <li>
+            <a class="dropdown-item" href="applicant-dashboard.html">
+                <i class="bi bi-file-earmark-text"></i> My Application
+            </a>
+        </li>
+        <li><hr class="dropdown-divider"></li>
+        <li>
+            <a class="dropdown-item text-danger" href="#" onclick="logout()">
+                <i class="bi bi-box-arrow-right"></i> Logout
+            </a>
+        </li>
+    `;
+});
+
+function logout() {
+    localStorage.removeItem("userRole");
+    window.location.href = "/index.html";
+}
+
+// ==================
+// APPLICATION - MAIN FUNCTION
+//===================
+
 function validateFile(file, type, input, dropZone) {
     const errorContainer = dropZone.parentElement.querySelector('.file-error');
     errorContainer.textContent = "";
@@ -44,6 +95,24 @@ function validateFile(file, type, input, dropZone) {
     return true;
 }
 
+function scrollToFirstError() {
+    const firstError = document.querySelector('.error');
+
+    if (firstError) {
+        firstError.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+        if (typeof firstError.focus === "function") {
+            firstError.focus();
+        }
+        return true;
+    }
+
+    return false;
+}
+
 function proceedApplication(event) {
     event.preventDefault();
     
@@ -74,18 +143,51 @@ function proceedApplication(event) {
         }
     });
     
-    // Validate first education entry (school and degree are required)
-    const firstSchoolField = document.querySelector('.school-input');
-    const firstDegreeField = document.querySelector('.degree-input');
-    if (firstSchoolField && firstSchoolField.value.trim() === '') {
-        firstSchoolField.classList.add('error');
+    // Validate all education entries
+    const educationBlocks = document.querySelectorAll('[data-entry="education"]');
+
+    if (educationBlocks.length === 0) {
+        alert("Please add at least one education entry.");
         isValid = false;
     }
-    if (firstDegreeField && firstDegreeField.value.trim() === '') {
-        firstDegreeField.classList.add('error');
-        isValid = false;
-    }
-    
+
+    document.querySelectorAll('.school-input').forEach(input => {
+        if (!input.value || input.value.trim() === '') {
+            input.classList.add('error');
+            isValid = false;
+        }
+    });
+
+    document.querySelectorAll('.degree-input').forEach(select => {
+        if (!select.value || select.value.trim() === '') {
+            select.classList.add('error');
+            isValid = false;
+        }
+    });
+
+    // Validate Graduated radio for each education entry
+    educationBlocks.forEach((entry, index) => {
+        const entryNumber = index + 1;
+        const graduatedChecked = entry.querySelector(`input[name="graduated_${entryNumber}"]:checked`);
+        const radioContainer = entry.querySelector('.graduated-input')?.closest('.col-md-6');
+
+        // Create or select error message
+        let errorMsg = entry.querySelector('.graduated-error');
+
+        if (!graduatedChecked) {
+            isValid = false;
+
+            if (!errorMsg) {
+                errorMsg = document.createElement("div");
+                errorMsg.className = "graduated-error text-danger small mt-1";
+                errorMsg.textContent = "* Please select if graduated";
+                radioContainer.appendChild(errorMsg);
+            }
+        } else {
+            if (errorMsg) errorMsg.remove();
+        }
+    });
+        
     // Validate that jobType radio button is selected
     const jobTypeElement = document.querySelector('input[name="jobType"]:checked');
     const jobTypeGroup = document.getElementById('jobTypeGroup');
@@ -93,9 +195,14 @@ function proceedApplication(event) {
     
     if (!jobTypeElement) {
         jobTypeGroup.classList.add('error');
-        jobTypeError.classList.add('show');
-        jobTypeError.textContent = 'Please select a Job Type';
+        jobTypeError.classList.remove('d-none');
+        jobTypeError.textContent = '* Please select a Job Type';
         isValid = false;
+
+        jobTypeGroup.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
     } else {
         jobTypeGroup.classList.remove('error');
         jobTypeError.classList.remove('show');
@@ -115,6 +222,7 @@ function proceedApplication(event) {
     // Collect all education entries
     const educationEntries = [];
     const educationContainer = document.getElementById('educationContainer');
+    
     educationContainer.querySelectorAll('.entry-item').forEach((entry, index) => {
         const entryNum = index + 1;
         const schoolInput = entry.querySelector(`.school-input`);
@@ -138,6 +246,12 @@ function proceedApplication(event) {
     if (educationEntries.length === 0) {
         educationContainer.style.borderLeft = '4px solid #d32f2f';
         isValid = false;
+
+        educationContainer.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
         return;
     } else {
         educationContainer.style.borderLeft = '4px solid #005F02';
@@ -169,14 +283,21 @@ function proceedApplication(event) {
     const coverLetter = document.getElementById('coverLetter').files[0]?.name || 'No file';
     const endorsementLetter = document.getElementById('endorsementLetter').files[0]?.name || 'No file';
 
+    if (!isValid) {
+        scrollToFirstError();
+        return;
+    }
+    
     // Validate resume before proceeding
     const resumeInput = document.getElementById('resume');
     const resumeZone = resumeInput.closest('.drop-zone');
     const resumeFile = resumeInput.files[0];
 
-    if (!resumeFile || !validateFile(resumeFile, "Resume", resumeInput, resumeZone)) {
-        alert("Resume is required and must follow the correct format.");
-        return;
+    if (!resumeFile) {
+        const errorContainer = resumeZone.parentElement.querySelector('.file-error');
+        errorContainer.textContent = "* Resume is required";
+        resumeZone.classList.add("error");
+        isValid = false;
     }
 
     // Populate review form
@@ -247,6 +368,10 @@ function proceedApplication(event) {
     // Hide application form and show review form
     document.getElementById('applicationForm').classList.add('d-none');
     document.getElementById('review').classList.remove('d-none');
+
+    if (scrollToFirstError()) {
+        return;
+    }
 }
 
 function backApplication() {
@@ -294,22 +419,6 @@ document.addEventListener('DOMContentLoaded', function() {
         'degree',
         'resume'
     ];
-    
-    requiredFields.forEach(fieldId => {
-        const field = document.getElementById(fieldId);
-        if (field) {
-            field.addEventListener('input', function() {
-                if (this.value.trim() !== '') {
-                    this.classList.remove('error');
-                }
-            });
-            field.addEventListener('change', function() {
-                if (this.value.trim() !== '') {
-                    this.classList.remove('error');
-                }
-            });
-        }
-    });
     
     // Add real-time validation for radio buttons
     const jobTypeRadios = document.querySelectorAll('input[name="jobType"]');
@@ -646,52 +755,3 @@ function updateDeleteButtons(entryType) {
         deleteBtn.style.display = 'block';
     });
 }
-
-window.addEventListener("scroll", function () {
-    const navbar = document.getElementById("mainNavbar");
-
-    if (window.scrollY > 20) {
-        navbar.classList.add("scrolled");
-    } else {
-        navbar.classList.remove("scrolled");
-    }
-});
-
-function renderNavbar() {
-    const menu = document.getElementById("userMenu");
-    const user = localStorage.getItem("userRole");
-
-    if (!user) {
-        menu.innerHTML = `
-            <li><a class="dropdown-item" href="#" onclick="login('applicant')">Login as Applicant</a></li>
-            <li><a class="dropdown-item" href="#" onclick="login('admin')">Login as Admin</a></li>
-        `;
-    } 
-    else if (user === "applicant") {
-        menu.innerHTML = `
-            <li><a class="dropdown-item" href="#">My Application</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item text-danger" href="#" onclick="logout()">Logout</a></li>
-        `;
-    } 
-    else if (user === "admin") {
-        menu.innerHTML = `
-            <li><a class="dropdown-item" href="#">Admin Dashboard</a></li>
-            <li><a class="dropdown-item" href="#">Manage Applications</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item text-danger" href="#" onclick="logout()">Logout</a></li>
-        `;
-    }
-}
-
-function login(role) {
-    localStorage.setItem("userRole", role);
-    renderNavbar();
-}
-
-function logout() {
-    localStorage.removeItem("userRole");
-    renderNavbar();
-}
-
-document.addEventListener("DOMContentLoaded", renderNavbar);
