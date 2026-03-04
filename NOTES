@@ -46,6 +46,7 @@ LOGIN:
 
 
 cd "c:\Users\ADMIN\Desktop\OJT\DEV\onlineapplication"
+my laptop: cd "C:\Users\King\Documents\Development\DEV\onlineApplication"
 npm install
 npm run dev
 
