@@ -440,7 +440,7 @@ body {
     margin-bottom: 1rem;
 }
 
-.application-page.mb-4 {
+.application-page .mb-4 {
     margin-bottom: 1.5rem;
 }
 
@@ -571,4 +571,14 @@ body {
     background-color: #f4f6f9;
     min-height: 100vh;
     padding-top: 110px;
+}
+
+.dashboard-page .dashboard-card {
+    border-radius: 14px;
+    transition: 0.3s ease;
+}
+
+.dashboard-page .dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
 }

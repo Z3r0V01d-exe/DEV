@@ -9,6 +9,10 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: #ffffff;
@@ -183,8 +187,26 @@ body {
     padding: 25px;
 }
 
+/* ============================= */
+/* PORTAL FEATURES SECTION */
+/* ============================= */
+.portal-features {
+    background-color: #ffffff;
+}
+
+.feature-box {
+    border-radius: 14px;
+    transition: all 0.3s ease;
+}
+
+.feature-box:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
 /* ================= ABOUT SECTION ================= */
-.about-section {
+.about-section,
+.about-extra {
     background-color: #ffffff;
 }
 
@@ -265,7 +287,7 @@ body {
 }
 
 .announcement-section .list-group-item:hover {
-    background-color: #f3f8f3;
+    background-color: #f9f9f9;
 }
 
 /* ================= LOGIN MODAL ================= */

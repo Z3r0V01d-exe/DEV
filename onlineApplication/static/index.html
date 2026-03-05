@@ -33,15 +33,15 @@
                 <ul class="navbar-nav ms-auto align-items-lg-center">
 
                     <li class="nav-item">
-                        <a class="nav-link active" href="#"><i class="bi bi-house-door"></i> Home</a>
+                        <a class="nav-link active" href="#home"><i class="bi bi-house-door"></i> Home</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link require-login" href="#"><i class="bi bi-file-earmark-text"></i> Application</a>
+                        <a class="nav-link" href="#quick-actions"><i class="bi bi-briefcase"></i> Vacancies</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link require-login" href="#"><i class="bi bi-briefcase"></i> Vacancies</a>
+                        <a class="nav-link" href="#about"><i class="bi bi-people"></i> About Us</a>
                     </li>
 
                     <!-- User Dropdown -->
@@ -85,7 +85,7 @@
     </nav>
     
     <!-- Main Content -->
-    <main class="hero-section d-flex align-items-center">
+    <main id="home" class="hero-section d-flex align-items-center">
         <div class="container text-center text-white">
 
             <!-- Official Badge -->
@@ -137,7 +137,7 @@
         </div>
     </main>
 
-    <section class="quick-actions py-5">
+    <section id="quick-actions" class="quick-actions py-5">
         <div class="container">
             <div class="text-center mb-5">
                 <h2 class="fw-bold text-success">Quick Actions</h2>
@@ -186,23 +186,7 @@
         </div>
     </section>
 
-    <section class="about-section py-5">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <h2 class="fw-bold text-success">About DENR</h2>
-                    <p>
-                        The Department of Environment and Natural Resources (DENR) through Executive Order 192, Series of 1987 is mandated to be the government agency primarily responsible for the conservation, management, development, and proper use of the country’s environment and natural resources, specifically forest and grazing lands, mineral resources, including those in reservation and watershed areas, and lands of the public domain, as well as the licensing and regulation of all natural resources as may be provided for by law in order to ensure equitable sharing of the benefits derived therefrom for the welfare of the present and future generations of Filipinos.
-                    </p>
-                </div>
-                <div class="col-md-6 text-center">
-                    <i class="bi bi-tree-fill text-success" style="font-size: 120px;"></i>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="process-section py-5">
+    <section id="process" class="process-section py-5">
         <div class="container text-center">
             <h2 class="fw-bold text-success mb-5">Application Process</h2>
 
@@ -244,7 +228,117 @@
         </div>
     </section>
 
-    <section class="announcement-section py-5">
+    <!-- PORTAL FEATURES SECTION -->
+    <section id="portal-features" class="portal-features py-5">
+        <div class="container">
+
+            <div class="text-center mb-5">
+                <h2 class="fw-bold text-success">Why Use the DENR Online Application Portal?</h2>
+                <p class="text-muted">
+                    Our online system makes applying for positions in the Department of Environment and Natural Resources faster, easier, and more transparent.
+                </p>
+            </div>
+
+            <div class="row g-4 text-center">
+
+                <div class="col-md-3">
+                    <div class="feature-box shadow-sm p-4 bg-white rounded h-100">
+                        <i class="bi bi-person-check fs-1 text-success"></i>
+                        <h5 class="mt-3">Easy Registration</h5>
+                        <p class="small text-muted">
+                            Create your applicant profile and manage your information in one secure account.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="feature-box shadow-sm p-4 bg-white rounded h-100">
+                        <i class="bi bi-file-earmark-arrow-up fs-1 text-success"></i>
+                        <h5 class="mt-3">Online Submission</h5>
+                        <p class="small text-muted">
+                            Submit your application and upload documents directly through the portal.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="feature-box shadow-sm p-4 bg-white rounded h-100">
+                        <i class="bi bi-clock-history fs-1 text-success"></i>
+                        <h5 class="mt-3">Track Applications</h5>
+                        <p class="small text-muted">
+                            Monitor the status of your application anytime through your dashboard.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="feature-box shadow-sm p-4 bg-white rounded h-100">
+                        <i class="bi bi-shield-check fs-1 text-success"></i>
+                        <h5 class="mt-3">Secure & Transparent</h5>
+                        <p class="small text-muted">
+                            Ensures fair and transparent recruitment through a secure system.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <section id="about" class="about-section py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h2 class="fw-bold text-success">About DENR</h2>
+                    <p>
+                        The Department of Environment and Natural Resources (DENR) through Executive Order 192, Series of 1987 is mandated to be the government agency primarily responsible for the conservation, management, development, and proper use of the country’s environment and natural resources, specifically forest and grazing lands, mineral resources, including those in reservation and watershed areas, and lands of the public domain, as well as the licensing and regulation of all natural resources as may be provided for by law in order to ensure equitable sharing of the benefits derived therefrom for the welfare of the present and future generations of Filipinos.
+                    </p>
+                </div>
+                <div class="col-md-6 text-center">
+                    <i class="bi bi-tree-fill text-success" style="font-size: 120px;"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MORE ABOUT DENR -->
+    <section class="about-extra py-5">
+        <div class="container">
+
+            <div class="text-center mb-5">
+                <h2 class="fw-bold text-success">Our Mission and Vision</h2>
+            </div>
+
+            <div class="row g-4">
+
+                <div class="col-md-6">
+                    <div class="p-4 shadow-sm bg-white rounded h-100">
+                        <h5 class="fw-bold text-success">Mission</h5>
+                        <p class="text-muted">
+                            To mobilize citizens in protecting, conserving, and managing
+                            the environment and natural resources for the benefit of
+                            present and future generations.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="p-4 shadow-sm bg-white rounded h-100">
+                        <h5 class="fw-bold text-success">Vision</h5>
+                        <p class="text-muted">
+                            A nation enjoying and sustaining its natural resources and
+                            a clean and healthy environment.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <section id="announcement" class="announcement-section py-5">
         <div class="container">
             <h2 class="fw-bold text-success mb-4">Latest Announcements</h2>
 
@@ -259,6 +353,7 @@
         </div>
     </section>
 
+    <!-- FOOTER -->
     <footer class="bg-dark text-white py-4">
         <div class="container text-center">
             <p class="mb-1">© 2026 Republic of the Philippines</p>
@@ -267,7 +362,7 @@
         </div>
     </footer>
 
-        <!-- LOGIN MODAL -->
+    <!-- LOGIN MODAL -->
     <div class="modal fade" id="loginModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content login-modal">

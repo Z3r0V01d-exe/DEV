@@ -22,6 +22,52 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+const sections = document.querySelectorAll("main, section");
+const navLinks = document.querySelectorAll(".navbar .nav-link");
+
+window.addEventListener("scroll", () => {
+
+    let current = "";
+
+    sections.forEach(section => {
+
+        const sectionTop = section.offsetTop - 120;
+        const sectionHeight = section.clientHeight;
+
+        if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+            current = section.getAttribute("id");
+        }
+
+    });
+
+    navLinks.forEach(link => {
+
+        link.classList.remove("active");
+
+        if (link.getAttribute("href") === "#" + current) {
+            link.classList.add("active");
+        }
+
+    });
+
+});
+
+document.querySelectorAll('.navbar .nav-link').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+
+        const target = document.querySelector(this.getAttribute('href'));
+
+        if (target) {
+            e.preventDefault();
+
+            target.scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+    });
+});
+
 function renderPublicNavbar() {
     const menu = document.getElementById("userMenu");
 

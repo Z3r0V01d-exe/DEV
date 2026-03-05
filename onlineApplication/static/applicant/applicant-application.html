@@ -10,66 +10,60 @@
     <link rel="stylesheet" href="../css/applicant.css">
 </head>
 <body class="application-page">
-    <!-- Header Navigation -->
-    <nav id="mainNavbar" class="navbar navbar-expand-lg navbar-dark fixed-top gov-navbar">
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top gov-navbar">
         <div class="container">
 
-            <!-- Logo + Agency Name -->
+            <!-- Logo -->
             <a class="navbar-brand d-flex align-items-center gap-2" href="#">
                 <i class="bi bi-tree-fill fs-4"></i>
                 <div class="d-flex flex-column lh-sm">
                     <span class="fw-bold">Republic of the Philippines</span>
-                    <small class="agency-name">Department of Environment and Natural Resources</small>
+                    <small>Department of Environment and Natural Resources</small>
                 </div>
             </a>
 
-            <!-- Mobile Toggle -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#govNavbar">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse" id="govNavbar">
+            <div class="collapse navbar-collapse" id="navbarContent">
                 <ul class="navbar-nav ms-auto align-items-lg-center">
 
                     <li class="nav-item">
-                        <a class="nav-link active" href="#"><i class="bi bi-house-door"></i> Home</a>
+                        <a class="nav-link" href="#" onclick="goDashboard()">
+                            <i class="bi bi-house-door"></i> Dashboard
+                        </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="bi bi-file-earmark-text"></i> Application</a>
+                        <a class="nav-link active" href="#" onclick="goApplications()">
+                            <i class="bi bi-file-earmark-text"></i> My Applications
+                        </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="bi bi-briefcase"></i> Vacancies</a>
+                        <a class="nav-link" href="#" onclick="goVacancies()">
+                            <i class="bi bi-briefcase"></i> Vacancies
+                        </a>
                     </li>
 
-                    <!-- User Dropdown -->
+                    <!-- Account Dropdown -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center gap-1"
                         href="#"
                         role="button"
                         data-bs-toggle="dropdown">
                             <i class="bi bi-person-circle fs-5"></i>
-                            Account
+                            <span id="navUserName"></span>
                         </a>
 
                         <ul class="dropdown-menu dropdown-menu-end shadow" id="userMenu">
                             <li>
                                 <a class="dropdown-item" href="#">
-                                    <i class="bi bi-person-gear"></i> Admin Panel
+                                    <i class="bi bi-person-gear"></i> View Profile
                                 </a>
                             </li>
-                            <li>
-                                <a class="dropdown-item" href="#">
-                                    <i class="bi bi-box-arrow-in-right"></i> Login
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#">
-                                    <i class="bi bi-person-plus"></i> Register
-                                </a>
-                            </li>
-                            <li><hr class="dropdown-divider"></li>
                             <li>
                                 <a class="dropdown-item text-danger" href="#">
                                     <i class="bi bi-box-arrow-right"></i> Logout
@@ -542,6 +536,7 @@
 
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../js/applicant.js"></script>
+    <script src="../js/applicant-application.js"></script>
+    <script src="../js/applicant-auth.js"></script>
 </body>
 </html>
