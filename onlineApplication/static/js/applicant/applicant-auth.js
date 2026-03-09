@@ -80,9 +80,8 @@ function loadApplicantName() {
 // ===============================
 
 function viewProfile() {
-    alert("Profile Page Coming Soon!");
     // Later you can redirect:
-    // window.location.href = "profile.html";
+    window.location.href = "../applicant/applicant-profile.html";
 }
 
 // ===============================

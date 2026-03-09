@@ -913,3 +913,21 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+/* ============================= */
+/* PROFILE APPLICANT PAGE */
+/* ============================= */
+
+.applicantprofile-page .profile-container{
+margin-top:110px;
+margin-bottom:40px;
+}
+
+.applicantprofile-page .profile-card{
+border-radius:12px;
+}
+
+.applicantprofile-page .profile-avatar{
+font-size:90px;
+color:#2f6b3f;
+}
