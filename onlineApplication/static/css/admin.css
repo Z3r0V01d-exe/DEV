@@ -1,0 +1,452 @@
+/* ================================
+   Bootstrap-Enhanced Custom Styles
+   ============================== */
+
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ============================= */
+/* NAVIGATOR SHARED STYLES */
+/* ============================= */
+.navbar {
+    background: linear-gradient(135deg, #1e5631, #2e7d32) !important;
+}
+
+.gov-navbar {
+    background: linear-gradient(135deg, #003d1f, #0b6623);
+    padding: 14px 0;
+    transition: all 0.3s ease;
+}
+
+/* Scroll Shadow Effect */
+.gov-navbar.scrolled {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    padding: 8px 0;
+}
+
+/* Brand Text */
+.navbar-brand span {
+    font-size: 14px;
+}
+
+.agency-name {
+    font-size: 12px;
+    font-weight: 400;
+    opacity: 0.85;
+}
+
+/* Nav Links */
+.navbar .nav-link {
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.navbar .nav-link:hover {
+    color: #ffd700 !important; /* subtle gold accent */
+}
+
+/* Dropdown Style */
+.dropdown-menu {
+    border-radius: 10px;
+    border: none;
+}
+
+.dropdown-item:hover {
+    background-color: #f1f1f1;
+}
+
+/* ============================= */
+/* Admin Dashboard Styles */
+/* ============================= */
+
+body.dashboard-page {
+    background-color: #f4f6f8;
+    min-height: 100vh;
+}
+
+/* Space below fixed navbar */
+.dashboard-page .admin-container {
+    margin-top: 100px;
+}
+
+/* Page Title */
+.dashboard-page h2 {
+    letter-spacing: 0.5px;
+}
+
+.dashboard-page .stat-card {
+    border: none;
+    border-radius: 12px;
+    transition: all 0.25s ease;
+}
+
+.dashboard-page .stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.dashboard-page .stat-card i {
+    margin-bottom: 10px;
+}
+
+.dashboard-page .stat-card h4 {
+    font-weight: 700;
+    margin: 5px 0;
+}
+
+.dashboard-page .nav-tabs {
+    border-bottom: 2px solid #e5e5e5;
+}
+
+.dashboard-page .nav-tabs .nav-link {
+    border: none;
+    color: #555;
+    font-weight: 500;
+    padding: 10px 18px;
+}
+
+.dashboard-page .nav-tabs .nav-link.active {
+    color: #0b6623;
+    border-bottom: 3px solid #0b6623;
+    background: transparent;
+}
+
+.dashboard-page .table {
+    margin-bottom: 0;
+}
+
+.dashboard-page .table thead th {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.dashboard-page .table tbody tr:hover {
+    background-color: #f7f9fb;
+}
+
+.dashboard-page .card {
+    border: none;
+    border-radius: 12px;
+}
+
+.dashboard-page .card-header {
+    background-color: #ffffff;
+    border-bottom: 1px solid #eee;
+    font-size: 15px;
+}
+
+.dashboard-page .btn {
+    border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+
+    .dashboard-page .admin-container {
+        margin-top: 90px;
+    }
+
+    .dashboard-page .stat-card h4 {
+        font-size: 20px;
+    }
+
+}
+
+/* ============================= */
+/* Vacancies Page Styles */
+/* ============================= */
+
+body.vacancies-page {
+    background-color: #f4f6f8;
+    min-height: 100vh;
+}
+
+/* Space below navbar */
+.vacancies-page main.container {
+    padding-top: 110px;
+}
+
+/* Page Title */
+.vacancies-page h1 {
+    letter-spacing: 0.5px;
+    color: #1e5631;
+}
+
+.vacancies-page .card {
+    border: none;
+    border-radius: 12px;
+}
+
+.vacancies-page .card-body {
+    padding: 25px;
+}
+
+.vacancies-page .table {
+    margin-bottom: 0;
+}
+
+.vacancies-page .table thead th {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    border-bottom: 2px solid #e5e5e5;
+}
+
+.vacancies-page .table tbody tr {
+    transition: background 0.2s ease;
+}
+
+.vacancies-page .table tbody tr:hover {
+    background-color: #f7f9fb;
+}
+
+.vacancies-page .table .btn {
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 13px;
+}
+
+.vacancies-page .btn-success {
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.vacancies-page .btn-success:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.vacancies-page .text-muted {
+    font-size: 14px;
+}
+
+.vacancies-page .modal-content {
+    border-radius: 12px;
+    border: none;
+}
+
+.vacancies-page .modal-header {
+    border-bottom: 1px solid #eee;
+}
+
+.vacancies-page .modal-title {
+    font-weight: 600;
+}
+
+.vacancies-page .modal-footer {
+    border-top: 1px solid #eee;
+}
+
+.vacancies-page .form-control,
+.vacancies-page .form-select {
+    border-radius: 8px;
+}
+
+.vacancies-page textarea.form-control {
+    resize: none;
+}
+
+@media (max-width: 768px) {
+
+    .vacancies-page main.container {
+        margin-top: 90px;
+    }
+
+    .vacancies-page h1 {
+        font-size: 22px;
+    }
+
+}
+
+/* ============================= */
+/* Applicants Page Styles */
+/* ============================= */
+
+body.applicants-page {
+    background-color: #f4f6f8;
+    min-height: 100vh;
+}
+
+/* Fix navbar overlap */
+.applicants-page main.container {
+    padding-top: 110px;
+}
+
+/* Page Title */
+.applicants-page h1 {
+    color: #1e5631;
+    letter-spacing: 0.5px;
+}
+
+/* ============================= */
+/* CARD DESIGN */
+/* ============================= */
+
+.applicants-page .card {
+    border: none;
+    border-radius: 12px;
+}
+
+.applicants-page .card-body {
+    padding: 25px;
+}
+
+/* ============================= */
+/* SEARCH & FILTER SECTION */
+/* ============================= */
+
+.applicants-page .form-control,
+.applicants-page .form-select {
+    border-radius: 8px;
+}
+
+.applicants-page .form-control:focus,
+.applicants-page .form-select:focus {
+    border-color: #2e7d32;
+    box-shadow: 0 0 0 0.15rem rgba(46,125,50,0.15);
+}
+
+/* ============================= */
+/* TABLE DESIGN */
+/* ============================= */
+
+.applicants-page .table {
+    margin-bottom: 0;
+}
+
+.applicants-page .table thead th {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    border-bottom: 2px solid #e5e5e5;
+}
+
+.applicants-page .table tbody tr {
+    transition: background 0.2s ease;
+}
+
+.applicants-page .table tbody tr:hover {
+    background-color: #f7f9fb;
+}
+
+/* ============================= */
+/* ACTION BUTTON */
+/* ============================= */
+
+.applicants-page .table .btn {
+    border-radius: 6px;
+    font-size: 13px;
+    padding: 5px 10px;
+}
+
+/* ============================= */
+/* EMPTY STATE */
+/* ============================= */
+
+.applicants-page .text-muted {
+    font-size: 14px;
+}
+
+/* ============================= */
+/* RESPONSIVE */
+/* ============================= */
+
+@media (max-width: 768px) {
+
+    .applicants-page main.container {
+        padding-top: 95px;
+    }
+
+    .applicants-page h1 {
+        font-size: 22px;
+    }
+
+}
+
+/* ============================= */
+/* Reports Page Styles */
+/* ============================= */
+
+body.report-page{
+    background-color:#f4f6f8;
+    min-height:100vh;
+}
+
+/* Navbar spacing */
+.report-page main.container{
+    padding-top:110px;
+}
+
+/* Page Title */
+.report-page h1{
+    color:#1e5631;
+    letter-spacing:0.5px;
+}
+
+/* Report Cards */
+
+.report-page .report-card{
+    border:none;
+    border-radius:12px;
+    transition:all .25s ease;
+}
+
+.report-page .report-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.report-page .report-card h4{
+    font-weight:700;
+    margin-top:5px;
+}
+
+/* Card styling */
+
+.report-page .card{
+    border:none;
+    border-radius:12px;
+}
+
+.report-page .card-header{
+    background:white;
+    border-bottom:1px solid #eee;
+}
+
+/* Table */
+
+.report-page .table thead th{
+    font-size:14px;
+    font-weight:600;
+    border-bottom:2px solid #e5e5e5;
+}
+
+.report-page .table tbody tr:hover{
+    background:#f7f9fb;
+}
+
+/* Buttons */
+
+.report-page .btn{
+    border-radius:8px;
+}
+
+/* Responsive */
+
+@media(max-width:768px){
+
+.report-page main.container{
+    padding-top:95px;
+}
+
+}

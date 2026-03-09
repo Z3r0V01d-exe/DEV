@@ -1,0 +1,280 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Vacancies - DENR</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <!-- Bootstrap 5 CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/admin.css">
+    </head>
+    <body class="vacancies-page">
+
+        <!-- NAVBAR -->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top gov-navbar">
+            <div class="container">
+
+                <!-- Logo -->
+                <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+                    <i class="bi bi-tree-fill fs-4"></i>
+                    <div class="d-flex flex-column lh-sm">
+                        <span class="fw-bold">Republic of the Philippines</span>
+                        <small>Department of Environment and Natural Resources</small>
+                    </div>
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <ul class="navbar-nav ms-auto align-items-lg-center">
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="goAdminDashboard()">
+                                <i class="bi bi-house-door"></i> Dashboard
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" onclick="goManageVacancies()">
+                                <i class="bi bi-briefcase"></i> Vacancies
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="goApplicants()">
+                                <i class="bi bi-briefcase"></i> Applicants
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="goReports()">
+                                <i class="bi bi-briefcase"></i> Reports
+                            </a>
+                        </li>
+
+                        <!-- Account Dropdown -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center gap-1"
+                            href="#"
+                            role="button"
+                            data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle fs-5"></i>
+                                <span id="navUserName"></span>
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-menu-end shadow" id="userMenu">
+                                <li>
+                                    <a class="dropdown-item" href="#" onclick="adminProfile()">
+                                        <i class="bi bi-person-gear"></i> View Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item text-danger" href="#" onclick="adminLogout()">
+                                        <i class="bi bi-box-arrow-right"></i> Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- MAIN CONTENT -->
+        <main class="container mt-4 mb-5">
+
+            <!-- Page Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="fw-bold">Manage Vacancies</h1>
+
+                <button class="btn btn-success" onclick="openAddVacancy()">
+                    <i class="bi bi-plus-lg"></i> Add Vacancy
+                </button>
+            </div>
+
+            <!-- Vacancies Table -->
+            <div class="card shadow-sm">
+                <div class="card-body">
+
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Position Title</th>
+                                    <th>Address / Office</th>
+                                    <th>Closing Date</th>
+                                    <th>Applicants</th>
+                                    <th>Status</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="vacanciesTable">
+
+                                <!-- Empty Template Row -->
+                                <tr>
+
+                                <tr>
+                                    <td colspan="7" class="text-center text-muted py-4">
+                                        No vacancies added yet.
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Add Vacancy Modal -->
+        <div class="modal fade" id="addVacancyModal" tabindex="-1">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <!-- Header -->
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add New Vacancy</h5>
+
+                        <button type="button" class="btn-close" onclick="closeAddVacancy()"></button>
+                    </div>
+                    <!-- Body -->
+                    <div class="modal-body">
+                        <form id="vacancyForm">
+
+                            <div class="row">
+                                <!-- Position Title -->
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Position Title</label>
+                                    <input 
+                                        type="text"
+                                        id="positionTitle"
+                                        class="form-control"
+                                        placeholder="Enter position title">
+                                </div>
+
+                                <!-- DENR Office -->
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">DENR Office</label>
+                                    <select id="denrOffice" class="form-select">
+                                        <option value="">Select DENR Office</option>
+                                        <!-- Central Office -->
+                                        <option value="DENR Central Office - Quezon City">
+                                            DENR Central Office - Quezon City
+                                        </option>
+                                        <!-- Region I -->
+                                        <option value="DENR Region I - San Fernando, La Union">
+                                            DENR Region I - San Fernando, La Union
+                                        </option>
+                                        <!-- Region II -->
+                                        <option value="DENR Region II - Tuguegarao City">
+                                            DENR Region II - Tuguegarao City
+                                        </option>
+                                        <!-- Region III -->
+                                        <option value="DENR Region III - San Fernando, Pampanga">
+                                            DENR Region III - San Fernando, Pampanga
+                                        </option>
+                                        <!-- Region IV-A -->
+                                        <option value="DENR Region IV-A - Calamba, Laguna">
+                                            DENR Region IV-A - Calamba, Laguna
+                                        </option>
+                                        <!-- Region IV-B -->
+                                        <option value="DENR Region IV-B - MIMAROPA">
+                                            DENR Region IV-B - MIMAROPA
+                                        </option>
+                                        <!-- Region V -->
+                                        <option value="DENR Region V - Legazpi City">
+                                            DENR Region V - Legazpi City
+                                        </option>
+                                        <!-- Region VI -->
+                                        <option value="DENR Region VI - Iloilo City">
+                                            DENR Region VI - Iloilo City
+                                        </option>
+                                        <!-- Region VII -->
+                                        <option value="DENR Region VII - Cebu City">
+                                            DENR Region VII - Cebu City
+                                        </option>
+                                        <!-- Region VIII -->
+                                        <option value="DENR Region VIII - Tacloban City">
+                                            DENR Region VIII - Tacloban City
+                                        </option>
+                                        <!-- Region IX -->
+                                        <option value="DENR Region IX - Zamboanga City">
+                                            DENR Region IX - Zamboanga City
+                                        </option>
+                                        <!-- Region X -->
+                                        <option value="DENR Region X - Cagayan de Oro">
+                                            DENR Region X - Cagayan de Oro
+                                        </option>
+                                        <!-- Region XI -->
+                                        <option value="DENR Region XI - Davao City">
+                                            DENR Region XI - Davao City
+                                        </option>
+                                        <!-- Region XII -->
+                                        <option value="DENR Region XII - Koronadal City">
+                                            DENR Region XII - Koronadal City
+                                        </option>
+                                        <!-- Region XIII -->
+                                        <option value="DENR Region XIII - Butuan City">
+                                            DENR Region XIII - Butuan City
+                                        </option>
+                                        <!-- CAR -->
+                                        <option value="DENR CAR - Baguio City">
+                                            DENR CAR - Baguio City
+                                        </option>
+                                        <!-- BARMM -->
+                                        <option value="DENR BARMM">
+                                            DENR BARMM
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <!-- Closing Date -->
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Closing Date</label>
+                                    <input 
+                                        type="date"
+                                        id="closingDate"
+                                        class="form-control">
+                                </div>
+
+                                <!-- Job Description -->
+                                <div class="col-12 mb-3">
+                                    <label class="form-label">Job Description</label>
+                                    <textarea 
+                                        id="jobDescription"
+                                        class="form-control"
+                                        rows="3"
+                                        placeholder="Enter job description">
+                                    </textarea>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Footer -->
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="closeAddVacancy()">
+                            Cancel
+                        </button>
+                        <button class="btn btn-success" onclick="saveVacancy()">
+                            Save Vacancy
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="../js/admin/admin-vacancies.js"></script>
+        <script src="../js/admin/admin-auth.js"></script>
+
+    </body>
+    </html>
