@@ -74,7 +74,7 @@ body {
 .hero-section {
     background: 
         linear-gradient(rgba(0, 64, 32, 0.75), rgba(0, 64, 32, 0.75)),
-        url('../../assets/images/public-background.jpg');
+        url('../../assets/images/index/public-background.jpg');
 
     background-size: cover;
     background-position: center;
@@ -166,15 +166,15 @@ body {
 
 /* Background Images */
 .vacancies-img {
-    background-image: url("../../assets/images/vacancies.jpg");
+    background-image: url("../../assets/images/index/vacancies.jpg");
 }
 
 .apply-img {
-    background-image: url("../../assets/images/apply.jpg");
+    background-image: url("../../assets/images/index/apply.jpg");
 }
 
 .track-img {
-    background-image: url("../../assets/images/track.jpg");
+    background-image: url("../../assets/images/index/track.jpg");
 }
 
 /* Card Body */
@@ -252,19 +252,19 @@ body {
 
 /* Background Images per Step */
 .register-step .process-img {
-    background-image: url("../../assets/images/register.jpg");
+    background-image: url("../../assets/images/index/register.jpg");
 }
 
 .submit-step .process-img {
-    background-image: url("../../assets/images/submit.jpg");
+    background-image: url("../../assets/images/index/submit.jpg");
 }
 
 .review-step .process-img {
-    background-image: url("../../assets/images/review.jpg");
+    background-image: url("../../assets/images/index/review.jpg");
 }
 
 .notify-step .process-img {
-    background-image: url("../../assets/images/notify.jpg");
+    background-image: url("../../assets/images/index/notify.jpg");
 }
 
 .process-section h5 {

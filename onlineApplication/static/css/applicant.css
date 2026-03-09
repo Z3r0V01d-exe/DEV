@@ -593,11 +593,6 @@ body {
     padding-top: 110px;
 }
 
-/* Container spacing */
-.myapplication-page .container {
-    margin-top: 20px;
-}
-
 /* Grid layout (4 cards per row) */
 .myapplication-page .applications-grid {
     display: grid;
@@ -695,6 +690,226 @@ body {
 
 @media (max-width: 576px) {
     .myapplication-page .applications-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ============================= */
+/* VACANCIES PAGE */
+/* ============================= */
+
+.vacancies-page{
+    background-color: #f4f6f9;
+    min-height: 100vh;
+    padding-top: 110px;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.vacancies-page .page-title{
+    font-size: 28px;
+    font-weight: 700;
+    color: #003d1f;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.vacancies-page .vacancy-search{
+    width: 280px;
+}
+
+.vacancies-page .vacancy-search input{
+    border-radius: 8px;
+}
+
+.vacancies-page .vacancy-search .input-group-text{
+    border-radius: 8px 0 0 8px;
+}
+
+.vacancies-page .vacancy-search input:focus{
+    border-color: #0b6623;
+    box-shadow: 0 0 0 0.15rem rgba(11,102,35,0.2);
+}
+
+.vacancies-page .vacancy-filters{
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 16px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.vacancies-page .filter-search input{
+    border-radius: 8px;
+}
+
+.vacancies-page .form-select{
+    border-radius: 8px;
+}
+
+.vacancies-page .input-group-text{
+    border-radius: 8px 0 0 8px;
+}
+
+.vacancies-page .form-select:focus,
+.vacancies-page input:focus{
+    border-color: #0b6623;
+    box-shadow: 0 0 0 0.15rem rgba(11,102,35,0.2);
+}
+
+/* Container spacing */
+.vacancies-page .vacancies-container{
+    max-width: 1400px;
+    margin: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+/* Title */
+.vacancies-page h1{
+    color: #003d1f;
+    font-weight: 700;
+}
+
+/* Grid layout (4 per row) */
+.vacancies-page .vacancies-grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-top: 30px;
+    padding: 10px 5px;
+}
+
+/* Vacancy Card */
+.vacancies-page .vacancy-card{
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 22px;
+    transition: all 0.25s ease;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 190px;
+    border-top: 4px solid #0b6623;
+}
+
+/* Hover animation */
+.vacancies-page .vacancy-card:hover{
+    transform: translateY(-6px);
+    box-shadow: 0 14px 35px rgba(0,0,0,0.15);
+}
+
+/* Header */
+.vacancies-page .vacancy-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 10px;
+}
+
+/* Title */
+.vacancies-page .vacancy-title{
+    font-size: 17px;
+    font-weight: 600;
+    color: #003d1f;
+    line-height: 1.3;
+}
+
+/* Info section */
+.vacancies-page .vacancy-info{
+    margin-top: 10px;
+}
+
+/* Meta items */
+.vacancies-page .vacancy-meta{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 6px;
+}
+
+.vacancies-page .vacancy-meta i{
+    color: #0b6623;
+}
+
+/* Deadline style */
+.vacancies-page .deadline{
+    font-size: 12px;
+    color: #888;
+}
+
+/* Buttons area */
+.vacancies-page .vacancy-actions{
+    margin-top: 14px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+/* Apply button */
+.vacancies-page .apply-btn{
+    background: #0b6623;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-weight: 500;
+}
+
+.vacancies-page .apply-btn:hover{
+    background: #094d1a;
+}
+
+/* Details button */
+.vacancies-page .view-btn{
+    border-radius: 8px;
+}
+
+/* Empty state */
+.vacancies-page #noVacancies i{
+    font-size: 60px;
+    color: #9aa1a7;
+}
+
+@media (max-width: 1200px){
+    .vacancies-page .vacancies-grid{
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 992px){
+    .vacancies-page .vacancies-grid{
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .vacancies-page .vacancy-filters{
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width:768px){
+
+    .vacancies-page .vacancies-header{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .vacancies-page .vacancy-search{
+        width: 100%;
+    }
+
+}
+
+@media (max-width: 576px){
+    .vacancies-page .vacancies-grid{
+        grid-template-columns: 1fr;
+    }
+
+    .vacancies-page .vacancy-filters{
         grid-template-columns: 1fr;
     }
 }
