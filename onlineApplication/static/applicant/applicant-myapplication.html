@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Application - DENR</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/applicant.css">
+</head>
+<body class="myapplication-page">
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top gov-navbar">
+        <div class="container">
+
+            <!-- Logo -->
+            <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+                <i class="bi bi-tree-fill fs-4"></i>
+                <div class="d-flex flex-column lh-sm">
+                    <span class="fw-bold">Republic of the Philippines</span>
+                    <small>Department of Environment and Natural Resources</small>
+                </div>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="goDashboard()">
+                            <i class="bi bi-house-door"></i> Dashboard
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" onclick="goApplications()">
+                            <i class="bi bi-file-earmark-text"></i> My Applications
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="goVacancies()">
+                            <i class="bi bi-briefcase"></i> Vacancies
+                        </a>
+                    </li>
+
+                    <!-- Account Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center gap-1"
+                        href="#"
+                        role="button"
+                        data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle fs-5"></i>
+                            <span id="navUserName"></span>
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-end shadow" id="userMenu">
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <i class="bi bi-person-gear"></i> View Profile
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item text-danger" href="#">
+                                    <i class="bi bi-box-arrow-right"></i> Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <div class="container">
+
+        <h2 class="fw-bold text-success">
+            <i class="bi bi-file-earmark-text"></i> My Applications
+        </h2>
+
+        <!-- EMPTY STATE -->
+        <div id="noApplicationState" class="empty-state text-center">
+
+            <i class="bi bi-folder-x empty-icon"></i>
+
+            <h4>No Application Submitted Yet</h4>
+
+            <p class="text-muted">
+                You have not applied for any position yet.
+            </p>
+
+            <button class="btn btn-success mt-2" onclick="goVacancies()">
+                <i class="bi bi-briefcase"></i> Browse Vacancies
+            </button>
+
+        </div>
+
+        <!-- APPLICATION GRID -->
+        <div id="applicationsGrid" class="applications-grid d-none"></div>
+
+    </div>
+    
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/applicant-myapplication.js"></script>
+    <script src="../js/applicant-auth.js"></script>
+</body>
+</html>

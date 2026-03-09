@@ -582,3 +582,119 @@ body {
     transform: translateY(-5px);
     box-shadow: 0 10px 25px rgba(0,0,0,0.08);
 }
+
+/* ============================= */
+/* MY APPLICATION DETAILS PAGE ONLY */
+/* ============================= */
+
+.myapplication-page {
+    background-color: #f4f6f9;
+    min-height: 100vh;
+    padding-top: 110px;
+}
+
+/* Container spacing */
+.myapplication-page .container {
+    margin-top: 20px;
+}
+
+/* Grid layout (4 cards per row) */
+.myapplication-page .applications-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+/* Application Card */
+.myapplication-page .application-card {
+    background: #ffffff;
+    border-radius: 14px;
+    border: none;
+    padding: 20px;
+    margin-top: 20px;
+    transition: all 0.25s ease;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+/* Hover effect */
+.myapplication-page .application-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+}
+
+/* Position title */
+.myapplication-page .application-title {
+    font-weight: 600;
+    font-size: 16px;
+    color: #003d1f;
+    margin-bottom: 6px;
+}
+
+/* Office text */
+.myapplication-page .application-office {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+/* Date text */
+.myapplication-page .application-date {
+    font-size: 12px;
+    color: #888;
+}
+
+/* Status badge spacing */
+.myapplication-page .application-status {
+    margin-top: 10px;
+}
+
+/* Card buttons */
+.myapplication-page .application-actions {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Empty State Design */
+
+.myapplication-page .empty-state{
+    background: white;
+    border-radius: 16px;
+    padding: 60px 30px;
+    margin-top: 40px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+.myapplication-page .empty-icon{
+    font-size: 70px;
+    color: #9aa1a7;
+    margin-bottom: 20px;
+}
+
+.myapplication-page .empty-state h4{
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.myapplication-page .empty-state p{
+    font-size: 14px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .myapplication-page .applications-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .myapplication-page .applications-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 576px) {
+    .myapplication-page .applications-grid {
+        grid-template-columns: 1fr;
+    }
+}

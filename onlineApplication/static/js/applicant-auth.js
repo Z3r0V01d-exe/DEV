@@ -122,7 +122,7 @@ function goDashboard() {
 }
 
 function goApplications() {
-    window.location.href = "../applicant/applicant-application.html";
+    window.location.href = "../applicant/applicant-myapplication.html";
 }
 
 function goVacancies() {
