@@ -1,3 +1,5 @@
+let selectedRole = "applicant";
+
 document.addEventListener("DOMContentLoaded", function () {
 
     window.addEventListener("scroll", function () {
@@ -173,20 +175,6 @@ function openRegister() {
     const registerModal = new bootstrap.Modal(document.getElementById("registerModal"));
     registerModal.show();
 }
-
-document.getElementById("registerForm").addEventListener("submit", function (e) {
-
-    e.preventDefault();
-
-    localStorage.setItem("userRole", "applicant");
-
-    const modalEl = document.getElementById("registerModal");
-    bootstrap.Modal.getInstance(modalEl).hide();
-
-    this.reset();
-
-    window.location.href = "/applicant/applicant-dashboard.html";
-});
 
 const emailInput = document.getElementById("registerEmail");
 

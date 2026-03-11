@@ -1,74 +1,125 @@
-const Applicant = require("../models/applicant")
+const bcrypt = require("bcrypt");
+const Applicant = require("../models/applicant");
+const Admin = require("../models/admin");
 
-exports.registerApplicant = async (req,res)=>{
+// ==============================
+// REGISTER APPLICANT
+// ==============================
+exports.registerApplicant = async (req, res) => {
+    try {
 
-    try{
+        const { firstName, lastName, email, password, contact } = req.body;
 
-        const {firstName,lastName,email,password,contact} = req.body
-
-        const existing = await Applicant.findOne({email})
-
-        if(existing){
-            return res.json({
-                success:false,
-                message:"Email already exists"
-            })
+        // Validate input
+        if (!firstName || !lastName || !email || !password || !contact) {
+            return res.status(400).json({
+                success: false,
+                message: "All fields are required"
+            });
         }
 
-        const user = new Applicant({
+        // Check if email exists
+        const existing = await Applicant.findOne({ email });
+
+        if (existing) {
+            return res.status(400).json({
+                success: false,
+                message: "Email already exists"
+            });
+        }
+
+        // Hash password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Create applicant
+        const newApplicant = new Applicant({
             firstName,
             lastName,
             email,
-            password,
-            contact
-        })
+            contact,
+            password: hashedPassword
+        });
 
-        await user.save()
-
-        res.json({
-            success:true,
-            message:"Account created"
-        })
-
-    }
-    catch(err){
-        res.status(500).json({message:err.message})
-    }
-
-}
-
-exports.loginApplicant = async (req,res)=>{
-
-    try{
-
-        const {email,password} = req.body
-
-        const user = await Applicant.findOne({email})
-
-        if(!user){
-            return res.json({
-                success:false,
-                message:"User not found"
-            })
-        }
-
-        if(user.password !== password){
-            return res.json({
-                success:false,
-                message:"Wrong password"
-            })
-        }
+        await newApplicant.save();
 
         res.json({
-            success:true,
-            role:"applicant",
-            name:user.firstName,
-            userId:user._id
-        })
+            success: true,
+            message: "Registration successful"
+        });
+
+    } catch (err) {
+
+        console.error(err);
+
+        res.status(500).json({
+            success: false,
+            message: "Server error"
+        });
+    }
+};
+
+
+
+// ==============================
+// LOGIN (ADMIN OR APPLICANT)
+// ==============================
+exports.login = async (req, res) => {
+
+    try {
+
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({
+                success: false,
+                message: "Email and password required"
+            });
+        }
+
+        let user = await Admin.findOne({ email });
+        let role = "admin";
+
+        // If not admin, check applicant
+        if (!user) {
+            user = await Applicant.findOne({ email });
+            role = "applicant";
+        }
+
+        if (!user) {
+            return res.status(400).json({
+                success: false,
+                message: "Email not found"
+            });
+        }
+
+        // Check password
+        const validPassword = await bcrypt.compare(password, user.password);
+
+        if (!validPassword) {
+            return res.status(400).json({
+                success: false,
+                message: "Incorrect password"
+            });
+        }
+
+        // Send clean response (no password)
+        res.json({
+            success: true,
+            message: "Login successful",
+            role: role,
+            userId: user._id,
+            name: user.firstName
+        });
+
+    } catch (err) {
+
+        console.error(err);
+
+        res.status(500).json({
+            success: false,
+            message: "Server error"
+        });
 
     }
-    catch(err){
-        res.status(500).json({message:err.message})
-    }
 
-}
+};
