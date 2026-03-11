@@ -1,11 +1,3 @@
-// ===============================
-// APPLICANT AUTH (SHARED FILE)
-// Used in:
-// - applicant-dashboard.html
-// - application.html
-// - future applicant pages
-// ===============================
-
 document.addEventListener("DOMContentLoaded", function () {
     checkApplicantAccess();
     renderApplicantNavbar();

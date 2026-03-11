@@ -110,26 +110,50 @@ function login(role) {
 // ===============================
 // LOGIN FORM SUBMIT
 // ===============================
-document.getElementById("loginForm").addEventListener("submit", function (e) {
+document.getElementById("loginForm").addEventListener("submit", async function (e) {
 
     e.preventDefault();
 
-    if (!selectedRole) return;
+    const email = document.getElementById("loginEmail").value;
+    const password = document.getElementById("loginPassword").value;
 
-    localStorage.setItem("userRole", selectedRole);
+    const response = await fetch("http://localhost:5000/api/auth/login", {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+            email,
+            password,
+            role: selectedRole
+        })
+
+    });
+
+    const data = await response.json();
+
+    if (!data.success) {
+        alert(data.message);
+        return;
+    }
+
+    // Save login session
+    localStorage.setItem("userRole", data.role);
+    localStorage.setItem("userId", data.userId);
+    localStorage.setItem("applicantName", data.name);
 
     const modalEl = document.getElementById("loginModal");
     bootstrap.Modal.getInstance(modalEl).hide();
 
-    this.reset();
-
-    // Redirect based on role
-    if (selectedRole === "admin") {
+    if (data.role === "admin") {
         window.location.href = "/admin/admin-dashboard.html";
-    } 
-    else {
+    } else {
         window.location.href = "/applicant/applicant-dashboard.html";
     }
+
 });
 
 
@@ -331,40 +355,44 @@ document.addEventListener("DOMContentLoaded", function () {
     // =========================
     // REGISTER SUBMIT
     // =========================
-    registerForm.addEventListener("submit", function (e) {
+    registerForm.addEventListener("submit", async function (e) {
         e.preventDefault();
 
-        if (registerPassword.value !== confirmPassword.value) {
-            confirmPassword.classList.add("is-invalid");
-            passwordMatchFeedback.innerText = "Passwords do not match";
-            passwordMatchFeedback.style.color = "red";
+        const firstName = document.getElementById("registerFirstName").value;
+        const lastName = document.getElementById("registerLastName").value;
+        const email = document.getElementById("registerEmail").value;
+        const password = document.getElementById("registerPassword").value;
+        const contact = document.getElementById("registerContact").value;
+
+        const response = await fetch("http://localhost:5000/api/auth/register", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                firstName,
+                lastName,
+                email,
+                password,
+                contact
+            })
+
+        });
+
+        const data = await response.json();
+
+        if (!data.success) {
+            alert(data.message);
             return;
         }
 
-        if (
-            emailInput.classList.contains("is-invalid") ||
-            contactInput.classList.contains("is-invalid") ||
-            resumeInput.classList.contains("is-invalid")
-        ) {
-            alert("Please fix all errors before submitting.");
-            return;
-        }
+        alert("Account created successfully!");
 
-        // Auto-login
-        localStorage.setItem("userRole", "applicant");
+        window.location.reload();
 
-        const modalEl = document.getElementById("registerModal");
-        const modalInstance = bootstrap.Modal.getInstance(modalEl);
-        modalInstance.hide();
-
-        registerForm.reset();
-        strengthBar.style.width = "0%";
-        strengthText.innerText = "";
-        confirmPassword.classList.remove("is-valid");
-
-        renderNavbar();
-
-        window.location.assign("/applicant/applicant-dashboard.html");
     });
 
 });
