@@ -1,11 +1,20 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Template admin user (replace later with database)
-    const adminUser = {
-        name: "Administrator"
-    };
-    const nameElement = document.getElementById("adminName");
-    if(nameElement){
-        nameElement.textContent = adminUser.name;
+    const adminName = localStorage.getItem("userName"); // from login
+    const userRole = localStorage.getItem("userRole");
+
+    const nameElement = document.getElementById("navUserName");
+
+    // 🔐 Protect admin pages
+    if (userRole !== "admin") {
+        window.location.href = "../index.html";
+        return;
+    }
+
+    // ✅ Show real admin name
+    if (nameElement && adminName) {
+        nameElement.textContent = adminName;
+    } else if (nameElement) {
+        nameElement.textContent = "Administrator";
     }
 });
 
@@ -38,6 +47,6 @@ function adminProfile(){
 ========================== */
 
 function adminLogout(){
-        localStorage.removeItem("admin");
+        localStorage.clear();
         window.location.href = "../index.html";
 }

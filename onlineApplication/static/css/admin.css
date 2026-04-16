@@ -256,6 +256,27 @@ body.vacancies-page {
     resize: none;
 }
 
+.vacancies-page #viewVacancyModal .modal-header {
+    padding-bottom: 10px;
+}
+
+.vacancies-page #viewVacancyModal .badge {
+    font-size: 13px;
+    border-radius: 20px;
+}
+
+.vacancies-page #viewVacancyModal .btn-close {
+    transform: translateY(-2px);
+}
+
+.vacancies-page .sort-icon {
+    display: inline-block;
+    width: 18px; /* FIX SHIFT */
+    text-align: center;
+    margin-left: 6px;
+    cursor: pointer;
+}
+
 @media (max-width: 768px) {
 
     .vacancies-page main.container {

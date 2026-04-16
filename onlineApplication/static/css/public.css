@@ -309,6 +309,144 @@ body {
     padding: 10px;
 }
 
+/* ================= LOGIN & REGISTER MODALS ================= */
+
+.login-modal,
+.register-modal{
+    border-radius:16px;
+    overflow:hidden;
+}
+
+/* HEADER */
+
+.login-modal .modal-header,
+.register-modal .modal-header{
+    border-bottom:none;
+    padding:18px 24px;
+}
+
+/* BODY */
+
+.login-modal .modal-body,
+.register-modal .modal-body{
+    padding:30px;
+}
+
+/* INPUT FIELDS */
+
+.modal .form-control{
+    border-radius:10px;
+    padding:10px 14px;
+    border:1px solid #ced4da;
+    transition:0.2s;
+}
+
+.modal .form-control:focus{
+    border-color:#0b6623;
+    box-shadow:0 0 0 0.15rem rgba(11,102,35,0.15);
+}
+
+/* BUTTON */
+
+.modal button{
+    border-radius:10px;
+    padding:11px;
+    font-weight:600;
+}
+
+/* ================= PASSWORD FIELD ================= */
+
+.password-input-wrapper{
+    position:relative;
+    display:flex;
+    align-items:center;
+}
+
+.password-input{
+    padding-right:45px;
+}
+
+/* EYE ICON */
+
+.toggle-password{
+    position:absolute;
+    right:14px;
+    cursor:pointer;
+    color:#6c757d;
+    font-size:18px;
+}
+
+.toggle-password:hover{
+    color:#0b6623;
+}
+
+/* ================= PASSWORD GUIDE ================= */
+
+.password-field{
+    position:relative;
+}
+
+.password-info{
+    cursor:pointer;
+    font-size:15px;
+    color:#6c757d;
+}
+
+.password-info:hover{
+    color:#0b6623;
+}
+
+/* PASSWORD POPUP */
+
+.password-guide{
+    position:absolute;
+    top:35px;
+    right:0;
+
+    width:260px;
+    background:#fff;
+    padding:14px;
+
+    border-radius:12px;
+    font-size:13px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,0.15);
+
+    opacity:0;
+    visibility:hidden;
+
+    transition:0.25s;
+    z-index:100;
+}
+
+/* SHOW ONLY WHEN HOVERING ICON */
+
+.password-info:hover + .password-guide{
+    opacity:1;
+    visibility:visible;
+}
+
+/* ================= REGISTER FORM SPACING ================= */
+
+.register-modal .row{
+    margin-bottom:5px;
+}
+
+.register-modal small{
+    font-size:12px;
+}
+
+/* PASSWORD STRENGTH */
+
+.progress{
+    height:6px;
+    border-radius:10px;
+}
+
+#passwordStrengthText{
+    font-size:12px;
+}
+
 /* ================= FOOTER ================= */
 footer {
     background-color: #003d1f;

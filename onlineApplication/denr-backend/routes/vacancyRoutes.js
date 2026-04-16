@@ -4,11 +4,16 @@ const router = express.Router()
 const {
 createVacancy,
 getVacancies,
-deleteVacancy
+deleteVacancy,
+updateVacancy,
+updateStatus
 } = require("../controllers/vacancyController")
+
 
 router.post("/", createVacancy)
 router.get("/", getVacancies)
 router.delete("/:id", deleteVacancy)
+router.put("/:id", updateVacancy);
+router.put("/:id/status", updateStatus);
 
 module.exports = router

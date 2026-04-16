@@ -1,54 +1,100 @@
-// ==================================
-// VACANCY CONTROLLER
-// ==================================
+const Vacancy = require("../models/vacancy");
 
-exports.getVacancies = async (req,res)=>{
-    try{
+// CREATE
+exports.createVacancy = async (req, res) => {
+    try {
+        const { positionTitle, office, openingDate, closingDate, description, adminId } = req.body;
 
-        res.json({
-            success:true,
-            message:"Vacancies list (template)"
-        })
+        const vacancy = new Vacancy({
+            positionTitle,
+            office,
+            openingDate,
+            closingDate,
+            description,
+            admin: adminId
+        });
 
-    }catch(err){
+        await vacancy.save();
 
-        res.status(500).json({
-            message:err.message
-        })
+        res.json({ success: true, vacancy });
 
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
     }
-}
+};
 
-exports.createVacancy = async (req,res)=>{
-    try{
+// GET
+exports.getVacancies = async (req, res) => {
+    try {
+        const { adminId, role } = req.query;
 
-        res.json({
-            success:true,
-            message:"Vacancy created (template)"
-        })
+        let query = {};
 
-    }catch(err){
+        // ✅ ADMIN → see their vacancies
+        if (adminId) {
+            query.admin = adminId;
+        }
 
-        res.status(500).json({
-            message:err.message
-        })
+        // ✅ APPLICANT → ONLY OPEN vacancies
+        if (role === "applicant") {
+            query.status = "Open";
+        }
 
+        const vacancies = await Vacancy.find(query).sort({ createdAt: -1 });
+
+        res.json({ success: true, vacancies });
+
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
     }
-}
+};
 
-exports.deleteVacancy = async (req,res)=>{
-    try{
+// 🔥 DELETE (THIS IS WHAT YOU'RE MISSING)
+exports.deleteVacancy = async (req, res) => {
+    try {
+        const { id } = req.params;
 
-        res.json({
-            success:true,
-            message:"Vacancy deleted (template)"
-        })
+        await Vacancy.findByIdAndDelete(id);
 
-    }catch(err){
+        res.json({ success: true });
 
-        res.status(500).json({
-            message:err.message
-        })
-
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
     }
-}
+};
+
+exports.updateVacancy = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const updated = await Vacancy.findByIdAndUpdate(
+            id,
+            req.body,
+            { new: true }
+        );
+
+        res.json({ success: true, vacancy: updated });
+
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// ✅ TOGGLE STATUS (OPEN / CLOSED)
+exports.updateStatus = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { status } = req.body;
+
+        const updated = await Vacancy.findByIdAndUpdate(
+            id,
+            { status },
+            { new: true }
+        );
+
+        res.json({ success: true, vacancy: updated });
+
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};

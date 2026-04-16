@@ -96,6 +96,42 @@
                 </button>
             </div>
 
+            <div class="card mb-3 shadow-sm">
+                <div class="card-body">
+
+                    <div class="row g-2 align-items-center">
+
+                        <!-- SEARCH -->
+                        <div class="col-md-4">
+                            <input 
+                                type="text" 
+                                id="searchInput" 
+                                class="form-control" 
+                                placeholder="Search vacancies..."
+                                oninput="applyFilters()">
+                        </div>
+
+                        <!-- SORT A-Z -->
+                        <div class="col-md-2">
+                            <select id="sortAlpha" class="form-select" onchange="applyFilters()">
+                                <option value="">Sort A-Z</option>
+                                <option value="asc">A → Z</option>
+                                <option value="desc">Z → A</option>
+                            </select>
+                        </div>
+
+                        <!-- FILTER OFFICE -->
+                        <div class="col-md-3">
+                            <select id="filterOffice" class="form-select" onchange="applyFilters()">
+                                <option value="">All Offices</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
             <!-- Vacancies Table -->
             <div class="card shadow-sm">
                 <div class="card-body">
@@ -107,7 +143,16 @@
                                 <tr>
                                     <th>Position Title</th>
                                     <th>Address / Office</th>
-                                    <th>Closing Date</th>
+                                    <th>
+                                        Opening 
+                                        <i id="sortOpenIcon" class="bi bi-arrow-down sort-icon"
+                                        onclick="toggleSort('openingDate')"></i>
+                                    </th>
+                                    <th>
+                                        Closing 
+                                        <i id="sortCloseIcon" class="bi bi-arrow-down sort-icon"
+                                        onclick="toggleSort('closingDate')"></i>
+                                    </th>
                                     <th>Applicants</th>
                                     <th>Status</th>
                                     <th class="text-center">Actions</th>
@@ -236,13 +281,16 @@
                                     </select>
                                 </div>
 
-                                <!-- Closing Date -->
+                                <!-- Opening Date & Time -->
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label">Closing Date</label>
-                                    <input 
-                                        type="date"
-                                        id="closingDate"
-                                        class="form-control">
+                                    <label class="form-label">Opening</label>
+                                    <input type="datetime-local" id="openingDate" class="form-control">
+                                </div>
+
+                                <!-- Closing Date & Time -->
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Closing</label>
+                                    <input type="datetime-local" id="closingDate" class="form-control">
                                 </div>
 
                                 <!-- Job Description -->
@@ -251,9 +299,8 @@
                                     <textarea 
                                         id="jobDescription"
                                         class="form-control"
-                                        rows="3"
-                                        placeholder="Enter job description">
-                                    </textarea>
+                                        rows="4"
+                                        placeholder="Enter job description"></textarea>
                                 </div>
                             </div>
                         </form>
@@ -270,6 +317,236 @@
                 </div>
             </div>
         </div>
+
+        <!-- EDIT VACANCY MODAL -->
+        <div class="modal fade" id="editVacancyModal" tabindex="-1">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Vacancy</h5>
+                        <button type="button" class="btn-close" onclick="closeEditModal()"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form id="editVacancyForm">
+
+                            <div class="row">
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Position Title</label>
+                                    <input type="text" id="editPositionTitle" class="form-control">
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">DENR Office</label>
+                                    <select id="editDenrOffice" class="form-select">
+                                        <option value="">Select DENR Office</option>
+                                        <!-- Central Office -->
+                                        <option value="DENR Central Office - Quezon City">
+                                            DENR Central Office - Quezon City
+                                        </option>
+                                        <!-- Region I -->
+                                        <option value="DENR Region I - San Fernando, La Union">
+                                            DENR Region I - San Fernando, La Union
+                                        </option>
+                                        <!-- Region II -->
+                                        <option value="DENR Region II - Tuguegarao City">
+                                            DENR Region II - Tuguegarao City
+                                        </option>
+                                        <!-- Region III -->
+                                        <option value="DENR Region III - San Fernando, Pampanga">
+                                            DENR Region III - San Fernando, Pampanga
+                                        </option>
+                                        <!-- Region IV-A -->
+                                        <option value="DENR Region IV-A - Calamba, Laguna">
+                                            DENR Region IV-A - Calamba, Laguna
+                                        </option>
+                                        <!-- Region IV-B -->
+                                        <option value="DENR Region IV-B - MIMAROPA">
+                                            DENR Region IV-B - MIMAROPA
+                                        </option>
+                                        <!-- Region V -->
+                                        <option value="DENR Region V - Legazpi City">
+                                            DENR Region V - Legazpi City
+                                        </option>
+                                        <!-- Region VI -->
+                                        <option value="DENR Region VI - Iloilo City">
+                                            DENR Region VI - Iloilo City
+                                        </option>
+                                        <!-- Region VII -->
+                                        <option value="DENR Region VII - Cebu City">
+                                            DENR Region VII - Cebu City
+                                        </option>
+                                        <!-- Region VIII -->
+                                        <option value="DENR Region VIII - Tacloban City">
+                                            DENR Region VIII - Tacloban City
+                                        </option>
+                                        <!-- Region IX -->
+                                        <option value="DENR Region IX - Zamboanga City">
+                                            DENR Region IX - Zamboanga City
+                                        </option>
+                                        <!-- Region X -->
+                                        <option value="DENR Region X - Cagayan de Oro">
+                                            DENR Region X - Cagayan de Oro
+                                        </option>
+                                        <!-- Region XI -->
+                                        <option value="DENR Region XI - Davao City">
+                                            DENR Region XI - Davao City
+                                        </option>
+                                        <!-- Region XII -->
+                                        <option value="DENR Region XII - Koronadal City">
+                                            DENR Region XII - Koronadal City
+                                        </option>
+                                        <!-- Region XIII -->
+                                        <option value="DENR Region XIII - Butuan City">
+                                            DENR Region XIII - Butuan City
+                                        </option>
+                                        <!-- CAR -->
+                                        <option value="DENR CAR - Baguio City">
+                                            DENR CAR - Baguio City
+                                        </option>
+                                        <!-- BARMM -->
+                                        <option value="DENR BARMM">
+                                            DENR BARMM
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <!-- Opening Date & Time -->
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Opening</label>
+                                    <input type="datetime-local" id="editOpeningDate" class="form-control">
+                                </div>
+
+                                <!-- Closing Date & Time -->
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Closing</label>
+                                    <input type="datetime-local" id="editClosingDate" class="form-control">
+                                </div>
+
+                                <div class="col-12 mb-3">
+                                    <label class="form-label">Job Description</label>
+                                    <textarea id="editJobDescription" class="form-control" rows="4" placeholder="Enter job description"></textarea>
+                                </div>
+
+                            </div>
+
+                        </form>
+                    </div>
+
+                    <div class="modal-footer justify-content-between">
+
+                        <div>
+                            <button class="btn btn-danger" onclick="deleteVacancy(editingVacancyId)">
+                                <i class="bi bi-trash"></i> Delete
+                            </button>
+
+                            <button class="btn btn-warning" id="toggleStatusBtn">
+                                <i class="bi bi-arrow-repeat"></i> Toggle Status
+                            </button>
+                        </div>
+
+                        <div>
+                            <button class="btn btn-secondary" onclick="closeEditModal()">Cancel</button>
+                            <button class="btn btn-success" onclick="updateVacancy()">Update</button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW VACANCY MODAL -->
+        <div class="modal fade" id="viewVacancyModal" tabindex="-1">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content shadow">
+
+                    <!-- HEADER -->
+                    <div class="modal-header border-0 align-items-start">
+
+                        <div class="w-100">
+                            <!-- TITLE + RIGHT SIDE (X + APPLICANTS) -->
+                            <div class="d-flex justify-content-between align-items-start">
+
+                                <!-- LEFT: TITLE -->
+                                <div>
+                                    <h4 id="viewTitle" class="fw-bold text-success mb-1"></h4>
+                                    <small id="viewOffice" class="text-muted"></small>
+                                </div>
+
+                                <!-- RIGHT: APPLICANTS + CLOSE -->
+                                <div class="d-flex align-items-center gap-2">
+
+                                    <!-- Applicants badge -->
+                                    <span class="badge bg-primary px-3 py-2" id="viewApplicantBadge">
+                                        <i class="bi bi-people"></i>
+                                        <span id="viewApplicantCount"></span>
+                                    </span>
+
+                                    <!-- Close button -->
+                                    <button class="btn-close mt-1" data-bs-dismiss="modal"></button>
+
+                                </div>
+
+                            </div>
+
+                            <!-- DATE RANGE -->
+                            <div class="text-muted mt-2">
+                                <i class="bi bi-calendar-event"></i>
+                                <span id="viewDateRange"></span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- BODY -->
+                    <div class="modal-body">
+                        <!-- DESCRIPTION -->
+                        <div class="mb-4">
+                            <p id="viewDescription" class="text-dark fs-5 mt-3"></p>
+                        </div>
+
+                        <hr>
+
+                        <!-- APPLICANTS LIST -->
+                        <h6 class="fw-semibold mb-3">
+                            <i class="bi bi-person-lines-fill"></i> Applicants
+                        </h6>
+
+                        <div id="viewApplicants" class="list-group">
+                            <!-- dynamic list -->
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="confirmModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm</h5>
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body" id="confirmMessage"></div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <button class="btn btn-primary" id="confirmYesBtn">Yes</button>
+                </div>
+
+                </div>
+            </div>
+        </div>
+
+         <!-- Toast Container -->
+        <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer"></div>
 
         <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

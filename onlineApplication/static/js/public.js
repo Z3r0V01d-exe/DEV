@@ -11,8 +11,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    renderPublicNavbar();
-
     const protectedButtons = document.querySelectorAll(".require-login");
 
     protectedButtons.forEach(button => {
@@ -21,6 +19,50 @@ document.addEventListener("DOMContentLoaded", function () {
 
             login("applicant");
         });
+    });
+
+    // SHOW / HIDE PASSWORD
+
+    const toggleRegisterPassword = document.getElementById("toggleRegisterPassword");
+    const registerPasswordInput = document.getElementById("registerPassword");
+
+    toggleRegisterPassword.addEventListener("click", () => {
+
+        if (registerPasswordInput.type === "password") {
+
+            registerPasswordInput.type = "text";
+            toggleRegisterPassword.classList.remove("bi-eye-slash");
+            toggleRegisterPassword.classList.add("bi-eye");
+
+        } else {
+
+            registerPasswordInput.type = "password";
+            toggleRegisterPassword.classList.remove("bi-eye");
+            toggleRegisterPassword.classList.add("bi-eye-slash");
+
+        }
+
+    });
+
+    const toggleConfirmPassword = document.getElementById("toggleConfirmPassword");
+    const confirmPasswordInput = document.getElementById("confirmPassword");
+
+    toggleConfirmPassword.addEventListener("click", () => {
+
+        if (confirmPasswordInput.type === "password") {
+
+            confirmPasswordInput.type = "text";
+            toggleConfirmPassword.classList.remove("bi-eye-slash");
+            toggleConfirmPassword.classList.add("bi-eye");
+
+        } else {
+
+            confirmPasswordInput.type = "password";
+            toggleConfirmPassword.classList.remove("bi-eye");
+            toggleConfirmPassword.classList.add("bi-eye-slash");
+
+        }
+
     });
 });
 
@@ -69,23 +111,6 @@ document.querySelectorAll('.navbar .nav-link').forEach(anchor => {
 
     });
 });
-
-function renderPublicNavbar() {
-    const menu = document.getElementById("userMenu");
-
-    menu.innerHTML = `
-        <li>
-            <a class="dropdown-item" href="#" onclick="login('applicant')">
-                <i class="bi bi-person"></i> Login as Applicant
-            </a>
-        </li>
-        <li>
-            <a class="dropdown-item" href="#" onclick="login('admin')">
-                <i class="bi bi-shield-lock"></i> Login as Admin
-            </a>
-        </li>
-    `;
-}
 
 // ===============================
 // LOGIN FUNCTION
@@ -145,7 +170,7 @@ document.getElementById("loginForm").addEventListener("submit", async function (
     // Save login session
     localStorage.setItem("userRole", data.role);
     localStorage.setItem("userId", data.userId);
-    localStorage.setItem("applicantName", data.name);
+    localStorage.setItem("userName", data.name);
 
     const modalEl = document.getElementById("loginModal");
     bootstrap.Modal.getInstance(modalEl).hide();
@@ -159,13 +184,14 @@ document.getElementById("loginForm").addEventListener("submit", async function (
 });
 
 
-function switchToRegister() {
-    const loginModalEl = document.getElementById("loginModal");
-    const loginModal = bootstrap.Modal.getInstance(loginModalEl);
+function switchToRegister(){
+
+    const loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
     loginModal.hide();
 
-    const registerModal = new bootstrap.Modal(document.getElementById("registerModal"));
+    const registerModal = new bootstrap.Modal(document.getElementById('registerModal'));
     registerModal.show();
+
 }
 
 // ===============================
@@ -239,48 +265,24 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    //==========================
-    // PDF FILE VALIDATION
-    //==========================
-    const resumeInput = document.getElementById("registerResume");
-    const resumeFeedback = document.getElementById("resumeFeedback");
-
-    resumeInput.addEventListener("change", function () {
-
-        const file = resumeInput.files[0];
-        if (!file) return;
-
-        const fileName = file.name.toLowerCase();
-
-        const pattern = /^[a-z]+_[a-z]+_resume\.pdf$/;
-
-        if (!pattern.test(fileName)) {
-            resumeInput.classList.add("is-invalid");
-            resumeFeedback.innerText = 
-            "Filename must be: surname_firstname_resume.pdf";
-            resumeInput.value = "";
-        } else {
-            resumeInput.classList.remove("is-invalid");
-            resumeFeedback.innerText = "";
-        }
-    });
-
     // =========================
     // PASSWORD STRENGTH
     // =========================
+    let passwordStrengthLevel = 0;
+
     registerPassword.addEventListener("input", function () {
 
         const value = registerPassword.value;
-        let strength = 0;
+        passwordStrengthLevel = 0;
 
-        if (value.length >= 6) strength++;
-        if (/[A-Z]/.test(value)) strength++;
-        if (/[0-9]/.test(value)) strength++;
-        if (/[^A-Za-z0-9]/.test(value)) strength++;
+        if (value.length >= 8) passwordStrengthLevel++;
+        if (/[A-Z]/.test(value)) passwordStrengthLevel++;
+        if (/[0-9]/.test(value)) passwordStrengthLevel++;
+        if (/[^A-Za-z0-9]/.test(value)) passwordStrengthLevel++;
 
         strengthBar.classList.remove("bg-danger", "bg-warning", "bg-info", "bg-success");
 
-        switch (strength) {
+        switch (passwordStrengthLevel) {
             case 0:
                 strengthBar.style.width = "0%";
                 strengthText.innerText = "";
@@ -352,6 +354,22 @@ document.addEventListener("DOMContentLoaded", function () {
         const password = document.getElementById("registerPassword").value;
         const contact = document.getElementById("registerContact").value;
 
+        if (passwordStrengthLevel < 3) {
+
+            strengthText.innerText = "Password must be Strong or Very Strong";
+            strengthText.style.color = "red";
+            registerPassword.classList.add("is-invalid");
+
+            return;
+        }
+
+        if (password !== confirmPassword.value) {
+            passwordMatchFeedback.innerText = "Passwords do not match";
+            passwordMatchFeedback.style.color = "red";
+            confirmPassword.classList.add("is-invalid");
+            return;
+        }
+
         const response = await fetch("http://localhost:5000/api/auth/register", {
 
             method: "POST",
@@ -377,18 +395,31 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        alert("Account created successfully!");
+        const successMsg = document.createElement("div");
 
-        window.location.reload();
+        successMsg.className = "alert alert-success mt-3";
+        successMsg.innerText = "Account created successfully. Redirecting to dashboard...";
+
+        registerForm.prepend(successMsg);
+
+        localStorage.setItem("userRole", "applicant");
+        localStorage.setItem("applicantName", firstName);
+
+        window.location.href = "/applicant/applicant-dashboard.html";
 
     });
 
 });
 
-function backToLogin() {
-    const registerModalEl = document.getElementById("registerModal");
+function backToLogin(){
+
+    const registerModalEl = document.getElementById('registerModal');
+    const loginModalEl = document.getElementById('loginModal');
+
     const registerModal = bootstrap.Modal.getInstance(registerModalEl);
     registerModal.hide();
 
-    login("applicant"); // reopen applicant login
+    const loginModal = new bootstrap.Modal(loginModalEl);
+    loginModal.show();
+
 }
