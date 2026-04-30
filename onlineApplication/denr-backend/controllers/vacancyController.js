@@ -84,15 +84,37 @@ exports.updateVacancy = async (req, res) => {
 exports.updateStatus = async (req, res) => {
     try {
         const { id } = req.params;
-        const { status } = req.body;
+        const { status, closingDate } = req.body;
 
-        const updated = await Vacancy.findByIdAndUpdate(
-            id,
-            { status },
-            { new: true }
-        );
+        const vacancy = await Vacancy.findById(id);
 
-        res.json({ success: true, vacancy: updated });
+        if (!vacancy) {
+            return res.status(404).json({
+                success: false,
+                message: "Vacancy not found"
+            });
+        }
+
+        // ✅ UPDATE STATUS
+        vacancy.status = status;
+
+        // ✅ UPDATE CLOSING DATE (ONLY IF PROVIDED)
+        if (closingDate) {
+            const newDate = new Date(closingDate);
+
+            if (newDate <= new Date()) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Closing date must be in the future"
+                });
+            }
+
+            vacancy.closingDate = newDate;
+        }
+
+        await vacancy.save();
+
+        res.json({ success: true, vacancy });
 
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });

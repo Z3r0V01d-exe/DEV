@@ -4,6 +4,7 @@
 let addVacancyModal;
 let editModal;
 let editingVacancyId = null;
+let extendVacancyId = null;
 
 let allVacancies = [];
 let sortState = {
@@ -101,6 +102,27 @@ function closeEditModal() {
     });
 }
 
+function showExtendClosingModal(id) {
+    extendVacancyId = id;
+
+    const modal = new bootstrap.Modal(document.getElementById("extendClosingModal"));
+    modal.show();
+}
+
+function confirmExtendClosing() {
+    const newDate = document.getElementById("newClosingDate").value;
+
+    if (!newDate) {
+        return showToast("Please select a date", "danger");
+    }
+
+    updateStatus(extendVacancyId, "Open", newDate);
+
+    bootstrap.Modal.getInstance(
+        document.getElementById("extendClosingModal")
+    ).hide();
+}
+
 // ==============================
 // SAVE / LOAD
 // ==============================
@@ -143,10 +165,29 @@ async function loadVacancies() {
     const res = await fetch(`http://localhost:5000/api/vacancies?adminId=${adminId}`);
     const data = await res.json();
 
-    allVacancies = data.vacancies || [];
+    allVacancies = (data.vacancies || []).map(v => {
+        const autoStatus = applyAutoStatus(v);
+
+        return {
+            ...v,
+            status: v.status === "Closed" ? "Closed" : autoStatus
+        };
+    });
 
     populateOfficeFilter();
     applyFilters();
+}
+
+function applyAutoStatus(v) {
+    const now = new Date();
+    const openDate = new Date(v.openingDate);
+    const closeDate = new Date(v.closingDate);
+
+    if (now < openDate) return "Scheduled";
+    if (now >= openDate && now <= closeDate) return "Open";
+    if (now > closeDate) return "Closed";
+
+    return v.status;
 }
 
 // ==============================
@@ -222,7 +263,12 @@ function renderTable(data) {
                 </button>
 
                 <button class="btn btn-outline-warning btn-sm"
-                    onclick="event.stopPropagation(); toggleVacancyStatus('${v._id}', '${v.status}')">
+                    onclick="event.stopPropagation(); toggleVacancyStatus(
+                        '${v._id}', 
+                        '${v.status}', 
+                        '${v.openingDate}', 
+                        '${v.closingDate}'
+                    )">
                     <i class="bi ${v.status === 'Closed' ? 'bi-lock-fill' : 'bi-unlock-fill'}"></i>
                 </button>
 
@@ -286,12 +332,18 @@ function openEditVacancy(v) {
     document.getElementById("editOpeningDate").value = formatForInput(v.openingDate);
     document.getElementById("editClosingDate").value = formatForInput(v.closingDate);
     document.getElementById("editJobDescription").value = v.description;
+    document.getElementById("editVacancyModal").dataset.status = v.status;
 
     // ✅ CONNECT STATUS BUTTON
     const statusBtn = document.getElementById("toggleStatusBtn");
 
     statusBtn.onclick = () => {
-        toggleVacancyStatus(v._id, v.status);
+        toggleVacancyStatus(
+            v._id,
+            v.status,
+            v.openingDate,
+            v.closingDate
+        );
     };
 
     editModal = new bootstrap.Modal(document.getElementById("editVacancyModal"));
@@ -342,20 +394,48 @@ function updateVacancy() {
     });
 }
 
-function toggleVacancyStatus(id, currentStatus) {
-    const newStatus = currentStatus === "Closed" ? "Open" : "Closed";
+function toggleVacancyStatus(id, currentStatus, openingDate, closingDate) {
 
-    confirmAction(`Change status to ${newStatus}?`, async () => {
+    const now = new Date();
+    const openDate = new Date(openingDate);
+    const closeDate = new Date(closingDate);
 
-        await fetch(`http://localhost:5000/api/vacancies/${id}/status`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ status: newStatus })
+    // =========================
+    // TRY TO OPEN
+    // =========================
+    if (currentStatus === "Closed") {
+
+        // CASE 1: Opening date NOT reached
+        if (now < openDate) {
+            confirmAction(
+                "This vacancy is scheduled and not yet open. Open it anyway?",
+                () => updateStatus(id, "Open")
+            );
+            return;
+        }
+
+        // CASE 2: Already expired
+        if (now > closeDate) {
+            confirmAction(
+                "This vacancy already expired. Reopen and set new closing date?",
+                () => showExtendClosingModal(id)
+            );
+            return;
+        }
+
+        // NORMAL OPEN
+        updateStatus(id, "Open");
+        return;
+    }
+
+    // =========================
+    // TRY TO CLOSE
+    // =========================
+    if (currentStatus === "Open") {
+        confirmAction("Close this vacancy now?", () => {
+            updateStatus(id, "Closed");
         });
-
-        showToast(`Status changed to ${newStatus}`);
-        loadVacancies();
-    });
+    }
 }
 
 function deleteVacancy(id) {
@@ -370,9 +450,50 @@ function deleteVacancy(id) {
     });
 }
 
+async function updateStatus(id, status, newClosingDate = null) {
+
+    const res = await fetch(`http://localhost:5000/api/vacancies/${id}/status`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status, closingDate: newClosingDate })
+    });
+
+    const data = await res.json();
+
+    if (!data.success) {
+        return showToast(data.message || "Update failed", "danger");
+    }
+
+    showToast(`Status updated to ${status}`);
+
+    await loadVacancies(); // reload fresh data
+}
+
 // ==============================
 // INIT
 // ==============================
 document.addEventListener("DOMContentLoaded", () => {
     loadVacancies();
-});
+
+    setInterval(() => {
+        allVacancies = allVacancies.map(v => ({
+            ...v,
+            status: applyAutoStatus(v)
+        }));
+
+        applyFilters(); // refresh UI
+    }, 60000); // every 1 min
+
+    // CHECK IF COMING FROM DASHBOARD
+    const selected = localStorage.getItem("selectedVacancy");
+
+    if (selected) {
+        const vacancy = JSON.parse(selected);
+
+        setTimeout(() => {
+            viewVacancy(vacancy);
+        }, 500); // wait for UI to load
+
+        localStorage.removeItem("selectedVacancy");
+    }
+});l

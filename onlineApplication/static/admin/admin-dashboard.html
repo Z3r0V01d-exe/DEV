@@ -46,12 +46,12 @@
 
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="goApplicants()">
-                            <i class="bi bi-briefcase"></i> Applicants
+                            <i class="bi bi-people-fill"></i> Applicants
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="goReports()">
-                            <i class="bi bi-briefcase"></i> Reports
+                            <i class="bi bi-bar-chart-fill"></i> Reports
                         </a>
                     </li>
 
@@ -163,23 +163,9 @@
                     </div>
                     <div class="card-body">
                         <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Position</th>
-                                    <th>Office</th>
-                                    <th>Location</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="vacancyTable">
-                                <!-- TEMPLATE EMPTY -->
-                                <tr>
-                                    <td colspan="5" class="text-center text-muted">
-                                        No vacancies created yet.
-                                    </td>
-                                </tr>
-                            </tbody>
+                            <div id="vacancyContainer" class="row g-4">
+                                <!-- Cards will render here -->
+                            </div>
                         </table>
                     </div>
                 </div>
