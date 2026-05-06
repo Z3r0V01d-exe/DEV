@@ -12,11 +12,28 @@ function getVacancyStatus(v) {
     const openDate = new Date(v.openingDate);
     const closeDate = new Date(v.closingDate);
 
+    // ✅ PRIORITY: manual status from backend
+    if (v.status === "Closed") return "Closed";
+    if (v.status === "Open") return "Open";
+
+    // ✅ fallback to date logic
     if (now < openDate) return "Scheduled";
     if (now >= openDate && now <= closeDate) return "Open";
     if (now > closeDate) return "Closed";
 
-    return v.status || "Closed";
+    return "Closed";
+}
+
+/* ==============================
+    TEXT TRUNCATION
+============================== */
+
+function truncateText(text, maxLength = 100) {
+    if (!text) return "No description";
+
+    return text.length > maxLength
+        ? text.substring(0, maxLength) + "..."
+        : text;
 }
 
 /* ==============================
@@ -96,6 +113,11 @@ function renderVacancyCards() {
 
         const status = getVacancyStatus(v);
 
+        let statusClass = "closed";
+
+        if (status === "Open") statusClass = "open";
+        else if (status === "Scheduled") statusClass = "scheduled";
+
         return `
         <div class="col-lg-3 col-md-4 col-sm-6">
 
@@ -103,19 +125,19 @@ function renderVacancyCards() {
                 onclick='openVacancyFromDashboard(${JSON.stringify(v)})'
                 style="cursor:pointer; position:relative;">
 
-                <!-- STATUS DOT ONLY -->
-                <span class="status-dot ${status === 'Open' ? 'open' : 'closed'}"></span>
+                <!-- ✅ STATUS DOT -->
+                <span class="status-dot ${statusClass}"></span>
 
                 <div class="card-body d-flex flex-column">
 
-                    <!-- TITLE (BIGGER + SPACE BELOW) -->
+                    <!-- TITLE -->
                     <h4 class="fw-bold text-success mb-3">
                         ${v.positionTitle}
                     </h4>
 
                     <!-- OFFICE -->
                     <small class="text-muted mb-2">
-                        <i class="bi bi-geo-alt"></i> ${v.office}
+                        <i class="bi bi-building"></i> ${v.office}
                     </small>
 
                     <!-- DATE -->
@@ -126,7 +148,7 @@ function renderVacancyCards() {
 
                     <!-- DESCRIPTION -->
                     <p class="flex-grow-1 small text-dark mb-0">
-                        ${v.description || "No description"}
+                        ${truncateText(v.description)}
                     </p>
 
                 </div>

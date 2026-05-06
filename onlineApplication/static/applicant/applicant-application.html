@@ -4,173 +4,939 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online Application - DENR</title>
-    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/applicant.css">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+    <style>
+        /* ================================
+           APPLICATION PAGE STYLES ONLY
+           (Only .application-page scoped)
+        ================================ */
+
+        /* ---- Page Shell ---- */
+        .application-page {
+            font-family: 'DM Sans', sans-serif;
+            background: #0a1f10;
+            min-height: 100vh;
+            padding-top: 80px;
+            padding-bottom: 60px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Ambient background blobs */
+        .application-page::before {
+            content: '';
+            position: fixed;
+            top: -200px;
+            left: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(66,122,67,0.25) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .application-page::after {
+            content: '';
+            position: fixed;
+            bottom: -150px;
+            right: -150px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0,95,2,0.2) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ---- Application Header Bar (replaces navbar) ---- */
+        .application-page .app-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(10, 31, 16, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(66,122,67,0.3);
+            padding: 0 32px;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .application-page .app-header-brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+        }
+
+        .application-page .app-header-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, #427A43, #2d5c2e);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #a8e6a3;
+            font-size: 20px;
+            box-shadow: 0 4px 16px rgba(66,122,67,0.4);
+        }
+
+        .application-page .app-header-text {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+
+        .application-page .app-header-title {
+            font-family: 'Sora', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: #e8f5e9;
+            letter-spacing: 0.03em;
+            line-height: 1;
+        }
+
+        .application-page .app-header-sub {
+            font-size: 11px;
+            color: rgba(168,230,163,0.65);
+            font-weight: 400;
+            line-height: 1;
+        }
+
+        .application-page .app-header-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(66,122,67,0.15);
+            border: 1px solid rgba(66,122,67,0.35);
+            border-radius: 999px;
+            padding: 6px 14px;
+        }
+
+        .application-page .app-header-badge span {
+            font-size: 12px;
+            color: #a8e6a3;
+            font-weight: 500;
+        }
+
+        .application-page .app-header-badge .status-dot {
+            width: 7px;
+            height: 7px;
+            background: #4caf50;
+            border-radius: 50%;
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        /* ---- Main Container ---- */
+        .application-page .app-container {
+            position: relative;
+            z-index: 1;
+            max-width: 820px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ---- Form Card ---- */
+        .application-page .form-card {
+            background: rgba(255,255,255,0.97);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow:
+                0 0 0 1px rgba(66,122,67,0.12),
+                0 32px 80px rgba(0,0,0,0.45),
+                0 8px 24px rgba(0,0,0,0.2);
+        }
+
+        /* ---- Intro Banner ---- */
+        .application-page .intro-banner {
+            background: linear-gradient(135deg, #0b2e12 0%, #1a4d1e 50%, #0f3814 100%);
+            padding: 40px 48px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .application-page .intro-banner::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 240px;
+            height: 240px;
+            background: radial-gradient(circle, rgba(66,122,67,0.3) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .application-page .intro-banner::after {
+            content: '';
+            position: absolute;
+            bottom: -40px;
+            left: 30%;
+            width: 160px;
+            height: 160px;
+            background: radial-gradient(circle, rgba(76,175,80,0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .application-page .intro-eyebrow {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            color: #81c784;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .application-page .intro-eyebrow::before {
+            content: '';
+            display: inline-block;
+            width: 24px;
+            height: 2px;
+            background: #81c784;
+            border-radius: 2px;
+        }
+
+        .application-page .intro-title {
+            font-family: 'Sora', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .application-page .intro-body {
+            font-size: 13.5px;
+            color: rgba(200,230,201,0.8);
+            line-height: 1.75;
+            max-width: 580px;
+        }
+
+        .application-page .intro-body strong {
+            color: #a5d6a7;
+            font-weight: 600;
+        }
+
+        /* ---- Form Body ---- */
+        .application-page .form-body {
+            padding: 48px;
+            background: #fafdf9;
+        }
+
+        /* ---- Section Headers ---- */
+        .application-page .section-block {
+            margin-bottom: 40px;
+        }
+
+        .application-page .section-title {
+            font-family: 'Sora', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a3d1c;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 24px;
+            padding-bottom: 14px;
+            border-bottom: 2px solid #e8f5e9;
+            position: relative;
+        }
+
+        .application-page .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 48px;
+            height: 2px;
+            background: linear-gradient(90deg, #427A43, #4caf50);
+            border-radius: 2px;
+        }
+
+        .application-page .section-title .section-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2e7d32;
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+
+        .application-page .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, #e8f5e9, transparent);
+            margin: 36px 0;
+            border: none;
+        }
+
+        /* ---- Form Fields ---- */
+        .application-page .field-group {
+            margin-bottom: 20px;
+        }
+
+        .application-page .field-label {
+            font-size: 12.5px;
+            font-weight: 600;
+            color: #2d5a2e;
+            margin-bottom: 7px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            letter-spacing: 0.01em;
+        }
+
+        .application-page .field-label .req {
+            color: #e53935;
+            font-size: 14px;
+            line-height: 1;
+        }
+
+        .application-page .form-control,
+        .application-page .form-select {
+            border: 1.5px solid #dce8dd;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 14px;
+            font-family: 'DM Sans', sans-serif;
+            color: #1a3d1c;
+            background: #ffffff;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+
+        .application-page .form-control:focus,
+        .application-page .form-select:focus {
+            border-color: #427A43;
+            box-shadow: 0 0 0 3px rgba(66,122,67,0.12);
+            outline: none;
+        }
+
+        .application-page .form-control::placeholder {
+            color: #aec9af;
+        }
+
+        .application-page .form-control.error,
+        .application-page .form-select.error {
+            border-color: #e53935;
+            box-shadow: 0 0 0 3px rgba(229,57,53,0.1);
+        }
+
+        /* ---- Radio / Checkbox ---- */
+        .application-page .radio-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .application-page .radio-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 18px;
+            border: 1.5px solid #dce8dd;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 13.5px;
+            font-weight: 500;
+            color: #3a5c3b;
+            background: #fff;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .application-page .radio-pill input[type="radio"] {
+            display: none;
+        }
+
+        .application-page .radio-pill:has(input:checked),
+        .application-page .radio-pill.checked {
+            background: linear-gradient(135deg, #427A43, #2e7d32);
+            border-color: #427A43;
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(66,122,67,0.35);
+        }
+
+        .application-page .radio-pill .pill-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            flex-shrink: 0;
+            transition: background 0.2s;
+        }
+
+        .application-page .radio-pill:has(input:checked) .pill-dot {
+            background: currentColor;
+        }
+
+        /* ---- Entry Cards (Education / Experience) ---- */
+        .application-page .entry-item {
+            background: #ffffff;
+            border: 1.5px solid #dce8dd;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: box-shadow 0.2s;
+        }
+
+        .application-page .entry-item:hover {
+            box-shadow: 0 6px 24px rgba(66,122,67,0.15);
+        }
+
+        .application-page .entry-item .card-header {
+            background: linear-gradient(135deg, #2d5c2e, #427A43) !important;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 0 !important;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .application-page .entry-item .card-header.entry-header-custom {
+            background: linear-gradient(135deg, #2d5c2e, #427A43) !important;
+        }
+
+        .application-page .entry-number {
+            font-family: 'Sora', sans-serif;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #e8f5e9 !important;
+            letter-spacing: 0.02em;
+        }
+
+        .application-page .entry-item .card-body {
+            background: #fafdf9;
+            padding: 24px;
+        }
+
+        /* ---- Delete Button ---- */
+        .application-page .delete-btn {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            background: rgba(255,255,255,0.1) !important;
+            border: 1px solid rgba(255,255,255,0.25) !important;
+            color: #ffcdd2 !important;
+            border-radius: 8px !important;
+            padding: 5px 12px !important;
+            font-size: 12px !important;
+            font-weight: 500 !important;
+            cursor: pointer !important;
+            transition: all 0.2s !important;
+            white-space: nowrap;
+        }
+
+        .application-page .delete-btn:hover {
+            background: rgba(229,57,53,0.3) !important;
+            border-color: rgba(229,57,53,0.6) !important;
+            color: #fff !important;
+        }
+
+        /* ---- Add More Button ---- */
+        .application-page .btn-add {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: transparent;
+            border: 1.5px dashed #427A43;
+            border-radius: 10px;
+            color: #427A43;
+            font-size: 13.5px;
+            font-weight: 600;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 8px;
+        }
+
+        .application-page .btn-add:hover {
+            background: rgba(66,122,67,0.08);
+            border-color: #2e7d32;
+            color: #2e7d32;
+        }
+
+        /* Override Bootstrap btn-success for add buttons */
+        .application-page .btn.btn-success {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: transparent !important;
+            border: 1.5px dashed #427A43 !important;
+            border-radius: 10px !important;
+            color: #427A43 !important;
+            font-size: 13.5px;
+            font-weight: 600;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: none !important;
+        }
+
+        .application-page .btn.btn-success:hover {
+            background: rgba(66,122,67,0.08) !important;
+            border-color: #2e7d32 !important;
+            color: #2e7d32 !important;
+            transform: none;
+        }
+
+        /* ---- Drop Zone ---- */
+        .application-page .drop-zone {
+            border: 2px dashed #c8e6c9;
+            border-radius: 12px;
+            padding: 28px 20px;
+            text-align: center;
+            cursor: pointer;
+            background: #ffffff;
+            transition: all 0.25s;
+            position: relative;
+        }
+
+        .application-page .drop-zone:hover {
+            border-color: #427A43;
+            background: rgba(66,122,67,0.04);
+        }
+
+        .application-page .drop-zone.dragover {
+            border-color: #427A43;
+            background: rgba(66,122,67,0.1);
+        }
+
+        .application-page .drop-zone.success {
+            border-color: #4caf50;
+            background: rgba(76,175,80,0.06);
+        }
+
+        .application-page .drop-zone.error {
+            border-color: #e53935;
+            background: rgba(229,57,53,0.04);
+        }
+
+        .application-page .drop-text {
+            font-size: 13.5px;
+            color: #6a956b;
+            font-weight: 500;
+        }
+
+        .application-page .drop-icon {
+            font-size: 28px;
+            color: #a5d6a7;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        /* ---- Primary Button ---- */
+        .application-page .btn.btn-primary {
+            background: linear-gradient(135deg, #427A43, #2e7d32) !important;
+            border: none !important;
+            border-radius: 12px !important;
+            padding: 13px 32px !important;
+            font-size: 14.5px !important;
+            font-weight: 600 !important;
+            font-family: 'DM Sans', sans-serif;
+            color: #fff !important;
+            box-shadow: 0 6px 20px rgba(66,122,67,0.4) !important;
+            transition: all 0.25s !important;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .application-page .btn.btn-primary:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 10px 28px rgba(66,122,67,0.5) !important;
+        }
+
+        /* ---- Secondary Button ---- */
+        .application-page .btn.btn-secondary {
+            background: transparent !important;
+            border: 1.5px solid #dce8dd !important;
+            border-radius: 12px !important;
+            padding: 12px 28px !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            font-family: 'DM Sans', sans-serif;
+            color: #427A43 !important;
+            transition: all 0.2s !important;
+        }
+
+        .application-page .btn.btn-secondary:hover {
+            background: rgba(66,122,67,0.06) !important;
+            border-color: #427A43 !important;
+        }
+
+        /* ---- Error Message ---- */
+        .application-page #jobTypeError {
+            display: none;
+            margin-top: 10px;
+            padding: 10px 14px;
+            background: #fff3f3;
+            border: 1px solid #ffcdd2;
+            border-radius: 8px;
+            color: #c62828;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .application-page #jobTypeError:not(.d-none) {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .application-page .file-error {
+            font-size: 12.5px;
+            font-weight: 500;
+            margin-top: 6px;
+        }
+
+        .application-page .graduated-error {
+            font-size: 12px;
+            font-weight: 500;
+            color: #e53935;
+            margin-top: 6px;
+        }
+
+        /* ---- Instruction Icon ---- */
+        .application-page .instruction-icon {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 1.5px solid #427A43;
+            background: transparent;
+            color: #427A43;
+            font-size: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            padding: 0;
+            flex-shrink: 0;
+        }
+
+        .application-page .instruction-icon:hover {
+            background: #427A43;
+            color: #fff;
+            transform: scale(1.1);
+        }
+
+        /* ---- Review Form ---- */
+        .application-page #review .card-header {
+            background: linear-gradient(135deg, #2d5c2e, #427A43) !important;
+            color: #e8f5e9 !important;
+            border-radius: 0 !important;
+            font-family: 'Sora', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .application-page #review .card-body {
+            background: #fafdf9;
+            font-size: 14px;
+            color: #2d5a2e;
+        }
+
+        /* ---- Confirmation ---- */
+        .application-page #confirmation .confirm-icon {
+            font-size: 64px;
+            color: #4caf50;
+            display: block;
+            margin-bottom: 16px;
+        }
+
+        .application-page #confirmation ul.list-unstyled li {
+            padding: 6px 0;
+            font-size: 14px;
+        }
+
+        /* ---- Text Utilities ---- */
+        .application-page .text-muted {
+            color: #5a7a5b !important;
+        }
+
+        .application-page .text-danger {
+            color: #e53935 !important;
+        }
+
+        .application-page .text-primary {
+            color: #2d5c2e !important;
+        }
+
+        .application-page h2.text-primary {
+            font-family: 'Sora', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .application-page h3.text-primary {
+            font-family: 'Sora', sans-serif;
+            font-size: 17px;
+            font-weight: 700;
+            color: #1a3d1c !important;
+        }
+
+        /* ---- HR divider ---- */
+        .application-page hr.my-4 {
+            border: none;
+            height: 1px;
+            background: linear-gradient(90deg, #c8e6c9, transparent);
+            margin: 32px 0;
+        }
+
+        /* ---- section-header ---- */
+        .application-page .section-header {
+            font-family: 'Sora', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a3d1c;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 14px;
+            border-bottom: 2px solid #e8f5e9;
+            position: relative;
+        }
+
+        .application-page .section-header::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 48px;
+            height: 2px;
+            background: linear-gradient(90deg, #427A43, #4caf50);
+            border-radius: 2px;
+        }
+
+        /* ---- Responsive ---- */
+        @media (max-width: 768px) {
+            .application-page .intro-banner {
+                padding: 28px 24px;
+            }
+
+            .application-page .intro-title {
+                font-size: 22px;
+            }
+
+            .application-page .form-body {
+                padding: 28px 20px;
+            }
+
+            .application-page .app-header {
+                padding: 0 16px;
+            }
+
+            .application-page .app-header-sub {
+                display: none;
+            }
+
+            .application-page .col-md-4,
+            .application-page .col-md-6 {
+                flex: 0 0 100%;
+                max-width: 100%;
+                margin-bottom: 16px;
+            }
+
+            .application-page .radio-group {
+                gap: 8px;
+            }
+        }
+
+        /* ---- Bootstrap .border-bottom override ---- */
+        .application-page .border-bottom {
+            border-bottom: 2px solid #e8f5e9 !important;
+        }
+
+        /* ---- Popover ---- */
+        .application-page .custom-popover {
+            border-radius: 12px !important;
+            border: none !important;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15) !important;
+            font-size: 13px;
+            max-width: 300px;
+        }
+
+        .application-page .custom-popover .popover-header {
+            background: linear-gradient(135deg, #2d5c2e, #427A43);
+            color: #e8f5e9;
+            font-weight: 600;
+            border-radius: 12px 12px 0 0;
+            padding: 12px 16px;
+            border: none;
+        }
+
+        .application-page .custom-popover .popover-body {
+            background: #fff;
+            color: #333;
+            padding: 16px;
+            line-height: 1.7;
+            border-radius: 0 0 12px 12px;
+        }
+
+        /* ---- d-none ---- */
+        .application-page .d-none {
+            display: none !important;
+        }
+
+        /* ---- shadow-lg (keep card visible) ---- */
+        .application-page .shadow-lg {
+            box-shadow:
+                0 0 0 1px rgba(66,122,67,0.12),
+                0 32px 80px rgba(0,0,0,0.45),
+                0 8px 24px rgba(0,0,0,0.2) !important;
+        }
+
+        /* ---- mb-4 ---- */
+        .application-page .mb-4 { margin-bottom: 1.5rem !important; }
+        .application-page .mb-3 { margin-bottom: 1rem !important; }
+    </style>
 </head>
 <body class="application-page">
-    <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top gov-navbar">
-        <div class="container">
 
-            <!-- Logo -->
-            <a class="navbar-brand d-flex align-items-center gap-2" href="#">
-                <i class="bi bi-tree-fill fs-4"></i>
-                <div class="d-flex flex-column lh-sm">
-                    <span class="fw-bold">Republic of the Philippines</span>
-                    <small>Department of Environment and Natural Resources</small>
-                </div>
-            </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarContent">
-                <ul class="navbar-nav ms-auto align-items-lg-center">
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="goDashboard()">
-                            <i class="bi bi-house-door"></i> Dashboard
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#" onclick="goApplications()">
-                            <i class="bi bi-file-earmark-text"></i> My Applications
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="goVacancies()">
-                            <i class="bi bi-briefcase"></i> Vacancies
-                        </a>
-                    </li>
-
-                    <!-- Account Dropdown -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center gap-1"
-                        href="#"
-                        role="button"
-                        data-bs-toggle="dropdown">
-                            <i class="bi bi-person-circle fs-5"></i>
-                            <span id="navUserName"></span>
-                        </a>
-
-                        <ul class="dropdown-menu dropdown-menu-end shadow" id="userMenu">
-                            <li>
-                                <a class="dropdown-item" href="#">
-                                    <i class="bi bi-person-gear"></i> View Profile
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item text-danger" href="#">
-                                    <i class="bi bi-box-arrow-right"></i> Logout
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                </ul>
+    <!-- Application Header (focused, no nav links) -->
+    <header class="app-header">
+        <a class="app-header-brand" href="#" onclick="goToDashboard()">
+            <div class="app-header-icon">
+                <i class="bi bi-tree-fill"></i>
             </div>
+            <div class="app-header-text">
+                <span class="app-header-title">Republic of the Philippines</span>
+                <span class="app-header-sub">Department of Environment and Natural Resources</span>
+            </div>
+        </a>
+        <div class="app-header-badge">
+            <span class="status-dot"></span>
+            <span>Online Application</span>
         </div>
-    </nav>
-    
+    </header>
+
     <!-- Main Content -->
-    <div class="container mt-5 mb-5">
-        <div class="card shadow-lg">
-            <div class="card-body p-5">
-                <div id="introContent">
-                    <h1 class="text-center text-primary mb-4">Online Applicant Registration</h1>
+    <div class="app-container mt-4">
+        <div class="form-card shadow-lg">
 
-                    <p class="text-muted">
-                        By proceeding with this online application, you certify that all information you provide to the 
-                        <strong>Department of Environment and Natural Resources (DENR)</strong> 
-                        is true, accurate, and complete to the best of your knowledge. 
-                        Submission of false or incomplete information may result in disqualification.
-                        <br><br>
-                        You agree to upload only authentic documents for verification. 
-                        You also consent to the collection and processing of your personal data 
-                        in accordance with the Data Privacy Act of 2012.
-                        <br><br>
-                        By clicking <strong>PROCEED</strong>, you confirm that you have read and agreed to these terms.
-                    </p>
+            <!-- Intro Banner -->
+            <div class="intro-banner" id="introContent">
+                <div class="intro-eyebrow">Official Application Portal</div>
+                <h1 class="intro-title">Online Applicant Registration</h1>
+                <p class="intro-body">
+                    By proceeding with this online application, you certify that all information you provide to the
+                    <strong>Department of Environment and Natural Resources (DENR)</strong>
+                    is true, accurate, and complete. Submission of false information may result in disqualification.
+                    You consent to the collection and processing of your personal data in accordance with the
+                    <strong>Data Privacy Act of 2012</strong>.
+                    By submitting, you confirm you have read and agreed to these terms.
+                </p>
+            </div>
 
-                    <hr class="my-4">
-                </div>
-
+            <!-- Application Form -->
+            <div class="form-body">
                 <form action="#" id="applicationForm" method="POST" enctype="multipart/form-data">
+
                     <!-- SECTION 1: PERSONAL INFORMATION -->
-                    <h3 class="text-primary border-bottom pb-3 mb-4">
-                        <i class="bi bi-person-fill"></i> Section 1: Personal Information
+                    <h3 class="text-primary border-bottom pb-3 mb-4" style="display:flex;align-items:center;gap:10px;position:relative;">
+                        <span class="section-icon" style="width:32px;height:32px;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border-radius:8px;display:inline-flex;align-items:center;justify-content:center;color:#2e7d32;font-size:15px;flex-shrink:0;">
+                            <i class="bi bi-person-fill"></i>
+                        </span>
+                        Section 1: Personal Information
                     </h3>
 
                     <div class="row mb-3">
                         <div class="col-md-4">
-                            <label for="lastName" class="form-label"><span class="text-danger">*</span> Last Name</label>
-                            <input type="text" id="lastName" name="lastName" class="form-control" required>
+                            <div class="field-group">
+                                <label for="lastName" class="field-label form-label"><span class="req text-danger">*</span> Last Name</label>
+                                <input type="text" id="lastName" name="lastName" class="form-control" required>
+                            </div>
                         </div>
                         <div class="col-md-4">
-                            <label for="firstName" class="form-label"><span class="text-danger">*</span> First Name</label>
-                            <input type="text" id="firstName" name="firstName" class="form-control" required>
+                            <div class="field-group">
+                                <label for="firstName" class="field-label form-label"><span class="req text-danger">*</span> First Name</label>
+                                <input type="text" id="firstName" name="firstName" class="form-control" required>
+                            </div>
                         </div>
                         <div class="col-md-4">
-                            <label for="middleName" class="form-label">Middle Name</label>
-                            <input type="text" id="middleName" name="middleName" class="form-control">
+                            <div class="field-group">
+                                <label for="middleName" class="field-label form-label">Middle Name</label>
+                                <input type="text" id="middleName" name="middleName" class="form-control">
+                            </div>
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <label for="address" class="form-label"><span class="text-danger">*</span> Address</label>
+                        <label for="address" class="field-label form-label"><span class="text-danger">*</span> Address</label>
                         <input type="text" id="address" name="address" class="form-control" required>
                     </div>
 
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="birthdate" class="form-label"><span class="text-danger">*</span> Birthdate</label>
+                            <label for="birthdate" class="field-label form-label"><span class="text-danger">*</span> Birthdate</label>
                             <input type="date" id="birthdate" name="birthdate" class="form-control" required>
                         </div>
                         <div class="col-md-6">
-                            <label for="age" class="form-label"><span class="text-danger">*</span> Age</label>
+                            <label for="age" class="field-label form-label"><span class="text-danger">*</span> Age</label>
                             <input type="number" id="age" name="age" class="form-control" min="18" required>
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label"><span class="text-danger">*</span> Job Type</label>
+                        <label class="field-label form-label"><span class="text-danger">*</span> Job Type</label>
                         <label class="error-message alert alert-danger d-none" id="jobTypeError"></label>
-                        <div class="d-flex gap-4 flex-wrap" role="group" id="jobTypeGroup">
-                            <div class="form-check">
-                                <input type="radio" name="jobType" value="Full-Time" class="form-check-input" id="jobTypeFull" required>
-                                <label class="form-check-label" for="jobTypeFull">Full-Time</label>
-                            </div>
-                            <div class="form-check">
-                                <input type="radio" name="jobType" value="Part-Time" class="form-check-input" id="jobTypePart">
-                                <label class="form-check-label" for="jobTypePart">Part-Time</label>
-                            </div>
-                            <div class="form-check">
-                                <input type="radio" name="jobType" value="Trainee" class="form-check-input" id="jobTypeTrainee">
-                                <label class="form-check-label" for="jobTypeTrainee">Trainee</label>
-                            </div>
+                        <div class="radio-group" role="group" id="jobTypeGroup">
+                            <label class="radio-pill">
+                                <input type="radio" name="jobType" value="Full-Time" id="jobTypeFull" required>
+                                <span class="pill-dot"></span> Full-Time
+                            </label>
+                            <label class="radio-pill">
+                                <input type="radio" name="jobType" value="Part-Time" id="jobTypePart">
+                                <span class="pill-dot"></span> Part-Time
+                            </label>
+                            <label class="radio-pill">
+                                <input type="radio" name="jobType" value="Trainee" id="jobTypeTrainee">
+                                <span class="pill-dot"></span> Trainee
+                            </label>
                         </div>
                     </div>
 
                     <div class="row mb-4">
                         <div class="col-md-6">
-                            <label for="email" class="form-label"><span class="text-danger">*</span> Email Address</label>
+                            <label for="email" class="field-label form-label"><span class="text-danger">*</span> Email Address</label>
                             <input type="email" id="email" name="email" class="form-control" required>
                         </div>
                         <div class="col-md-6">
-                            <label for="contact" class="form-label"><span class="text-danger">*</span> Contact Number</label>
+                            <label for="contact" class="field-label form-label"><span class="text-danger">*</span> Contact Number</label>
                             <input type="number" id="contact" name="contact" class="form-control" required>
                         </div>
                     </div>
 
                     <hr class="my-4">
+
                     <!-- SECTION 2: EDUCATION -->
-                    <h3 class="text-primary border-bottom pb-3 mb-4">
-                        <i class="bi bi-book-fill"></i> Section 2: Education
+                    <h3 class="text-primary border-bottom pb-3 mb-4" style="display:flex;align-items:center;gap:10px;position:relative;">
+                        <span class="section-icon" style="width:32px;height:32px;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border-radius:8px;display:inline-flex;align-items:center;justify-content:center;color:#2e7d32;font-size:15px;flex-shrink:0;">
+                            <i class="bi bi-book-fill"></i>
+                        </span>
+                        Section 2: Education
                     </h3>
 
                     <div id="educationContainer">
@@ -178,58 +944,55 @@
                             <div class="card-header entry-header-custom text-white d-flex justify-content-between align-items-center">
                                 <h5 class="mb-0 entry-number">School 1</h5>
                                 <button type="button" class="btn btn-sm btn-danger delete-btn" onclick="deleteEntry(this, 'education')" title="Delete this entry">
-                                    <i class="bi bi-trash3"></i>
+                                    <i class="bi bi-trash3"></i> Delete
                                 </button>
                             </div>
                             <div class="card-body">
                                 <div class="mb-3">
-                                    <label for="school_1" class="form-label"><span class="text-danger">*</span> School</label>
+                                    <label for="school_1" class="field-label form-label"><span class="text-danger">*</span> School</label>
                                     <input type="text" id="school_1" name="school" class="form-control school-input" required>
                                 </div>
 
                                 <div class="row mb-3">
                                     <div class="col-md-6">
-                                        <label for="schoolFrom_1" class="form-label">From</label>
+                                        <label for="schoolFrom_1" class="field-label form-label">From</label>
                                         <input type="date" id="schoolFrom_1" name="schoolFrom" class="form-control schoolFrom-input">
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="schoolTo_1" class="form-label">To</label>
+                                        <label for="schoolTo_1" class="field-label form-label">To</label>
                                         <input type="date" id="schoolTo_1" name="schoolTo" class="form-control schoolTo-input">
                                     </div>
                                 </div>
 
                                 <div class="row mb-3">
                                     <div class="col-md-6">
-                                        <label class="form-label"><span class="text-danger">*</span> Graduated?</label>
-                                        <div class="d-flex align-items-center gap-4">
-                                            <div class="form-check mb-0">
-                                                <input type="radio" name="graduated_1" value="Yes" class="form-check-input graduated-input" id="graduated_1_yes" required>
-                                                <label class="form-check-label" for="graduated_1_yes">Yes</label>
-                                            </div>
-                                            <div class="form-check mb-0">
-                                                <input type="radio" name="graduated_1" value="No" class="form-check-input graduated-input" id="graduated_1_no">
-                                                <label class="form-check-label" for="graduated_1_no">No</label>
-                                            </div>
+                                        <label class="field-label form-label"><span class="text-danger">*</span> Graduated?</label>
+                                        <div class="radio-group mt-1">
+                                            <label class="radio-pill">
+                                                <input type="radio" name="graduated_1" value="Yes" class="graduated-input" id="graduated_1_yes" required>
+                                                <span class="pill-dot"></span> Yes
+                                            </label>
+                                            <label class="radio-pill">
+                                                <input type="radio" name="graduated_1" value="No" class="graduated-input" id="graduated_1_no">
+                                                <span class="pill-dot"></span> No
+                                            </label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="degree_1" class="form-label"><span class="text-danger">*</span> Degree Program</label>
+                                        <label for="degree_1" class="field-label form-label"><span class="text-danger">*</span> Degree Program</label>
                                         <select name="degree" id="degree_1" class="form-select degree-input" required>
                                             <option value="">-- Select Degree --</option>
-
                                             <optgroup label="Certificate Programs">
                                                 <option value="Certificate in Computer Technology">Certificate in Computer Technology</option>
                                                 <option value="Certificate in Office Administration">Certificate in Office Administration</option>
                                                 <option value="Certificate in Hospitality Services">Certificate in Hospitality Services</option>
                                                 <option value="TESDA NC II">TESDA National Certificate (NC II)</option>
                                             </optgroup>
-
                                             <optgroup label="Associate Degrees">
                                                 <option value="Associate in Computer Technology">Associate in Computer Technology</option>
                                                 <option value="Associate in Hotel and Restaurant Management">Associate in Hotel and Restaurant Management</option>
                                                 <option value="Associate in Business Administration">Associate in Business Administration</option>
                                             </optgroup>
-
                                             <optgroup label="Bachelor's Degrees - Arts & Humanities">
                                                 <option value="BA Communication">Bachelor of Arts in Communication</option>
                                                 <option value="BA Political Science">Bachelor of Arts in Political Science</option>
@@ -238,7 +1001,6 @@
                                                 <option value="BA Sociology">Bachelor of Arts in Sociology</option>
                                                 <option value="BA Public Administration">Bachelor of Arts in Public Administration</option>
                                             </optgroup>
-
                                             <optgroup label="Bachelor's Degrees - Business & Management">
                                                 <option value="BS Business Administration">Bachelor of Science in Business Administration</option>
                                                 <option value="BS Accountancy">Bachelor of Science in Accountancy</option>
@@ -248,14 +1010,12 @@
                                                 <option value="BS Hospitality Management">Bachelor of Science in Hospitality Management</option>
                                                 <option value="BS Tourism Management">Bachelor of Science in Tourism Management</option>
                                             </optgroup>
-
                                             <optgroup label="Bachelor's Degrees - Information Technology">
                                                 <option value="BS Information Technology">Bachelor of Science in Information Technology</option>
                                                 <option value="BS Computer Science">Bachelor of Science in Computer Science</option>
                                                 <option value="BS Information Systems">Bachelor of Science in Information Systems</option>
                                                 <option value="BS Computer Engineering">Bachelor of Science in Computer Engineering</option>
                                             </optgroup>
-
                                             <optgroup label="Bachelor's Degrees - Engineering">
                                                 <option value="BS Civil Engineering">Bachelor of Science in Civil Engineering</option>
                                                 <option value="BS Mechanical Engineering">Bachelor of Science in Mechanical Engineering</option>
@@ -264,7 +1024,6 @@
                                                 <option value="BS Industrial Engineering">Bachelor of Science in Industrial Engineering</option>
                                                 <option value="BS Environmental Engineering">Bachelor of Science in Environmental Engineering</option>
                                             </optgroup>
-
                                             <optgroup label="Bachelor's Degrees - Education">
                                                 <option value="BEEd">Bachelor of Elementary Education</option>
                                                 <option value="BSEd English">Bachelor of Secondary Education - English</option>
@@ -273,7 +1032,6 @@
                                                 <option value="BSEd Social Studies">Bachelor of Secondary Education - Social Studies</option>
                                                 <option value="BTLEd">Bachelor of Technology and Livelihood Education</option>
                                             </optgroup>
-
                                             <optgroup label="Bachelor's Degrees - Health Sciences">
                                                 <option value="BS Nursing">Bachelor of Science in Nursing</option>
                                                 <option value="BS Medical Technology">Bachelor of Science in Medical Technology</option>
@@ -282,43 +1040,36 @@
                                                 <option value="BS Radiologic Technology">Bachelor of Science in Radiologic Technology</option>
                                                 <option value="BS Public Health">Bachelor of Science in Public Health</option>
                                             </optgroup>
-
                                             <optgroup label="Bachelor's Degrees - Agriculture & Environment">
                                                 <option value="BS Agriculture">Bachelor of Science in Agriculture</option>
                                                 <option value="BS Forestry">Bachelor of Science in Forestry</option>
                                                 <option value="BS Environmental Science">Bachelor of Science in Environmental Science</option>
                                                 <option value="BS Fisheries">Bachelor of Science in Fisheries</option>
                                             </optgroup>
-
                                             <optgroup label="Bachelor's Degrees - Criminology & Public Safety">
                                                 <option value="BS Criminology">Bachelor of Science in Criminology</option>
                                                 <option value="BS Public Safety">Bachelor of Science in Public Safety</option>
                                             </optgroup>
-
                                             <optgroup label="Bachelor's Degrees - Maritime">
                                                 <option value="BS Marine Engineering">Bachelor of Science in Marine Engineering</option>
                                                 <option value="BS Marine Transportation">Bachelor of Science in Marine Transportation</option>
                                             </optgroup>
-
                                             <optgroup label="Bachelor's Degrees - Architecture & Design">
                                                 <option value="BS Architecture">Bachelor of Science in Architecture</option>
                                                 <option value="BS Interior Design">Bachelor of Science in Interior Design</option>
                                                 <option value="BS Fine Arts">Bachelor of Science in Fine Arts</option>
                                             </optgroup>
-
                                             <optgroup label="Master's Degrees">
                                                 <option value="MBA">Master in Business Administration</option>
                                                 <option value="MPA">Master in Public Administration</option>
                                                 <option value="MA Education">Master of Arts in Education</option>
                                                 <option value="MS Environmental Science">Master of Science in Environmental Science</option>
                                             </optgroup>
-
                                             <optgroup label="Doctorate Degrees">
                                                 <option value="PhD">Doctor of Philosophy (PhD)</option>
                                                 <option value="EdD">Doctor of Education (EdD)</option>
                                                 <option value="DBA">Doctor in Business Administration (DBA)</option>
                                             </optgroup>
-
                                             <optgroup label="Other">
                                                 <option value="Others">Others (Please Specify)</option>
                                             </optgroup>
@@ -329,13 +1080,18 @@
                         </div>
                     </div>
 
-                    <button type="button" class="btn btn-success mb-4" onclick="addEducationEntry()"><i class="bi bi-plus-circle"></i> Add More Education</button>
+                    <button type="button" class="btn btn-success mb-4" onclick="addEducationEntry()">
+                        <i class="bi bi-plus-circle"></i> Add More Education
+                    </button>
 
                     <hr class="my-4">
 
                     <!-- SECTION 3: WORK EXPERIENCE -->
-                    <h3 class="text-primary border-bottom pb-3 mb-4">
-                        <i class="bi bi-briefcase-fill"></i> Section 3: Work Experience
+                    <h3 class="text-primary border-bottom pb-3 mb-4" style="display:flex;align-items:center;gap:10px;position:relative;">
+                        <span class="section-icon" style="width:32px;height:32px;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border-radius:8px;display:inline-flex;align-items:center;justify-content:center;color:#2e7d32;font-size:15px;flex-shrink:0;">
+                            <i class="bi bi-briefcase-fill"></i>
+                        </span>
+                        Section 3: Work Experience
                     </h3>
 
                     <div id="experienceContainer">
@@ -343,50 +1099,48 @@
                             <div class="card-header entry-header-custom text-white d-flex justify-content-between align-items-center">
                                 <h5 class="mb-0 entry-number">Company 1</h5>
                                 <button type="button" class="btn btn-sm btn-danger delete-btn" onclick="deleteEntry(this, 'experience')" title="Delete this entry">
-                                    <i class="bi bi-trash3"></i>
+                                    <i class="bi bi-trash3"></i> Delete
                                 </button>
                             </div>
                             <div class="card-body">
                                 <div class="mb-3">
-                                    <label for="company_1" class="form-label">Previous Company</label>
+                                    <label for="company_1" class="field-label form-label">Previous Company</label>
                                     <input type="text" id="company_1" name="company" class="form-control company-input">
                                 </div>
-
                                 <div class="row mb-3">
                                     <div class="col-md-6">
-                                        <label for="companyFrom_1" class="form-label">From</label>
+                                        <label for="companyFrom_1" class="field-label form-label">From</label>
                                         <input type="date" id="companyFrom_1" name="companyFrom" class="form-control companyFrom-input">
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="companyTo_1" class="form-label">To</label>
+                                        <label for="companyTo_1" class="field-label form-label">To</label>
                                         <input type="date" id="companyTo_1" name="companyTo" class="form-control companyTo-input">
                                     </div>
                                 </div>
-
                                 <div class="mb-3">
-                                    <label for="position_1" class="form-label">Position</label>
+                                    <label for="position_1" class="field-label form-label">Position</label>
                                     <input type="text" id="position_1" name="position" class="form-control position-input">
                                 </div>
-
                                 <div class="mb-3">
-                                    <label for="reason_1" class="form-label">Reason for Leaving</label>
+                                    <label for="reason_1" class="field-label form-label">Reason for Leaving</label>
                                     <input type="text" id="reason_1" name="reason" class="form-control reason-input">
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <button type="button" class="btn btn-success mb-4" onclick="addExperienceEntry()"><i class="bi bi-plus-circle"></i> Add More Experience</button>
+                    <button type="button" class="btn btn-success mb-4" onclick="addExperienceEntry()">
+                        <i class="bi bi-plus-circle"></i> Add More Experience
+                    </button>
 
                     <hr class="my-4">
 
                     <!-- SECTION 4: DOCUMENT UPLOAD -->
-                    <h3 class="section-header d-flex align-items-center">
-                        <span>
-                            <i class="bi bi-file-earmark-arrow-up"></i> 
-                            Section 4: Document Upload
+                    <h3 class="section-header text-primary border-bottom pb-3 mb-4">
+                        <span class="section-icon" style="width:32px;height:32px;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border-radius:8px;display:inline-flex;align-items:center;justify-content:center;color:#2e7d32;font-size:15px;flex-shrink:0;">
+                            <i class="bi bi-file-earmark-arrow-up"></i>
                         </span>
-
+                        Section 4: Document Upload
                         <button type="button"
                             class="instruction-icon"
                             data-bs-toggle="popover"
@@ -410,12 +1164,13 @@
                         </button>
                     </h3>
 
-                    <!-- Resume -->  
+                    <!-- Resume -->
                     <div class="mb-3">
-                        <label class="form-label">
+                        <label class="field-label form-label">
                             <span class="text-danger">*</span> Resume/CV
                         </label>
                         <div class="drop-zone" data-type="Resume">
+                            <i class="bi bi-cloud-arrow-up drop-icon"></i>
                             <span class="drop-text">Drag & Drop Resume here or Click to Upload</span>
                             <input type="file" id="resume" name="resume" accept=".pdf" required hidden>
                         </div>
@@ -424,8 +1179,9 @@
 
                     <!-- Cover Letter -->
                     <div class="mb-3">
-                        <label class="form-label">Application Letter</label>
+                        <label class="field-label form-label">Application Letter</label>
                         <div class="drop-zone" data-type="CoverLetter">
+                            <i class="bi bi-cloud-arrow-up drop-icon"></i>
                             <span class="drop-text">Drag & Drop Cover Letter here or Click to Upload</span>
                             <input type="file" id="coverLetter" name="coverLetter" accept=".pdf" hidden>
                         </div>
@@ -434,8 +1190,9 @@
 
                     <!-- Endorsement -->
                     <div class="mb-4">
-                        <label class="form-label">Endorsement Letter</label>
+                        <label class="field-label form-label">Endorsement Letter</label>
                         <div class="drop-zone" data-type="EndorsementLetter">
+                            <i class="bi bi-cloud-arrow-up drop-icon"></i>
                             <span class="drop-text">Drag & Drop Endorsement Letter here or Click to Upload</span>
                             <input type="file" id="endorsementLetter" name="endorsementLetter" accept=".pdf" hidden>
                         </div>
@@ -444,7 +1201,7 @@
 
                     <div class="d-flex gap-2 justify-content-end">
                         <button type="submit" class="btn btn-primary btn-lg" onclick="proceedApplication(event)">
-                            <i class="bi bi-arrow-right-circle"></i> Proceed
+                            Proceed <i class="bi bi-arrow-right-circle"></i>
                         </button>
                     </div>
 
@@ -453,7 +1210,7 @@
                 <!-- Review Form -->
                 <form id="review" class="d-none">
                     <h2 class="text-primary text-center mb-4">Review Your Information</h2>
-                    
+
                     <h3 class="text-primary border-bottom pb-3 mb-3">Personal Information</h3>
                     <div class="row mb-3">
                         <div class="col-md-6"><strong>Last Name:</strong> <span id="reviewLastName" class="text-muted"></span></div>
@@ -494,19 +1251,16 @@
 
                 <!-- Confirmation Form -->
                 <form id="confirmation" class="d-none text-center">
+                    <i class="bi bi-check-circle-fill confirm-icon"></i>
                     <h2 class="text-primary text-center mb-4">Application Successfully Submitted</h2>
                     <p class="text-muted">
-                        Thank you for submitting your application to the 
-                        <strong>Department of Environment and Natural Resources (DENR)</strong>. 
+                        Thank you for submitting your application to the
+                        <strong>Department of Environment and Natural Resources (DENR)</strong>.
                         Your application has been received and is now under initial review by our recruitment team.
                     </p>
                     <p class="text-muted">
-                        Please allow <strong>7–14 working days</strong> for the evaluation process. 
-                        During this period, our Human Resource Management Section will carefully assess 
-                        your qualifications, submitted documents, and eligibility requirements.
-                    </p>
-                    <p class="text-muted">
-                        Kindly stay tuned to your registered email address for further updates. 
+                        Please allow <strong>7–14 working days</strong> for the evaluation process.
+                        Kindly stay tuned to your registered email address for further updates.
                         You will be formally notified via email whether you are:
                     </p>
                     <ul class="list-unstyled text-muted mb-3">
@@ -516,25 +1270,17 @@
                         <li>✖ Not selected for the position</li>
                     </ul>
                     <p class="text-muted">
-                        If shortlisted, additional instructions regarding interview schedules, 
-                        examination details, or required documents will be sent to you.
+                        Rest assured that all personal information and uploaded documents
+                        will be handled with strict confidentiality in accordance with the
+                        <strong>Data Privacy Act of 2012</strong>.
                     </p>
-                    <p class="text-muted">
-                        Rest assured that all personal information and uploaded documents 
-                        will be handled with strict confidentiality in accordance with the 
-                        <strong>Data Privacy Act of 2012</strong> and applicable government regulations.
-                    </p>
-                    <p class="text-muted">
-                        We appreciate your interest in serving the public and contributing to 
-                        environmental protection and sustainable development.
-                    </p>
-                    <button type="button" class="btn btn-primary btn-lg" onclick="returnHome()">Return Home</button>
+                    <button type="button" class="btn btn-primary btn-lg mt-3" onclick="returnHome()">Return Home</button>
                 </form>
-            </div>
-        </div>
-    </div>
 
-    <!-- Bootstrap 5 JS -->
+            </div><!-- /form-body -->
+        </div><!-- /form-card -->
+    </div><!-- /app-container -->
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/applicant/applicant-application.js"></script>
     <script src="../js/applicant/applicant-auth.js"></script>
