@@ -550,6 +550,24 @@ async function submitApplication() {
             return;
         }
 
+        // ── Frontend duplicate guard ──────────────────────────────────────
+        // Track submitted vacancy IDs in localStorage to catch duplicates
+        // instantly without waiting for the server response
+        if (vacancyId) {
+            const submittedKey   = `submitted_${applicantId}`;
+            const submittedRaw   = localStorage.getItem(submittedKey) || '[]';
+            const submittedList  = JSON.parse(submittedRaw);
+
+            if (submittedList.includes(vacancyId)) {
+                showToast(
+                    'You already applied for this position.',
+                    'warning',
+                    6000
+                );
+                return;
+            }
+        }
+
         // ── Show loading state on submit button ───────────────────────────────
         if (submitBtn) {
             submitBtn.disabled = true;
@@ -638,7 +656,19 @@ async function submitApplication() {
             throw new Error(result.message || 'Submission failed. Please try again.');
         }
 
-        // ── Success — show confirmation screen ────────────────────────────────
+        // ── Success — record vacancy as submitted to prevent duplicates ─────
+        if (vacancyId) {
+            const submittedKey  = `submitted_${applicantId}`;
+            const submittedRaw  = localStorage.getItem(submittedKey) || '[]';
+            const submittedList = JSON.parse(submittedRaw);
+
+            if (!submittedList.includes(vacancyId)) {
+                submittedList.push(vacancyId);
+                localStorage.setItem(submittedKey, JSON.stringify(submittedList));
+            }
+        }
+
+        // ── Show confirmation screen ──────────────────────────────────────
         showToast('Application submitted successfully!', 'success');
 
         document.getElementById('review').classList.add('d-none');
@@ -732,9 +762,21 @@ document.addEventListener('DOMContentLoaded', function () {
     const vacancy = JSON.parse(localStorage.getItem("selectedVacancy"));
     if (vacancy) {
         const jobTitle = document.getElementById("jobTitle");
-        const jobDesc = document.getElementById("jobDesc");
+        const jobDesc  = document.getElementById("jobDesc");
         if (jobTitle) jobTitle.innerText = vacancy.positionTitle;
-        if (jobDesc) jobDesc.innerText = vacancy.description;
+        if (jobDesc)  jobDesc.innerText  = vacancy.description;
+
+        // ── Inject position title into intro banner body ──────────────────
+        const introPosEl = document.getElementById("introPositionTitle");
+        if (introPosEl) {
+            introPosEl.textContent = vacancy.positionTitle;
+        }
+
+        // ── Inject position title into confirmation screen ────────────────
+        const confirmPosEl = document.getElementById("confirmPositionTitle");
+        if (confirmPosEl) {
+            confirmPosEl.textContent = vacancy.positionTitle;
+        }
     }
 
     // Real-time validation: remove error on input for simple fields

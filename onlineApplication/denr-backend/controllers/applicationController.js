@@ -46,6 +46,22 @@ exports.applyVacancy = async (req, res) => {
             return res.status(400).json({ message: "Invalid education or experience data format." })
         }
 
+        // ── Duplicate check: one application per applicant per vacancy ──────
+        // 'applicant' and 'vacancy' come from req.body destructuring above
+        if (applicant && vacancy) {
+            const existing = await Application.findOne({
+                applicant: applicant,
+                vacancy:   vacancy
+            })
+
+            if (existing) {
+                return res.status(409).json({
+                    success: false,
+                    message: "You already applied for this position."
+                })
+            }
+        }
+
         // Build the new application document
         const newApplication = new Application({
             applicant,

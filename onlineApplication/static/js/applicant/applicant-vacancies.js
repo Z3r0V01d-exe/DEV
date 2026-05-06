@@ -162,8 +162,9 @@ function attachApplyEvents() {
         btn.addEventListener("click", () => {
 
             const job = {
-                id: btn.dataset.id,
-                position: btn.dataset.title,
+                _id: btn.dataset.id,                // ← added _id (matches MongoDB format)
+                id: btn.dataset.id,                 // ← kept id as fallback
+                positionTitle: btn.dataset.title,   // ← renamed from position to positionTitle
                 office: btn.dataset.office,
                 description: decodeURIComponent(btn.dataset.description),
                 closingDate: btn.dataset.closing,

@@ -79,4 +79,9 @@ const ApplicationSchema = new mongoose.Schema({
 
 })
 
+// ── Database-level unique constraint ──────────────────────────────────────
+// Prevents duplicate applications even if frontend/backend checks are bypassed.
+// One applicant can only have ONE application per vacancy.
+ApplicationSchema.index({ applicant: 1, vacancy: 1 }, { unique: true })
+
 module.exports = mongoose.model("Application", ApplicationSchema)

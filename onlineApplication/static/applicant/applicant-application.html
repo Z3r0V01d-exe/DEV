@@ -57,8 +57,8 @@
             right: 0;
             z-index: 1000;
             background: rgba(10, 31, 16, 0.85);
-            backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(66,122,67,0.3);
             padding: 0 32px;
             height: 72px;
@@ -841,9 +841,11 @@
                 <div class="intro-eyebrow">Official Application Portal</div>
                 <h1 class="intro-title">Online Applicant Registration</h1>
                 <p class="intro-body">
-                    By proceeding with this online application, you certify that all information you provide to the
-                    <strong>Department of Environment and Natural Resources (DENR)</strong>
-                    is true, accurate, and complete. Submission of false information may result in disqualification.
+                    You are applying for the position of
+                    <strong id="introPositionTitle" style="color:#a5d6a7;font-size:1.05em;"></strong>
+                    at the <strong>Department of Environment and Natural Resources (DENR)</strong>.
+                    By proceeding, you certify that all information you provide is true, accurate, and complete.
+                    Submission of false information may result in disqualification.
                     You consent to the collection and processing of your personal data in accordance with the
                     <strong>Data Privacy Act of 2012</strong>.
                     By submitting, you confirm you have read and agreed to these terms.
@@ -1254,8 +1256,9 @@
                     <i class="bi bi-check-circle-fill confirm-icon"></i>
                     <h2 class="text-primary text-center mb-4">Application Successfully Submitted</h2>
                     <p class="text-muted">
-                        Thank you for submitting your application to the
-                        <strong>Department of Environment and Natural Resources (DENR)</strong>.
+                        Thank you for submitting your application for the position of
+                        <strong id="confirmPositionTitle"></strong>
+                        at the <strong>Department of Environment and Natural Resources (DENR)</strong>.
                         Your application has been received and is now under initial review by our recruitment team.
                     </p>
                     <p class="text-muted">
