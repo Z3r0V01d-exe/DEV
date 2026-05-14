@@ -1,60 +1,64 @@
 const Application = require("../models/application")
 const cloudinary  = require("../config/cloudinary")
 
-// ==================================
-// APPLICATION CONTROLLER
-// ==================================
-
-// ── Helper: extract Cloudinary info from uploaded file ────────────────────
-// multer-storage-cloudinary attaches .path (the URL) and .filename (public_id)
 function getFileData(file) {
     if (!file) return undefined
-    return {
-        url:       file.path,
-        public_id: file.filename
-    }
+    
+    // Cloudinary multer-storage-cloudinary returns these properties:
+    // - file.path: HTTP URL (may require auth)
+    // - file.filename: public ID (includes folder path)
+    // - file.secure_url: HTTPS URL
+    
+    console.log("📁 File uploaded - Key properties:", {
+        filename: file.filename,       // This is the public_id with folder
+        path: file.path,
+        fieldname: file.fieldname
+    })
+    
+    // The file.filename contains the full public_id including folder (e.g., denr-applications/userId/resumes/filename)
+    // We'll use the backend proxy to serve it, which avoids 401 auth issues
+    const proxyUrl = `http://localhost:5000/api/cloudinary-file?publicId=${file.filename}`;
+    
+    console.log("✅ Generated proxy URL:", proxyUrl)
+    
+    return { url: proxyUrl, public_id: file.filename }
 }
 
 // ── POST /api/applications/apply ──────────────────────────────────────────
-// Accepts: multipart/form-data with fields matching the application form
 exports.applyVacancy = async (req, res) => {
     try {
         const {
-            applicant,
-            vacancy,
-            lastName,
-            firstName,
-            middleName,
-            address,
-            birthdate,
-            age,
-            jobType,
-            email,
-            contact,
-            education,   // sent as JSON string from frontend
-            experience   // sent as JSON string from frontend
+            applicant, vacancy,
+            positionTitle, department, office,  // ← Capture vacancy details from frontend
+            lastName, firstName, middleName,
+            address, birthdate, age, jobType, email, contact,
+            education, experience
         } = req.body
 
-        // Parse education and experience arrays (sent as JSON strings)
+        console.log("📋 Apply request received:", {
+            applicant,
+            vacancy,
+            positionTitle,
+            hasResume: !!req.files?.resume?.[0],
+            hasCoverLetter: !!req.files?.coverLetter?.[0],
+            hasEndorsement: !!req.files?.endorsementLetter?.[0]
+        })
+
         let parsedEducation  = []
         let parsedExperience = []
 
         try {
             if (education)  parsedEducation  = JSON.parse(education)
             if (experience) parsedExperience = JSON.parse(experience)
-        } catch (parseErr) {
+        } catch {
             return res.status(400).json({ message: "Invalid education or experience data format." })
         }
 
-        // ── Duplicate check: one application per applicant per vacancy ──────
-        // 'applicant' and 'vacancy' come from req.body destructuring above
+        // Check for duplicate: only if both applicant AND vacancy exist
         if (applicant && vacancy) {
-            const existing = await Application.findOne({
-                applicant: applicant,
-                vacancy:   vacancy
-            })
-
+            const existing = await Application.findOne({ applicant, vacancy })
             if (existing) {
+                console.warn("⚠️ Duplicate application attempt:", { applicant, vacancy })
                 return res.status(409).json({
                     success: false,
                     message: "You already applied for this position."
@@ -62,66 +66,103 @@ exports.applyVacancy = async (req, res) => {
             }
         }
 
-        // Build the new application document
-        const newApplication = new Application({
-            applicant,
-            vacancy,
-            lastName,
-            firstName,
-            middleName,
-            address,
-            birthdate,
-            age:     parseInt(age, 10),
-            jobType,
-            email,
-            contact,
-            education:  parsedEducation,
-            experience: parsedExperience,
+        const resumeData = getFileData(req.files?.resume?.[0])
+        const coverLetterData = getFileData(req.files?.coverLetter?.[0])
+        const endorsementData = getFileData(req.files?.endorsementLetter?.[0])
 
-            // Files — only set if the applicant uploaded them
-            // req.files is an object keyed by field name (from upload.fields())
-            resume:            getFileData(req.files?.resume?.[0]),
-            coverLetter:       getFileData(req.files?.coverLetter?.[0]),
-            endorsementLetter: getFileData(req.files?.endorsementLetter?.[0])
+        console.log("✅ File data prepared:", {
+            resume: resumeData?.url ? "✓" : "✗",
+            coverLetter: coverLetterData?.url ? "✓" : "✗",
+            endorsement: endorsementData?.url ? "✓" : "✗"
         })
 
-        await newApplication.save()
+        const newApplication = new Application({
+            applicant, 
+            vacancy: vacancy || null,  // ← Allow null vacancy
+            vacancySnapshot: {         // ← Store vacancy details as backup
+                positionTitle,
+                department,
+                office
+            },
+            lastName, firstName, middleName,
+            address, birthdate,
+            age:        parseInt(age, 10),
+            jobType, email, contact,
+            education:  parsedEducation,
+            experience: parsedExperience,
+            resume:            resumeData,
+            coverLetter:       coverLetterData,
+            endorsementLetter: endorsementData
+        })
+
+        const savedApp = await newApplication.save()
+        console.log("✅ Application saved successfully:", savedApp._id)
 
         res.status(201).json({
             success: true,
             message: "Application submitted successfully.",
-            data:    newApplication
+            data:    savedApp
         })
 
     } catch (err) {
-        console.error("applyVacancy error:", err)
+        console.error("❌ applyVacancy error:", err.message)
         res.status(500).json({ message: err.message })
     }
 }
 
-// ── GET /api/applications/my ───────────────────────────────────────────────
-// Returns all applications for the logged-in applicant
+// ── GET /api/applications/my?applicantId=<userId> ─────────────────────────
+// applicantId comes from localStorage key "userId" saved at login
 exports.getApplicantApplications = async (req, res) => {
     try {
-        // req.user._id comes from your auth middleware (JWT)
+        const applicantId = req.query.applicantId
+
+        if (!applicantId) {
+            return res.status(400).json({
+                success: false,
+                message: "applicantId is required."
+            })
+        }
+
         const applications = await Application
-            .find({ applicant: req.user._id })
+            .find({ applicant: applicantId })
             .populate("vacancy", "positionTitle department")
             .sort({ appliedAt: -1 })
 
-        res.json({
-            success: true,
-            data:    applications
+        // Transform applications to use vacancySnapshot if vacancy was deleted
+        const transformedApps = applications.map(app => {
+            const appObj = app.toObject()
+            
+            // If vacancy still exists, use it; otherwise use vacancySnapshot
+            if (!appObj.vacancy && appObj.vacancySnapshot) {
+                appObj.vacancy = {
+                    _id: null,
+                    positionTitle: appObj.vacancySnapshot.positionTitle,
+                    department: appObj.vacancySnapshot.department,
+                    office: appObj.vacancySnapshot.office,
+                    isDeleted: true  // ← Flag to indicate vacancy was deleted
+                }
+            }
+            
+            return appObj
         })
 
+        // Log for debugging
+        console.log("📋 Applications retrieved:", transformedApps.map(app => ({
+            id: app._id,
+            position: app.vacancy?.positionTitle || "Unknown",
+            vacancyExists: !!app.vacancy?._id,
+            resumeUrl: app.resume?.url ? "✓" : "✗"
+        })))
+
+        res.json({ success: true, data: transformedApps })
+
     } catch (err) {
-        console.error("getApplicantApplications error:", err)
+        console.error("❌ getApplicantApplications error:", err)
         res.status(500).json({ message: err.message })
     }
 }
 
 // ── PATCH /api/applications/:id/status ────────────────────────────────────
-// Admin only: update the status of an application
 exports.updateApplicationStatus = async (req, res) => {
     try {
         const { status } = req.body
@@ -141,11 +182,7 @@ exports.updateApplicationStatus = async (req, res) => {
             return res.status(404).json({ message: "Application not found." })
         }
 
-        res.json({
-            success: true,
-            message: "Application status updated.",
-            data:    application
-        })
+        res.json({ success: true, message: "Application status updated.", data: application })
 
     } catch (err) {
         console.error("updateApplicationStatus error:", err)
@@ -154,7 +191,6 @@ exports.updateApplicationStatus = async (req, res) => {
 }
 
 // ── DELETE /api/applications/:id ──────────────────────────────────────────
-// Deletes application AND removes uploaded files from Cloudinary
 exports.deleteApplication = async (req, res) => {
     try {
         const application = await Application.findById(req.params.id)
@@ -163,12 +199,11 @@ exports.deleteApplication = async (req, res) => {
             return res.status(404).json({ message: "Application not found." })
         }
 
-        // Delete files from Cloudinary using stored public_ids
         const filesToDelete = [
             application.resume?.public_id,
             application.coverLetter?.public_id,
             application.endorsementLetter?.public_id
-        ].filter(Boolean) // remove undefined/null
+        ].filter(Boolean)
 
         for (const public_id of filesToDelete) {
             await cloudinary.uploader.destroy(public_id, { resource_type: "raw" })
@@ -176,10 +211,7 @@ exports.deleteApplication = async (req, res) => {
 
         await application.deleteOne()
 
-        res.json({
-            success: true,
-            message: "Application and associated files deleted."
-        })
+        res.json({ success: true, message: "Application and associated files deleted." })
 
     } catch (err) {
         console.error("deleteApplication error:", err)

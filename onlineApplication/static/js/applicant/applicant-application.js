@@ -580,6 +580,13 @@ async function submitApplication() {
         formData.append('applicant', applicantId);
         if (vacancyId) formData.append('vacancy', vacancyId);
 
+        // ── Add vacancy details as backup (in case vacancy is deleted later) ──
+        if (vacancyData) {
+            formData.append('positionTitle', vacancyData.positionTitle || '');
+            formData.append('department',    vacancyData.department || '');
+            formData.append('office',        vacancyData.office || '');
+        }
+
         formData.append('lastName',   document.getElementById('reviewLastName').textContent.trim());
         formData.append('firstName',  document.getElementById('reviewFirstName').textContent.trim());
         formData.append('middleName', document.getElementById('reviewMiddleName').textContent.trim());
@@ -892,6 +899,15 @@ document.addEventListener('DOMContentLoaded', function () {
         return new bootstrap.Popover(popoverTriggerEl);
     });
 
+    // Intercept brand/header link click
+    const brandLink = document.querySelector('.app-header-brand');
+    if (brandLink) {
+        brandLink.addEventListener('click', function (e) {
+            e.preventDefault();
+            goToDashboard();
+        });
+    }
+
     // Initialize drop zones
     setupDropZones();
 });
@@ -1170,6 +1186,173 @@ function updateDeleteButtons(entryType) {
 }
 
 // ==============================
+// LEAVE CONFIRMATION DIALOG
+// ==============================
+
+let leaveConfirmCallback = null;
+
+function showLeaveConfirm(onConfirm) {
+    // Remove existing dialog if any
+    const existing = document.getElementById('leaveConfirmOverlay');
+    if (existing) existing.remove();
+
+    leaveConfirmCallback = onConfirm;
+
+    const overlay = document.createElement('div');
+    overlay.id = 'leaveConfirmOverlay';
+    overlay.style.cssText = `
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        background: rgba(0,0,0,0.55);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        backdrop-filter: blur(4px);
+        animation: fadeInOverlay 0.2s ease;
+    `;
+
+    overlay.innerHTML = `
+        <style>
+            @keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
+            @keyframes slideUpDialog { from { opacity: 0; transform: translateY(24px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        </style>
+        <div id="leaveConfirmDialog" style="
+            background: #fff;
+            border-radius: 20px;
+            max-width: 420px;
+            width: 100%;
+            overflow: hidden;
+            box-shadow: 0 32px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(66,122,67,0.1);
+            animation: slideUpDialog 0.25s ease;
+        ">
+            <!-- Header -->
+            <div style="
+                background: linear-gradient(135deg, #0b2e12, #1a4d1e);
+                padding: 24px 28px 20px;
+                position: relative;
+            ">
+                <div style="
+                    width: 44px; height: 44px;
+                    background: rgba(255,255,255,0.1);
+                    border-radius: 12px;
+                    display: flex; align-items: center; justify-content: center;
+                    margin-bottom: 14px;
+                    border: 1px solid rgba(255,255,255,0.15);
+                ">
+                    <i class="bi bi-exclamation-triangle-fill" style="font-size:20px; color:#ffd54f;"></i>
+                </div>
+                <div style="font-family:'Sora',sans-serif; font-size:17px; font-weight:700; color:#fff; margin-bottom:6px; line-height:1.3;">
+                    Leave Application?
+                </div>
+                <div style="font-size:12.5px; color:rgba(168,230,163,0.75); font-weight:400; line-height:1.5;">
+                    You are about to leave the application form
+                </div>
+            </div>
+
+            <!-- Body -->
+            <div style="padding: 24px 28px;">
+                <p style="
+                    font-size:14px;
+                    color:#3a5c3b;
+                    line-height:1.7;
+                    margin: 0 0 8px;
+                ">
+                    If you leave now, <strong style="color:#c62828;">all your entered information will be lost</strong> and your application will not be saved.
+                </p>
+                <div style="
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    background: #fff8e1;
+                    border: 1px solid #ffe082;
+                    border-radius: 10px;
+                    padding: 10px 14px;
+                    margin-top: 14px;
+                ">
+                    <i class="bi bi-info-circle-fill" style="color:#f57c00; font-size:15px; flex-shrink:0;"></i>
+                    <span style="font-size:12.5px; color:#7a5c00; line-height:1.5;">
+                        Your application for this vacancy will be <strong>disregarded</strong> if you proceed.
+                    </span>
+                </div>
+            </div>
+
+            <!-- Footer Buttons -->
+            <div style="
+                padding: 0 28px 24px;
+                display: flex;
+                gap: 10px;
+                justify-content: flex-end;
+            ">
+                <button id="leaveConfirmCancel" style="
+                    background: transparent;
+                    border: 1.5px solid #dce8dd;
+                    border-radius: 10px;
+                    padding: 10px 22px;
+                    font-size: 13.5px;
+                    font-weight: 600;
+                    font-family: 'DM Sans', sans-serif;
+                    color: #427A43;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                " onmouseover="this.style.background='rgba(66,122,67,0.06)'"
+                   onmouseout="this.style.background='transparent'">
+                    <i class="bi bi-arrow-left" style="margin-right:5px;"></i> Continue Applying
+                </button>
+                <button id="leaveConfirmProceed" style="
+                    background: linear-gradient(135deg, #c62828, #b71c1c);
+                    border: none;
+                    border-radius: 10px;
+                    padding: 10px 22px;
+                    font-size: 13.5px;
+                    font-weight: 600;
+                    font-family: 'DM Sans', sans-serif;
+                    color: #fff;
+                    cursor: pointer;
+                    box-shadow: 0 4px 14px rgba(198,40,40,0.35);
+                    transition: all 0.2s;
+                " onmouseover="this.style.transform='translateY(-1px)'"
+                   onmouseout="this.style.transform='translateY(0)'">
+                    Leave Anyway <i class="bi bi-box-arrow-right" style="margin-left:5px;"></i>
+                </button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    // Bind buttons
+    document.getElementById('leaveConfirmCancel').addEventListener('click', closeLeaveConfirm);
+    document.getElementById('leaveConfirmProceed').addEventListener('click', () => {
+        closeLeaveConfirm();
+        if (typeof leaveConfirmCallback === 'function') leaveConfirmCallback();
+    });
+
+    // Click outside to cancel
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closeLeaveConfirm();
+    });
+
+    // Escape key to cancel
+    document.addEventListener('keydown', handleEscapeLeave);
+}
+
+function closeLeaveConfirm() {
+    const overlay = document.getElementById('leaveConfirmOverlay');
+    if (overlay) {
+        overlay.style.opacity = '0';
+        overlay.style.transition = 'opacity 0.2s ease';
+        setTimeout(() => overlay.remove(), 200);
+    }
+    document.removeEventListener('keydown', handleEscapeLeave);
+}
+
+function handleEscapeLeave(e) {
+    if (e.key === 'Escape') closeLeaveConfirm();
+}
+
+// ==============================
 // NAVIGATION
 // ==============================
 
@@ -1178,5 +1361,28 @@ function updateDeleteButtons(entryType) {
  * Update the href below if your path differs (e.g. '../pages/applicant-dashboard.html').
  */
 function goToDashboard() {
-    window.location.href = 'applicant-dashboard.html';
+    showLeaveConfirm(() => {
+        // Disable beforeunload so it doesn't double-fire
+        window.removeEventListener('beforeunload', handleBeforeUnload);
+        window.location.href = 'applicant-dashboard.html';
+    });
 }
+
+// ==============================
+// BROWSER BACK / REFRESH GUARD
+// ==============================
+function handleBeforeUnload(e) {
+    // Only trigger if the form has any filled input
+    const hasInput = [...document.querySelectorAll(
+        '#applicationForm input[type="text"], #applicationForm input[type="email"], #applicationForm input[type="number"], #applicationForm input[type="date"]'
+    )].some(el => el.value.trim() !== '');
+
+    const hasFile = document.getElementById('resume')?.files?.length > 0;
+
+    if (hasInput || hasFile) {
+        e.preventDefault();
+        e.returnValue = ''; // Required for Chrome to show the native dialog
+    }
+}
+
+window.addEventListener('beforeunload', handleBeforeUnload);

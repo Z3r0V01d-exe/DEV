@@ -12,16 +12,14 @@ function getVacancyStatus(v) {
     const openDate = new Date(v.openingDate);
     const closeDate = new Date(v.closingDate);
 
-    // ✅ PRIORITY: manual status from backend
-    if (v.status === "Closed") return "Closed";
-    if (v.status === "Open") return "Open";
-
-    // ✅ fallback to date logic
-    if (now < openDate) return "Scheduled";
-    if (now >= openDate && now <= closeDate) return "Open";
+    // ✅ Date logic ALWAYS wins for expired/future vacancies
     if (now > closeDate) return "Closed";
+    if (now < openDate) return "Scheduled";
 
-    return "Closed";
+    // ✅ Only trust manual status if dates are ambiguous (within range)
+    if (v.status === "Closed") return "Closed";
+
+    return "Open";
 }
 
 /* ==============================
@@ -112,33 +110,35 @@ function renderVacancyCards() {
     container.innerHTML = allVacancies.map(v => {
 
         const status = getVacancyStatus(v);
-
-        let statusClass = "closed";
-
-        if (status === "Open") statusClass = "open";
-        else if (status === "Scheduled") statusClass = "scheduled";
+        const cardClass = status === "Open" ? "open-card"
+                        : status === "Scheduled" ? "scheduled-card"
+                        : "closed-card";
+        const badgeClass = status.toLowerCase(); // "open" | "closed" | "scheduled"
 
         return `
         <div class="col-lg-3 col-md-4 col-sm-6">
-
-            <div class="card vacancy-card h-100 shadow-sm"
+            <div class="card vacancy-card ${cardClass} h-100"
                 onclick='openVacancyFromDashboard(${JSON.stringify(v)})'
-                style="cursor:pointer; position:relative;">
-
-                <!-- ✅ STATUS DOT -->
-                <span class="status-dot ${statusClass}"></span>
+                style="cursor:pointer;">
 
                 <div class="card-body d-flex flex-column">
 
+                    <!-- BADGE -->
+                    <div class="d-flex justify-content-end mb-2">
+                        <span class="status-badge ${badgeClass}">
+                            <span class="dot"></span>${status}
+                        </span>
+                    </div>
+
                     <!-- TITLE -->
-                    <h4 class="fw-bold text-success mb-3">
-                        ${v.positionTitle}
-                    </h4>
+                    <h4 class="fw-bold mb-2">${v.positionTitle}</h4>
 
                     <!-- OFFICE -->
-                    <small class="text-muted mb-2">
+                    <small class="text-muted mb-1">
                         <i class="bi bi-building"></i> ${v.office}
                     </small>
+
+                    <div class="card-divider"></div>
 
                     <!-- DATE -->
                     <div class="mb-2 text-muted small">
@@ -152,9 +152,7 @@ function renderVacancyCards() {
                     </p>
 
                 </div>
-
             </div>
-
         </div>
         `;
     }).join("");

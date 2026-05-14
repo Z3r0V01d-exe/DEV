@@ -3,18 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Application - DENR</title>
-    <!-- Bootstrap 5 CSS -->
+    <title>My Applications - DENR</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/applicant.css">
 </head>
 <body class="myapplication-page">
+
     <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top gov-navbar">
         <div class="container">
-
-            <!-- Logo -->
             <a class="navbar-brand d-flex align-items-center gap-2" href="#">
                 <i class="bi bi-tree-fill fs-4"></i>
                 <div class="d-flex flex-column lh-sm">
@@ -22,42 +20,33 @@
                     <small>Department of Environment and Natural Resources</small>
                 </div>
             </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#navbarContent">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             <div class="collapse navbar-collapse" id="navbarContent">
                 <ul class="navbar-nav ms-auto align-items-lg-center">
-
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="goDashboard()">
                             <i class="bi bi-house-door"></i> Dashboard
                         </a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link active" href="#" onclick="goApplications()">
                             <i class="bi bi-file-earmark-text"></i> My Applications
                         </a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="goVacancies()">
                             <i class="bi bi-briefcase"></i> Vacancies
                         </a>
                     </li>
-
-                    <!-- Account Dropdown -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center gap-1"
-                        href="#"
-                        role="button"
-                        data-bs-toggle="dropdown">
+                           href="#" role="button" data-bs-toggle="dropdown">
                             <i class="bi bi-person-circle fs-5"></i>
                             <span id="navUserName"></span>
                         </a>
-
                         <ul class="dropdown-menu dropdown-menu-end shadow" id="userMenu">
                             <li>
                                 <a class="dropdown-item" href="#">
@@ -71,43 +60,135 @@
                             </li>
                         </ul>
                     </li>
-
                 </ul>
             </div>
         </div>
     </nav>
-    
-    <!-- Main Content -->
-    <div class="container">
 
-        <h2 class="fw-bold text-success">
-            <i class="bi bi-file-earmark-text"></i> My Applications
-        </h2>
+    <!-- MAIN CONTENT -->
+    <div class="container myapp-container">
+
+        <!-- PAGE HEADER -->
+        <div class="myapp-page-header">
+            <div>
+                <h2 class="myapp-page-title">
+                    <i class="bi bi-file-earmark-text me-2"></i>My Applications
+                </h2>
+                <p class="myapp-page-sub">Track and manage all your submitted applications</p>
+            </div>
+            <button class="btn myapp-browse-btn" onclick="goVacancies()">
+                <i class="bi bi-plus-circle me-1"></i> Browse Vacancies
+            </button>
+        </div>
 
         <!-- EMPTY STATE -->
-        <div id="noApplicationState" class="empty-state text-center">
-
+        <div id="noApplicationState" class="empty-state" style="display:none;">
             <i class="bi bi-folder-x empty-icon"></i>
-
-            <h4>No Application Submitted Yet</h4>
-
-            <p class="text-muted">
-                You have not applied for any position yet.
-            </p>
-
+            <h4>No Applications Submitted Yet</h4>
+            <p class="text-muted">You have not applied for any position yet.</p>
             <button class="btn btn-success mt-2" onclick="goVacancies()">
                 <i class="bi bi-briefcase"></i> Browse Vacancies
             </button>
+        </div>
+
+        <!-- APPLICATIONS PANEL -->
+        <div id="applicationsPanel" class="myapp-panel d-none">
+
+            <!-- Panel header: count + search + sort -->
+            <div class="myapp-panel-header">
+                <div class="myapp-panel-left">
+                    <span class="myapp-panel-title">
+                        <i class="bi bi-layers me-2"></i>Applications
+                    </span>
+                    <span class="myapp-count-chip" id="appCountChip">0 total</span>
+                </div>
+                <div class="myapp-panel-right">
+                    <div class="myapp-search-wrap">
+                        <i class="bi bi-search myapp-search-icon"></i>
+                        <input
+                            type="text"
+                            id="appSearchInput"
+                            class="myapp-search-input"
+                            placeholder="Search position or office...">
+                    </div>
+                    <select id="appSortSelect" class="myapp-sort-select">
+                        <option value="newest">Newest first</option>
+                        <option value="oldest">Oldest first</option>
+                        <option value="az">A → Z</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Filter pills -->
+            <div class="myapp-filter-row">
+                <button class="myapp-filter-pill active" data-filter="all">All</button>
+                <button class="myapp-filter-pill" data-filter="pending">Pending</button>
+                <button class="myapp-filter-pill" data-filter="reviewed">Reviewed</button>
+                <button class="myapp-filter-pill" data-filter="shortlisted">Shortlisted</button>
+                <button class="myapp-filter-pill" data-filter="approved">Approved</button>
+                <button class="myapp-filter-pill" data-filter="rejected">Rejected</button>
+            </div>
+
+            <!-- Cards list -->
+            <div id="applicationsGrid" class="myapp-cards-list"></div>
+
+            <!-- No results state -->
+            <div id="noResultsState" class="myapp-no-results d-none">
+                <i class="bi bi-search"></i>
+                <span>No applications match your filter.</span>
+            </div>
 
         </div>
 
-        <!-- APPLICATION GRID -->
-        <div id="applicationsGrid" class="applications-grid d-none"></div>
-
     </div>
-    
 
-    <!-- Bootstrap 5 JS -->
+    <!-- ==============================
+         FILE VIEWER OVERLAY
+    ============================== -->
+    <div id="fileViewerOverlay" class="fv-overlay">
+        <div class="fv-dialog">
+
+            <!-- Header bar -->
+            <div class="fv-header">
+                <div class="fv-header-left">
+                    <div class="fv-file-icon">
+                        <i class="bi bi-file-earmark-pdf-fill"></i>
+                    </div>
+                    <div class="fv-file-info">
+                        <div class="fv-file-name" id="fileViewerName">Document</div>
+                        <div class="fv-file-type">PDF Document</div>
+                    </div>
+                </div>
+                <div class="fv-header-actions">
+                    <a id="fileViewerDownload" href="#" class="fv-btn-download" download>
+                        <i class="bi bi-download me-1"></i> Download
+                    </a>
+                    <button class="fv-btn-close" onclick="closeFileViewer()" aria-label="Close viewer">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Loading indicator (shown until iframe fires onload) -->
+            <div class="fv-loading" id="fileViewerLoading">
+                <div class="fv-spinner"></div>
+                <span>Loading document...</span>
+            </div>
+
+            <!-- PDF iframe -->
+            <div class="fv-frame-wrap">
+                <iframe
+                    id="fileViewerFrame"
+                    src=""
+                    title="Document Viewer"
+                    onload="document.getElementById('fileViewerLoading').style.display='none';">
+                </iframe>
+            </div>
+
+        </div>
+    </div>
+    <!-- END FILE VIEWER OVERLAY -->
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/applicant/applicant-myapplication.js"></script>
     <script src="../js/applicant/applicant-auth.js"></script>

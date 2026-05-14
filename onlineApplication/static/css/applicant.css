@@ -62,133 +62,1049 @@ body {
 .dropdown-item:hover {
     background-color: #f1f1f1;
 }
+
 /* ============================= */
-/* DASHBOARD PAGE ONLY */
+/* DASHBOARD PAGE                */
 /* ============================= */
+
 .dashboard-page {
-    background-color: #f4f6f9;
+    background-color: #f0f4f8;
     min-height: 100vh;
     padding-top: 110px;
+    padding-bottom: 60px;
 }
 
+/* ── Welcome Section ── */
+.dashboard-page .welcome-name {
+    color: #1a3d1c;
+}
+
+/* ── Summary Stat Cards ── */
 .dashboard-page .dashboard-card {
-    border-radius: 14px;
-    transition: 0.3s ease;
+    border-radius: 16px;
+    border: none;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    overflow: hidden;
+    position: relative;
 }
 
 .dashboard-page .dashboard-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.10) !important;
 }
 
-/* ============================= */
-/* MY APPLICATION DETAILS PAGE ONLY */
-/* ============================= */
+/* Colored left accent bar per stat card */
+.dashboard-page .stat-card-total    { border-left: 4px solid #378ADD; }
+.dashboard-page .stat-card-review   { border-left: 4px solid #f59e0b; }
+.dashboard-page .stat-card-approved { border-left: 4px solid #22c55e; }
+.dashboard-page .stat-card-rejected { border-left: 4px solid #ef4444; }
 
-.myapplication-page {
-    background-color: #f4f6f9;
-    min-height: 100vh;
-    padding-top: 110px;
+.dashboard-page .dashboard-card .card-body {
+    padding: 20px 22px;
 }
 
-/* Grid layout (4 cards per row) */
-.myapplication-page .applications-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-}
-
-/* Application Card */
-.myapplication-page .application-card {
-    background: #ffffff;
-    border-radius: 14px;
-    border: none;
-    padding: 20px;
-    margin-top: 20px;
-    transition: all 0.25s ease;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
-}
-
-/* Hover effect */
-.myapplication-page .application-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.18);
-}
-
-/* Position title */
-.myapplication-page .application-title {
-    font-weight: 600;
-    font-size: 16px;
-    color: #003d1f;
-    margin-bottom: 6px;
-}
-
-/* Office text */
-.myapplication-page .application-office {
-    font-size: 13px;
-    color: #666;
-    margin-bottom: 10px;
-}
-
-/* Date text */
-.myapplication-page .application-date {
+.dashboard-page .stat-label {
     font-size: 12px;
-    color: #888;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #6b7280;
+    margin-bottom: 8px;
 }
 
-/* Status badge spacing */
-.myapplication-page .application-status {
-    margin-top: 10px;
+.dashboard-page .stat-value {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0;
 }
 
-/* Card buttons */
-.myapplication-page .application-actions {
-    margin-top: 15px;
+.dashboard-page .stat-icon {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 28px;
+    opacity: 0.12;
+}
+
+/* ── Panel Cards (notifications, table) ── */
+.dashboard-page .panel-card {
+    background: #ffffff;
+    border-radius: 16px;
+    border: none;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+    overflow: hidden;
+}
+
+.dashboard-page .panel-card-header {
+    padding: 18px 24px 16px;
+    border-bottom: 1px solid #f0f4f8;
     display: flex;
+    align-items: center;
     justify-content: space-between;
 }
 
-/* Empty State Design */
-
-.myapplication-page .empty-state{
-    background: white;
-    border-radius: 16px;
-    padding: 60px 30px;
-    margin-top: 40px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+.dashboard-page .panel-card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a2e1a;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
 }
 
-.myapplication-page .empty-icon{
-    font-size: 70px;
-    color: #9aa1a7;
-    margin-bottom: 20px;
+.dashboard-page .panel-card-title i {
+    color: #427A43;
+    font-size: 17px;
 }
 
-.myapplication-page .empty-state h4{
+.dashboard-page .panel-view-all {
+    font-size: 12.5px;
+    color: #427A43;
     font-weight: 600;
-    margin-bottom: 10px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: gap 0.2s;
 }
 
-.myapplication-page .empty-state p{
+.dashboard-page .panel-view-all:hover {
+    gap: 8px;
+    color: #2e7d32;
+}
+
+/* ── Notifications ── */
+.dashboard-page #notificationList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dashboard-page .notif-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 24px;
+    border-bottom: 1px solid #f5f7fa;
+    transition: background 0.15s;
+}
+
+.dashboard-page .notif-item:last-child {
+    border-bottom: none;
+}
+
+.dashboard-page .notif-item:hover {
+    background: #f9fafb;
+}
+
+.dashboard-page .notif-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.dashboard-page .notif-success .notif-icon { background: #dcfce7; color: #16a34a; }
+.dashboard-page .notif-danger  .notif-icon { background: #fee2e2; color: #dc2626; }
+.dashboard-page .notif-info    .notif-icon { background: #ede9fe; color: #6366f1; }
+.dashboard-page .notif-primary .notif-icon { background: #e0f2fe; color: #0284c7; }
+.dashboard-page .notif-secondary .notif-icon { background: #f3f4f6; color: #6b7280; }
+
+.dashboard-page .notif-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.dashboard-page .notif-text {
+    font-size: 13.5px;
+    color: #374151;
+    line-height: 1.5;
+    margin: 0 0 3px;
+}
+
+.dashboard-page .notif-date {
+    font-size: 11.5px;
+    color: #9ca3af;
+}
+
+.dashboard-page .notif-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 32px 24px;
+    color: #9ca3af;
     font-size: 14px;
 }
 
-/* Responsive adjustments */
-@media (max-width: 1200px) {
-    .myapplication-page .applications-grid {
-        grid-template-columns: repeat(3, 1fr);
+.dashboard-page .notif-empty i {
+    font-size: 20px;
+}
+
+/* ── Applications Table ── */
+.dashboard-page .table {
+    margin: 0;
+}
+
+.dashboard-page .table thead th {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #6b7280;
+    background: #f9fafb;
+    border-bottom: 1px solid #f0f4f8;
+    padding: 12px 20px;
+}
+
+.dashboard-page .table tbody td {
+    padding: 14px 20px;
+    vertical-align: middle;
+    border-bottom: 1px solid #f5f7fa;
+    font-size: 14px;
+    color: #374151;
+}
+
+.dashboard-page .table tbody .app-row:last-child td {
+    border-bottom: none;
+}
+
+.dashboard-page .table tbody .app-row:hover td {
+    background: #f9fafb;
+}
+
+/* Position cell */
+.dashboard-page .position-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.dashboard-page .position-name {
+    font-weight: 600;
+    color: #1a2e1a;
+    font-size: 13.5px;
+}
+
+.dashboard-page .position-id {
+    font-size: 11px;
+    color: #b0b8c1;
+    font-family: monospace;
+}
+
+.dashboard-page .date-cell {
+    color: #6b7280;
+    font-size: 13px;
+}
+
+/* ── Status Badges (table) ── */
+.dashboard-page .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 4px 11px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.dashboard-page .badge-pending     { background: #fef3c7; color: #92400e; }
+.dashboard-page .badge-reviewed    { background: #e0f2fe; color: #075985; }
+.dashboard-page .badge-shortlisted { background: #ede9fe; color: #4c1d95; }
+.dashboard-page .badge-approved    { background: #dcfce7; color: #166534; }
+.dashboard-page .badge-rejected    { background: #fee2e2; color: #991b1b; }
+
+/* ── View Button ── */
+.dashboard-page .btn-view-app {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 8px;
+    border: 1.5px solid #dce8dd;
+    background: transparent;
+    color: #427A43;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.dashboard-page .btn-view-app:hover {
+    background: #427A43;
+    border-color: #427A43;
+    color: #fff;
+}
+
+/* ── Empty table row ── */
+.dashboard-page .empty-row {
+    text-align: center;
+    padding: 40px 20px !important;
+    color: #9ca3af;
+}
+
+.dashboard-page .empty-table-icon {
+    font-size: 28px;
+    display: block;
+    margin-bottom: 8px;
+    color: #d1d5db;
+}
+
+/* ── View All link (in table) ── */
+.dashboard-page .view-all-link {
+    font-size: 13px;
+    font-weight: 600;
+    color: #427A43;
+    text-decoration: none;
+}
+
+.dashboard-page .view-all-link:hover {
+    color: #2e7d32;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .dashboard-page {
+        padding-top: 90px;
+    }
+
+    .dashboard-page .table thead th:nth-child(3),
+    .dashboard-page .table tbody td:nth-child(3) {
+        display: none;
     }
 }
 
-@media (max-width: 992px) {
-    .myapplication-page .applications-grid {
-        grid-template-columns: repeat(2, 1fr);
+/* ============================= */
+/* MY APPLICATION PAGE           */
+/* ============================= */
+
+.myapplication-page {
+    background-color: #f0f4f8;
+    min-height: 100vh;
+    padding-top: 110px;
+    padding-bottom: 60px;
+}
+
+.myapplication-page .myapp-container {
+    padding-top: 10px;
+}
+
+/* ── Page header ─────────────────────────────────────────────────────── */
+
+.myapplication-page .myapp-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.myapplication-page .myapp-page-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a3d1c;
+    margin: 0 0 4px;
+}
+
+.myapplication-page .myapp-page-sub {
+    font-size: 13.5px;
+    color: #6b7280;
+    margin: 0;
+}
+
+.myapplication-page .myapp-browse-btn {
+    background: linear-gradient(135deg, #427A43, #2e7d32);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 9px 20px;
+    font-size: 13.5px;
+    font-weight: 600;
+    box-shadow: 0 4px 14px rgba(66,122,67,0.3);
+    transition: all 0.2s;
+}
+
+.myapplication-page .myapp-browse-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 20px rgba(66,122,67,0.4);
+    color: #fff;
+}
+
+/* ── Empty state ─────────────────────────────────────────────────────── */
+
+.myapplication-page .empty-state {
+    background: white;
+    border-radius: 16px;
+    padding: 70px 30px;
+    margin-top: 8px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+    text-align: center;
+}
+
+.myapplication-page .empty-icon {
+    font-size: 64px;
+    color: #d1d5db;
+    margin-bottom: 16px;
+    display: block;
+}
+
+.myapplication-page .empty-state h4 {
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 8px;
+}
+
+.myapplication-page .empty-state p {
+    font-size: 14px;
+    color: #9ca3af;
+}
+
+/* ── Applications panel ──────────────────────────────────────────────── */
+
+.myapplication-page .myapp-panel {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+    overflow: hidden;
+}
+
+/* Panel header */
+.myapplication-page .myapp-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px 14px;
+    border-bottom: 1px solid #f0f4f8;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.myapplication-page .myapp-panel-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.myapplication-page .myapp-panel-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a2e1a;
+}
+
+.myapplication-page .myapp-count-chip {
+    font-size: 11.5px;
+    background: #f0f4f8;
+    color: #6b7280;
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-weight: 500;
+}
+
+.myapplication-page .myapp-panel-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Search box */
+.myapplication-page .myapp-search-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.myapplication-page .myapp-search-icon {
+    position: absolute;
+    left: 11px;
+    color: #9ca3af;
+    font-size: 13px;
+    pointer-events: none;
+}
+
+.myapplication-page .myapp-search-input {
+    background: #f5f7fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 8px 12px 8px 32px;
+    font-size: 13px;
+    color: #374151;
+    width: 220px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.myapplication-page .myapp-search-input:focus {
+    outline: none;
+    border-color: #427A43;
+    box-shadow: 0 0 0 3px rgba(66,122,67,0.1);
+    background: #fff;
+}
+
+/* Sort select */
+.myapplication-page .myapp-sort-select {
+    background: #f5f7fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: #374151;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.myapplication-page .myapp-sort-select:focus {
+    outline: none;
+    border-color: #427A43;
+}
+
+/* Filter pills */
+.myapplication-page .myapp-filter-row {
+    display: flex;
+    gap: 8px;
+    padding: 12px 24px;
+    border-bottom: 1px solid #f0f4f8;
+    flex-wrap: wrap;
+}
+
+.myapplication-page .myapp-filter-pill {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 14px;
+    border-radius: 20px;
+    border: 1.5px solid #e5e7eb;
+    background: transparent;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.18s;
+}
+
+.myapplication-page .myapp-filter-pill:hover {
+    border-color: #427A43;
+    color: #427A43;
+}
+
+.myapplication-page .myapp-filter-pill.active {
+    background: #1a3d1c;
+    border-color: #1a3d1c;
+    color: #fff;
+}
+
+/* ── Cards list ──────────────────────────────────────────────────────── */
+
+.myapplication-page .myapp-cards-list {
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* ── Individual card ─────────────────────────────────────────────────── */
+
+.myapplication-page .myapp-card {
+    border: 1px solid #eef0f3;
+    border-radius: 14px;
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    animation: myappCardIn 0.4s ease both;
+}
+
+@keyframes myappCardIn {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.myapplication-page .myapp-card:hover {
+    border-color: #c8d8ca;
+    box-shadow: 0 6px 22px rgba(66,122,67,0.1);
+    transform: translateY(-2px);
+}
+
+/* Colored top accent bar */
+.myapplication-page .myapp-card-tbar { height: 4px; width: 100%; }
+.tbar-pending     { background: #f59e0b; }
+.tbar-reviewed    { background: #0ea5e9; }
+.tbar-shortlisted { background: #8b5cf6; }
+.tbar-approved    { background: #22c55e; }
+.tbar-rejected    { background: #ef4444; }
+
+/* Card body */
+.myapplication-page .myapp-card-body {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px 20px 18px;
+}
+
+/* Status icon */
+.myapplication-page .myapp-card-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.sic-pending     { background: #fef3c7; color: #d97706; }
+.sic-reviewed    { background: #e0f2fe; color: #0284c7; }
+.sic-shortlisted { background: #ede9fe; color: #7c3aed; }
+.sic-approved    { background: #dcfce7; color: #16a34a; }
+.sic-rejected    { background: #fee2e2; color: #dc2626; }
+
+/* Info section */
+.myapplication-page .myapp-card-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.myapplication-page .myapp-card-position {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a2e1a;
+    margin-bottom: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.myapplication-page .myapp-card-office {
+    font-size: 13px;
+    color: #4b7a5a;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+.myapplication-page .myapp-card-meta {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.myapplication-page .myapp-card-meta span {
+    font-size: 12px;
+    color: #9ca3af;
+    display: flex;
+    align-items: center;
+}
+
+.myapplication-page .myapp-card-id {
+    font-family: monospace;
+    font-size: 11px !important;
+    color: #c4cdd6 !important;
+}
+
+/* ── Mini timeline ───────────────────────────────────────────────────── */
+
+.myapplication-page .myapp-timeline {
+    display: flex;
+    align-items: flex-start;
+    background: #f8faf8;
+    border-radius: 10px;
+    padding: 10px 14px 8px;
+}
+
+.myapplication-page .tl-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+}
+
+.myapplication-page .tl-dot-row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.myapplication-page .tl-seg {
+    flex: 1;
+    height: 2px;
+    background: #e5e7eb;
+    transition: background 0.3s;
+}
+
+.myapplication-page .tl-seg.done { background: #22c55e; }
+.myapplication-page .tl-seg.invisible { visibility: hidden; }
+
+.myapplication-page .tl-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid #e5e7eb;
+    background: #fff;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: transparent;
+    transition: all 0.3s;
+}
+
+.myapplication-page .tl-dot.done {
+    background: #22c55e;
+    border-color: #22c55e;
+    color: #fff;
+}
+
+.myapplication-page .tl-dot.active {
+    background: #fff;
+    border-color: #f59e0b;
+    border-width: 2.5px;
+    box-shadow: 0 0 0 3px rgba(245,158,11,0.15);
+}
+
+.myapplication-page .tl-dot.rejected {
+    background: #ef4444;
+    border-color: #ef4444;
+    color: #fff;
+}
+
+.myapplication-page .tl-step-label {
+    font-size: 10.5px;
+    color: #9ca3af;
+    text-align: center;
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+/* ── Card right column ───────────────────────────────────────────────── */
+
+.myapplication-page .myapp-card-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    flex-shrink: 0;
+    padding-top: 2px;
+}
+
+/* Status pill */
+.myapplication-page .myapp-status-pill {
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.spill-pending     { background: #fef3c7; color: #92400e; }
+.spill-reviewed    { background: #e0f2fe; color: #075985; }
+.spill-shortlisted { background: #ede9fe; color: #4c1d95; }
+.spill-approved    { background: #dcfce7; color: #166534; }
+.spill-rejected    { background: #fee2e2; color: #991b1b; }
+
+/* Action buttons */
+.myapplication-page .myapp-card-actions {
+    display: flex;
+    gap: 7px;
+}
+
+.myapplication-page .myapp-btn-view,
+.myapplication-page .myapp-btn-resume {
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 8px;
+    border: 1.5px solid #dce8dd;
+    background: transparent;
+    color: #427A43;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.18s;
+}
+
+.myapplication-page .myapp-btn-view:hover {
+    background: #427A43;
+    border-color: #427A43;
+    color: #fff;
+}
+
+.myapplication-page .myapp-btn-resume {
+    border-color: #e5e7eb;
+    color: #6b7280;
+}
+
+.myapplication-page .myapp-btn-resume:hover {
+    background: #374151;
+    border-color: #374151;
+    color: #fff;
+}
+
+/* ── No results ──────────────────────────────────────────────────────── */
+
+.myapplication-page .myapp-no-results {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 36px 24px;
+    color: #9ca3af;
+    font-size: 14px;
+}
+
+.myapplication-page .myapp-no-results i { font-size: 20px; }
+
+/* ==============================
+   FILE VIEWER OVERLAY
+============================== */
+
+.fv-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(0, 0, 0, 0.72);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+/* Visible state — toggled by JS */
+.fv-overlay.fv-visible {
+    display: flex;
+    opacity: 1;
+}
+
+/* Dialog box */
+.fv-dialog {
+    background: #ffffff;
+    border-radius: 18px;
+    width: 100%;
+    max-width: 880px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow:
+        0 32px 80px rgba(0,0,0,0.45),
+        0 0 0 1px rgba(66,122,67,0.12);
+    animation: fvSlideUp 0.28s ease both;
+}
+
+@keyframes fvSlideUp {
+    from { opacity: 0; transform: translateY(28px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Header bar */
+.fv-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    border-bottom: 1px solid #f0f4f8;
+    flex-shrink: 0;
+    gap: 12px;
+}
+
+.fv-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+/* PDF icon box */
+.fv-file-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.fv-file-icon i {
+    font-size: 18px;
+    color: #427A43;
+}
+
+.fv-file-info {
+    min-width: 0;
+}
+
+.fv-file-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a2e1a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 420px;
+}
+
+.fv-file-type {
+    font-size: 11.5px;
+    color: #9ca3af;
+    margin-top: 1px;
+}
+
+/* Header action buttons */
+.fv-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.fv-btn-download {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 7px 16px;
+    border-radius: 9px;
+    border: 1.5px solid #dce8dd;
+    color: #427A43;
+    background: transparent;
+    text-decoration: none;
+    transition: all 0.18s;
+    white-space: nowrap;
+}
+
+.fv-btn-download:hover {
+    background: #427A43;
+    border-color: #427A43;
+    color: #fff;
+}
+
+.fv-btn-close {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    border: 1.5px solid #e5e7eb;
+    background: transparent;
+    color: #6b7280;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    transition: all 0.18s;
+    flex-shrink: 0;
+}
+
+.fv-btn-close:hover {
+    background: #fee2e2;
+    border-color: #fca5a5;
+    color: #dc2626;
+}
+
+/* Loading indicator */
+.fv-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 32px 20px;
+    font-size: 13.5px;
+    color: #6b7280;
+    flex-shrink: 0;
+}
+
+.fv-spinner {
+    width: 22px;
+    height: 22px;
+    border: 3px solid #e5e7eb;
+    border-top-color: #427A43;
+    border-radius: 50%;
+    animation: fvSpin 0.7s linear infinite;
+}
+
+@keyframes fvSpin {
+    to { transform: rotate(360deg); }
+}
+
+/* iframe wrapper */
+.fv-frame-wrap {
+    flex: 1;
+    overflow: hidden;
+    background: #f3f4f6;
+    min-height: 0;
+}
+
+.fv-frame-wrap iframe {
+    width: 100%;
+    height: 100%;
+    min-height: 560px;
+    border: none;
+    display: block;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+    .myapplication-page .myapp-card-body {
+        flex-wrap: wrap;
+    }
+
+    .myapplication-page .myapp-card-right {
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+        justify-content: space-between;
+        padding-top: 0;
+    }
+
+    .myapplication-page .myapp-search-input {
+        width: 160px;
+    }
+
+    .myapplication-page .myapp-panel-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .fv-dialog {
+        max-height: 95vh;
+        border-radius: 14px;
+    }
+
+    .fv-file-name {
+        max-width: 180px;
+    }
+
+    .fv-btn-download span {
+        display: none;
     }
 }
 
-@media (max-width: 576px) {
-    .myapplication-page .applications-grid {
-        grid-template-columns: 1fr;
+@media (max-width: 480px) {
+    .myapplication-page .myapp-filter-row {
+        padding: 10px 16px;
+    }
+
+    .myapplication-page .myapp-cards-list {
+        padding: 12px 14px;
+    }
+
+    .fv-overlay {
+        padding: 10px;
     }
 }
 

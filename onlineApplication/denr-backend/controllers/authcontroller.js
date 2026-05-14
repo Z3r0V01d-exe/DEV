@@ -10,7 +10,6 @@ exports.registerApplicant = async (req, res) => {
 
         const { firstName, lastName, email, password, contact } = req.body;
 
-        // Validate input
         if (!firstName || !lastName || !email || !password || !contact) {
             return res.status(400).json({
                 success: false,
@@ -18,7 +17,6 @@ exports.registerApplicant = async (req, res) => {
             });
         }
 
-        // Check if email exists
         const existing = await Applicant.findOne({ email });
 
         if (existing) {
@@ -28,10 +26,8 @@ exports.registerApplicant = async (req, res) => {
             });
         }
 
-        // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Create applicant
         const newApplicant = new Applicant({
             firstName,
             lastName,
@@ -48,16 +44,10 @@ exports.registerApplicant = async (req, res) => {
         });
 
     } catch (err) {
-
         console.error(err);
-
-        res.status(500).json({
-            success: false,
-            message: "Server error"
-        });
+        res.status(500).json({ success: false, message: "Server error" });
     }
 };
-
 
 
 // ==============================
@@ -79,7 +69,6 @@ exports.login = async (req, res) => {
         let user = await Admin.findOne({ email });
         let role = "admin";
 
-        // If not admin, check applicant
         if (!user) {
             user = await Applicant.findOne({ email });
             role = "applicant";
@@ -92,7 +81,6 @@ exports.login = async (req, res) => {
             });
         }
 
-        // Check password
         const validPassword = await bcrypt.compare(password, user.password);
 
         if (!validPassword) {
@@ -102,24 +90,19 @@ exports.login = async (req, res) => {
             });
         }
 
-        // Send clean response (no password)
         res.json({
-            success: true,
-            message: "Login successful",
-            role: role,
-            userId: user._id,
-            name: user.firstName
+            success:     true,
+            message:     "Login successful",
+            role:        role,
+            userId:      user._id,
+            // ── Explicit applicantId so frontend can store it ──────────────
+            applicantId: role === "applicant" ? user._id : null,
+            name:        user.firstName
         });
 
     } catch (err) {
-
         console.error(err);
-
-        res.status(500).json({
-            success: false,
-            message: "Server error"
-        });
-
+        res.status(500).json({ success: false, message: "Server error" });
     }
 
 };

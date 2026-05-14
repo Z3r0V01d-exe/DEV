@@ -30,7 +30,17 @@ const ApplicationSchema = new mongoose.Schema({
     vacancy: {
         type: mongoose.Schema.Types.ObjectId,
         ref:  "Vacancy",
-        required: true
+        required: false  // ← Allow null if vacancy is deleted
+    },
+
+    // ── Vacancy Details (Backup) ──────────────────────────────────────────
+    // Stored here so applications remain visible even if vacancy is deleted
+    vacancySnapshot: {
+        positionTitle: String,
+        department:    String,
+        office:        String,
+        salary:        String,
+        requirements:  String
     },
 
     // ── Personal Information ───────────────────────────────────────────────
