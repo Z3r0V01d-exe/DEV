@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Upload Tester</title>
+    <style>
+        body { font-family: monospace; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }
+        h1 { color: #333; }
+        .form-group { margin: 20px 0; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input { width: 100%; padding: 10px; box-sizing: border-box; }
+        button { background: #4CAF50; color: white; padding: 10px 20px; border: none; cursor: pointer; border-radius: 4px; }
+        button:hover { background: #45a049; }
+        .log { 
+            background: #1e1e1e; 
+            color: #00ff00; 
+            padding: 15px; 
+            border-radius: 4px; 
+            height: 300px; 
+            overflow-y: auto; 
+            margin-top: 20px;
+            font-size: 12px;
+        }
+        .success { color: #00ff00; }
+        .error { color: #ff0000; }
+        .info { color: #00ccff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📤 File Upload Tester</h1>
+        <p>Test the file upload pipeline with detailed logging.</p>
+        
+        <div class="form-group">
+            <label>Applicant ID (required)</label>
+            <input id="applicantId" type="text" placeholder="Enter applicant ID from localStorage" value="">
+        </div>
+
+        <div class="form-group">
+            <label>Resume (PDF)</label>
+            <input id="resume" type="file" accept=".pdf">
+        </div>
+
+        <div class="form-group">
+            <label>Cover Letter (PDF) - Optional</label>
+            <input id="coverLetter" type="file" accept=".pdf">
+        </div>
+
+        <div class="form-group">
+            <label>Endorsement Letter (PDF) - Optional</label>
+            <input id="endorsementLetter" type="file" accept=".pdf">
+        </div>
+
+        <button onclick="testUpload()">🚀 Test Upload</button>
+        <button onclick="clearLog()">🗑️ Clear Log</button>
+        <button onclick="checkDebugEndpoint()">🔍 Check Cloudinary Files</button>
+
+        <div class="log" id="log"></div>
+    </div>
+
+    <script>
+        const log = (msg, type = 'info') => {
+            const logEl = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            const color = type === 'success' ? 'green' : type === 'error' ? 'red' : 'cyan';
+            logEl.innerHTML += `<div style="color: ${color};">[${timestamp}] ${msg}</div>`;
+            logEl.scrollTop = logEl.scrollHeight;
+        };
+
+        const clearLog = () => {
+            document.getElementById('log').innerHTML = '';
+        };
+
+        async function testUpload() {
+            clearLog();
+            log('🔄 Starting upload test...', 'info');
+            
+            const applicantId = document.getElementById('applicantId').value;
+            if (!applicantId) {
+                log('❌ Please enter applicant ID', 'error');
+                return;
+            }
+
+            const resumeFile = document.getElementById('resume').files[0];
+            const coverLetterFile = document.getElementById('coverLetter').files[0];
+            const endorsementFile = document.getElementById('endorsementLetter').files[0];
+
+            if (!resumeFile) {
+                log('❌ Please select at least a resume', 'error');
+                return;
+            }
+
+            log(`✅ Applicant ID: ${applicantId}`, 'success');
+            log(`📁 Resume: ${resumeFile.name} (${(resumeFile.size / 1024 / 1024).toFixed(2)}MB)`, 'info');
+            if (coverLetterFile) log(`📁 Cover Letter: ${coverLetterFile.name}`, 'info');
+            if (endorsementFile) log(`📁 Endorsement: ${endorsementFile.name}`, 'info');
+
+            const formData = new FormData();
+            formData.append('applicant', applicantId);
+            formData.append('positionTitle', 'Test Position');
+            formData.append('department', 'Test Dept');
+            formData.append('office', 'Test Office');
+            formData.append('lastName', 'Test');
+            formData.append('firstName', 'User');
+            formData.append('middleName', '');
+            formData.append('address', 'Test Address');
+            formData.append('birthdate', '1990-01-01');
+            formData.append('age', '34');
+            formData.append('jobType', 'permanent');
+            formData.append('email', 'test@example.com');
+            formData.append('contact', '09123456789');
+            formData.append('education', JSON.stringify([]));
+            formData.append('experience', JSON.stringify([]));
+            formData.append('resume', resumeFile);
+            if (coverLetterFile) formData.append('coverLetter', coverLetterFile);
+            if (endorsementFile) formData.append('endorsementLetter', endorsementFile);
+
+            log('📤 Sending to backend...', 'info');
+            
+            try {
+                const response = await fetch('http://localhost:5000/api/applications/apply', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                log(`📥 Response status: ${response.status}`, response.ok ? 'success' : 'error');
+
+                const result = await response.json();
+                
+                if (response.ok && result.success) {
+                    log('✅ Upload successful!', 'success');
+                    log(`📋 Application ID: ${result.data._id}`, 'success');
+                } else {
+                    log(`❌ Error: ${result.message || 'Unknown error'}`, 'error');
+                }
+
+                // Log full response for debugging
+                log('📊 Full Response:', 'info');
+                log(JSON.stringify(result, null, 2), 'info');
+
+            } catch (err) {
+                log(`❌ Network error: ${err.message}`, 'error');
+            }
+        }
+
+        async function checkDebugEndpoint() {
+            clearLog();
+            log('🔍 Checking Cloudinary files...', 'info');
+
+            try {
+                const response = await fetch('http://localhost:5000/api/debug/cloudinary-files');
+                const result = await response.json();
+
+                if (result.files && result.files.length > 0) {
+                    log(`✅ Found ${result.files.length} files in Cloudinary:`, 'success');
+                    result.files.forEach((file, i) => {
+                        log(`  ${i + 1}. ${file}`, 'info');
+                    });
+                } else {
+                    log('⚠️ No files found in Cloudinary', 'error');
+                }
+            } catch (err) {
+                log(`❌ Error checking files: ${err.message}`, 'error');
+            }
+        }
+
+        // Auto-populate applicant ID from localStorage if available
+        window.addEventListener('load', () => {
+            const userId = localStorage.getItem('userId');
+            if (userId) {
+                document.getElementById('applicantId').value = userId;
+                log(`✅ Loaded applicant ID from localStorage: ${userId}`, 'success');
+            }
+        });
+    </script>
+</body>
+</html>

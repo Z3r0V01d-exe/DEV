@@ -872,8 +872,8 @@ body {
     inset: 0;
     z-index: 99999;
     background: rgba(0, 0, 0, 0.72);
-    backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
     align-items: center;
     justify-content: center;
     padding: 20px;

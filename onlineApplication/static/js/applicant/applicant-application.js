@@ -645,9 +645,17 @@ async function submitApplication() {
         const coverLetterFile       = document.getElementById('coverLetter').files[0];
         const endorsementLetterFile = document.getElementById('endorsementLetter').files[0];
 
+        console.log("📁 Files ready for upload:", {
+            resume: resumeFile ? `${resumeFile.name} (${(resumeFile.size / 1024 / 1024).toFixed(2)}MB)` : "none",
+            coverLetter: coverLetterFile ? `${coverLetterFile.name} (${(coverLetterFile.size / 1024 / 1024).toFixed(2)}MB)` : "none",
+            endorsement: endorsementLetterFile ? `${endorsementLetterFile.name} (${(endorsementLetterFile.size / 1024 / 1024).toFixed(2)}MB)` : "none"
+        })
+
         if (resumeFile)            formData.append('resume',            resumeFile);
         if (coverLetterFile)       formData.append('coverLetter',       coverLetterFile);
         if (endorsementLetterFile) formData.append('endorsementLetter', endorsementLetterFile);
+
+        console.log("📤 Submitting application to backend...")
 
         // ── Send to backend ───────────────────────────────────────────────────
         const response = await fetch('http://localhost:5000/api/applications/apply', {
@@ -657,7 +665,15 @@ async function submitApplication() {
             //       with the correct multipart boundary for FormData
         });
 
+        console.log("📥 Backend response status:", response.status)
+
         const result = await response.json();
+
+        console.log("✅ Backend response:", {
+            success: result.success,
+            message: result.message,
+            hasData: !!result.data
+        })
 
         if (!response.ok || !result.success) {
             throw new Error(result.message || 'Submission failed. Please try again.');
