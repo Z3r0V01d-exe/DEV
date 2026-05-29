@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Applicants - DENR</title>
+    <title>Reports & Analytics - DENR</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/admin.css">
 </head>
 <body class="report-page">
@@ -15,8 +14,6 @@
     <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top gov-navbar">
         <div class="container">
-
-            <!-- Logo -->
             <a class="navbar-brand d-flex align-items-center gap-2" href="#">
                 <i class="bi bi-tree-fill fs-4"></i>
                 <div class="d-flex flex-column lh-sm">
@@ -24,26 +21,22 @@
                     <small>Department of Environment and Natural Resources</small>
                 </div>
             </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#navbarContent">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             <div class="collapse navbar-collapse" id="navbarContent">
                 <ul class="navbar-nav ms-auto align-items-lg-center">
-
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="goAdminDashboard()">
                             <i class="bi bi-house-door"></i> Dashboard
                         </a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="goManageVacancies()">
                             <i class="bi bi-briefcase"></i> Vacancies
                         </a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="goApplicants()">
                             <i class="bi bi-people-fill"></i> Applicants
@@ -54,17 +47,12 @@
                             <i class="bi bi-bar-chart-fill"></i> Reports
                         </a>
                     </li>
-
-                    <!-- Account Dropdown -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center gap-1"
-                        href="#"
-                        role="button"
-                        data-bs-toggle="dropdown">
+                           href="#" role="button" data-bs-toggle="dropdown">
                             <i class="bi bi-person-circle fs-5"></i>
                             <span id="navUserName"></span>
                         </a>
-
                         <ul class="dropdown-menu dropdown-menu-end shadow" id="userMenu">
                             <li>
                                 <a class="dropdown-item" href="#" onclick="adminProfile()">
@@ -78,85 +66,141 @@
                             </li>
                         </ul>
                     </li>
-
                 </ul>
             </div>
         </div>
     </nav>
 
     <!-- MAIN CONTENT -->
-    <main class="container mb-5">
-        <!-- Page Header -->
-        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-            <h1 class="fw-bold">Reports & Analytics</h1>
-            <button class="btn btn-success" onclick="exportReport()">
-                <i class="bi bi-download"></i> Export Report
-            </button>
+    <main class="container rpt-container">
+
+        <!-- ── PAGE HEADER ── -->
+        <div class="rpt-page-header">
+            <div class="rpt-header-left">
+                <div class="rpt-eyebrow">
+                    <i class="bi bi-bar-chart-fill me-1"></i> DENR Recruitment Analytics
+                </div>
+                <h1 class="rpt-title">Reports & Analytics</h1>
+                <p class="rpt-sub">
+                    Comprehensive overview of recruitment activity and application statistics.
+                </p>
+            </div>
+            <div class="rpt-header-right">
+                <div class="rpt-generated">
+                    <i class="bi bi-clock-history me-1"></i>
+                    Generated: <span id="rptGeneratedDate">—</span>
+                </div>
+                <button class="rpt-export-btn" onclick="exportReport()" id="exportBtn">
+                    <i class="bi bi-file-earmark-excel-fill me-2"></i>
+                    Export to Excel
+                </button>
+            </div>
         </div>
-        <!-- REPORT SUMMARY -->
+
+        <!-- ── SUMMARY STAT CARDS ── -->
+        <div class="row g-3 mb-4">
+
+            <div class="col-xl-3 col-md-6">
+                <div class="rpt-stat-card rpt-stat-total" style="animation-delay:0ms;">
+                    <div class="rpt-stat-top">
+                        <div class="rpt-stat-icon">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                        <div class="rpt-stat-trend" id="trendTotal"></div>
+                    </div>
+                    <div class="rpt-stat-num" id="reportTotalApplicants">—</div>
+                    <div class="rpt-stat-lbl">Total Applicants</div>
+                    <div class="rpt-stat-bar rpt-bar-total"></div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6">
+                <div class="rpt-stat-card rpt-stat-approved" style="animation-delay:80ms;">
+                    <div class="rpt-stat-top">
+                        <div class="rpt-stat-icon">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                    </div>
+                    <div class="rpt-stat-num" id="reportApproved">—</div>
+                    <div class="rpt-stat-lbl">Approved</div>
+                    <div class="rpt-stat-bar rpt-bar-approved"></div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6">
+                <div class="rpt-stat-card rpt-stat-pending" style="animation-delay:160ms;">
+                    <div class="rpt-stat-top">
+                        <div class="rpt-stat-icon">
+                            <i class="bi bi-hourglass-split"></i>
+                        </div>
+                    </div>
+                    <div class="rpt-stat-num" id="reportPending">—</div>
+                    <div class="rpt-stat-lbl">Pending Review</div>
+                    <div class="rpt-stat-bar rpt-bar-pending"></div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6">
+                <div class="rpt-stat-card rpt-stat-rejected" style="animation-delay:240ms;">
+                    <div class="rpt-stat-top">
+                        <div class="rpt-stat-icon">
+                            <i class="bi bi-x-circle-fill"></i>
+                        </div>
+                    </div>
+                    <div class="rpt-stat-num" id="reportRejected">—</div>
+                    <div class="rpt-stat-lbl">Rejected</div>
+                    <div class="rpt-stat-bar rpt-bar-rejected"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ── STATUS BREAKDOWN ── -->
+        <div class="rpt-panel mb-4" style="animation-delay:100ms;">
+            <div class="rpt-panel-header">
+                <span class="rpt-panel-title">
+                    <i class="bi bi-pie-chart-fill me-2"></i>Application Status Breakdown
+                </span>
+            </div>
+            <div class="rpt-panel-body">
+                <div class="rpt-breakdown-row" id="rptBreakdownRow">
+                    <!-- Injected by JS -->
+                    <div class="rpt-loading-row">
+                        <div class="rpt-spinner"></div>
+                        <span>Loading data...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── POSITION + OFFICE TABLES ── -->
         <div class="row g-4 mb-4">
-            <div class="col-md-3">
-                <div class="card report-card text-center shadow-sm">
-                    <div class="card-body">
-                        <i class="bi bi-people fs-2 text-success"></i>
-                        <h4 id="reportTotalApplicants">0</h4>
-                        <small>Total Applicants</small>
-                    </div>
-                </div>
-            </div>
 
-            <div class="col-md-3">
-                <div class="card report-card text-center shadow-sm">
-                    <div class="card-body">
-                        <i class="bi bi-check-circle fs-2 text-success"></i>
-                        <h4 id="reportApproved">0</h4>
-                        <small>Approved</small>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="card report-card text-center shadow-sm">
-                    <div class="card-body">
-                        <i class="bi bi-hourglass-split fs-2 text-warning"></i>
-                        <h4 id="reportPending">0</h4>
-                        <small>Pending</small>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="card report-card text-center shadow-sm">
-                    <div class="card-body">
-                        <i class="bi bi-x-circle fs-2 text-danger"></i>
-                        <h4 id="reportRejected">0</h4>
-                        <small>Rejected</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- REPORT TABLES -->
-        <div class="row g-4">
             <!-- Applications by Position -->
             <div class="col-lg-6">
-
-                <div class="card shadow-sm">
-                    <div class="card-header fw-semibold">
-                        Applications per Position
+                <div class="rpt-panel" style="animation-delay:150ms;">
+                    <div class="rpt-panel-header">
+                        <span class="rpt-panel-title">
+                            <i class="bi bi-briefcase-fill me-2"></i>Applications per Position
+                        </span>
+                        <span class="rpt-count-chip" id="rptPositionCount"></span>
                     </div>
-                    <div class="card-body">
-                        <table class="table table-hover">
+                    <div class="rpt-panel-body p-0">
+                        <table class="table rpt-table mb-0">
                             <thead>
                                 <tr>
-                                    <th>Position</th>
-                                    <th>Total Applicants</th>
+                                    <th>Position Title</th>
+                                    <th class="text-center">Applicants</th>
+                                    <th>Distribution</th>
                                 </tr>
                             </thead>
                             <tbody id="reportPositionTable">
                                 <tr>
-                                    <td colspan="2" class="text-center text-muted">
-                                        No report data yet.
+                                    <td colspan="3" class="text-center py-4 text-muted">
+                                        <div class="rpt-loading-row">
+                                            <div class="rpt-spinner"></div>
+                                            <span>Loading...</span>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -167,23 +211,29 @@
 
             <!-- Applications by Office -->
             <div class="col-lg-6">
-                <div class="card shadow-sm">
-                    <div class="card-header fw-semibold">
-                        Applications per Office
+                <div class="rpt-panel" style="animation-delay:200ms;">
+                    <div class="rpt-panel-header">
+                        <span class="rpt-panel-title">
+                            <i class="bi bi-building me-2"></i>Applications per Office
+                        </span>
+                        <span class="rpt-count-chip" id="rptOfficeCount"></span>
                     </div>
-                    <div class="card-body">
-                        <table class="table table-hover">
+                    <div class="rpt-panel-body p-0">
+                        <table class="table rpt-table mb-0">
                             <thead>
                                 <tr>
-                                    <th>Office</th>
-                                    <th>Total Applicants</th>
+                                    <th>Office / Department</th>
+                                    <th class="text-center">Applicants</th>
+                                    <th>Distribution</th>
                                 </tr>
                             </thead>
-
                             <tbody id="reportOfficeTable">
                                 <tr>
-                                    <td colspan="2" class="text-center text-muted">
-                                        No report data yet.
+                                    <td colspan="3" class="text-center py-4 text-muted">
+                                        <div class="rpt-loading-row">
+                                            <div class="rpt-spinner"></div>
+                                            <span>Loading...</span>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -191,43 +241,50 @@
                     </div>
                 </div>
             </div>
+
         </div>
 
-
-        <!-- RECENT ACTIVITY -->
-        <div class="card shadow-sm mt-4">
-            <div class="card-header fw-semibold">
-                Recent Application Activity
+        <!-- ── RECENT ACTIVITY ── -->
+        <div class="rpt-panel mb-4" style="animation-delay:250ms;">
+            <div class="rpt-panel-header">
+                <span class="rpt-panel-title">
+                    <i class="bi bi-activity me-2"></i>Recent Application Activity
+                </span>
+                <span class="rpt-count-chip" id="rptActivityCount"></span>
             </div>
-            <div class="card-body">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Applicant</th>
-                            <th>Position</th>
-                            <th>Office</th>
-                            <th>Status</th>
-                            <th>Date</th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="recentActivityTable">
-                        <tr>
-                            <td colspan="5" class="text-center text-muted">
-                                No activity yet.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="rpt-panel-body p-0">
+                <div class="table-responsive">
+                    <table class="table rpt-table rpt-activity-table mb-0">
+                        <thead>
+                            <tr>
+                                <th>Applicant</th>
+                                <th>Position</th>
+                                <th>Office</th>
+                                <th>Status</th>
+                                <th>Date Applied</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentActivityTable">
+                            <tr>
+                                <td colspan="5" class="text-center py-4 text-muted">
+                                    <div class="rpt-loading-row">
+                                        <div class="rpt-spinner"></div>
+                                        <span>Loading activity...</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
+
     </main>
-    
 
-    <!-- Bootstrap JS -->
+    <!-- Bootstrap JS + SheetJS for Excel export -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="../js/admin/admin-report.js"></script>
     <script src="../js/admin/admin-auth.js"></script>
-
 </body>
 </html>
