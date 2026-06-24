@@ -1064,8 +1064,8 @@ body.vacancies-page {
     inset: 0;
     z-index: 99990;
     background: rgba(0,0,0,0.55);
-    backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
     align-items: flex-start;
     justify-content: flex-end;
     opacity: 0;
@@ -1466,8 +1466,8 @@ body.vacancies-page {
     inset: 0;
     z-index: 99999;
     background: rgba(0,0,0,0.72);
-    backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
     align-items: center;
     justify-content: center;
     padding: 20px;
@@ -2074,4 +2074,671 @@ body.vacancies-page {
 
     .report-page .rpt-activity-table thead th:nth-child(3),
     .report-page .rpt-activity-table tbody td:nth-child(3) { display: none; }
+}
+
+/* ============================= */
+/* ADMIN PROFILE PAGE            */
+/* Scoped to .admin-profile-page */
+/* ============================= */
+
+.admin-profile-page {
+    font-family: 'DM Sans', sans-serif;
+    background: #f0f4f8;
+    min-height: 100vh;
+    padding-bottom: 60px;
+}
+
+.admin-profile-page .prof-container {
+    padding-top: 110px;
+}
+
+/* ── Page header ─────────────────────────────────────────────── */
+
+.admin-profile-page .prof-page-header {
+    margin-bottom: 28px;
+}
+
+.admin-profile-page .prof-eyebrow {
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #427A43;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+}
+
+.admin-profile-page .prof-title {
+    font-family: 'Lora', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: #1a3d1c;
+    margin: 0 0 5px;
+}
+
+.admin-profile-page .prof-sub {
+    font-size: 13.5px;
+    color: #6b7280;
+    margin: 0;
+}
+
+/* ── Shared card base ────────────────────────────────────────── */
+
+.admin-profile-page .prof-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 3px 16px rgba(0,0,0,0.07);
+    overflow: hidden;
+}
+
+/* ── Identity card (left) ────────────────────────────────────── */
+
+.admin-profile-page .prof-identity-card {
+    padding: 32px 24px 24px;
+    text-align: center;
+}
+
+/* Avatar */
+.admin-profile-page .prof-avatar-wrap {
+    position: relative;
+    width: 88px;
+    height: 88px;
+    margin: 0 auto 18px;
+}
+
+.admin-profile-page .prof-avatar {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1a6b1e, #427A43);
+    color: #fff;
+    font-size: 26px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    letter-spacing: 0.05em;
+}
+
+.admin-profile-page .prof-avatar-ring {
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    background: linear-gradient(135deg, #22c55e, #427A43) border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+}
+
+.admin-profile-page .prof-name {
+    font-family: 'Lora', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a2e1a;
+    margin-bottom: 8px;
+}
+
+.admin-profile-page .prof-role-badge {
+    display: inline-flex;
+    align-items: center;
+    background: #dcfce7;
+    color: #166534;
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 6px;
+}
+
+.admin-profile-page .prof-org {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-bottom: 6px;
+}
+
+.admin-profile-page .prof-divider {
+    height: 1px;
+    background: #f0f4f8;
+    margin: 18px 0;
+}
+
+/* Info list rows */
+.admin-profile-page .prof-info-list {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.admin-profile-page .prof-info-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.admin-profile-page .prof-info-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: #f0f4f8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #427A43;
+    font-size: 14px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.admin-profile-page .prof-info-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+}
+
+.admin-profile-page .prof-info-label {
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #9ca3af;
+}
+
+.admin-profile-page .prof-info-value {
+    font-size: 13.5px;
+    color: #1a2e1a;
+    font-weight: 500;
+    word-break: break-word;
+}
+
+/* ── Right panel cards ───────────────────────────────────────── */
+
+.admin-profile-page .prof-card-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 22px;
+    border-bottom: 1px solid #f0f4f8;
+}
+
+.admin-profile-page .prof-card-header-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #16a34a;
+    font-size: 17px;
+    flex-shrink: 0;
+}
+
+.admin-profile-page .prof-card-header-icon-sec {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    color: #d97706;
+}
+
+.admin-profile-page .prof-card-header-icon-log {
+    background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+    color: #0284c7;
+}
+
+.admin-profile-page .prof-card-title {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: #1a2e1a;
+}
+
+.admin-profile-page .prof-card-sub {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-top: 2px;
+}
+
+.admin-profile-page .prof-card-body {
+    padding: 22px;
+}
+
+/* ── Form fields ─────────────────────────────────────────────── */
+
+.admin-profile-page .prof-field-group {
+    margin-bottom: 20px;
+}
+
+.admin-profile-page .prof-field-group:last-of-type {
+    margin-bottom: 0;
+}
+
+.admin-profile-page .prof-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #6b7280;
+    margin-bottom: 7px;
+    display: block;
+}
+
+/* Read-only field */
+.admin-profile-page .prof-readonly-field {
+    display: flex;
+    align-items: center;
+    background: #f5f7fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 14px;
+    color: #374151;
+    gap: 6px;
+}
+
+.admin-profile-page .prof-locked-badge {
+    margin-left: auto;
+    font-size: 10.5px;
+    font-weight: 600;
+    background: #f3f4f6;
+    color: #9ca3af;
+    border-radius: 6px;
+    padding: 2px 8px;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.admin-profile-page .prof-hint {
+    font-size: 11.5px;
+    color: #9ca3af;
+    margin-top: 5px;
+    display: block;
+}
+
+/* Email row */
+.admin-profile-page .prof-email-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.admin-profile-page .prof-email-display {
+    flex: 1;
+}
+
+.admin-profile-page .prof-change-email-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 9px 16px;
+    border-radius: 9px;
+    border: 1.5px solid #dce8dd;
+    background: transparent;
+    color: #427A43;
+    cursor: pointer;
+    transition: all 0.18s;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.admin-profile-page .prof-change-email-btn:hover {
+    background: #427A43;
+    border-color: #427A43;
+    color: #fff;
+}
+
+/* Text input */
+.admin-profile-page .prof-input {
+    width: 100%;
+    background: #fff;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 14px;
+    color: #1a2e1a;
+    font-family: 'DM Sans', sans-serif;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.admin-profile-page .prof-input:focus {
+    outline: none;
+    border-color: #427A43;
+    box-shadow: 0 0 0 3px rgba(66,122,67,0.1);
+}
+
+/* Select */
+.admin-profile-page .prof-select {
+    width: 100%;
+    background: #fff;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 14px;
+    color: #1a2e1a;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    appearance: auto;
+}
+
+.admin-profile-page .prof-select:focus {
+    outline: none;
+    border-color: #427A43;
+    box-shadow: 0 0 0 3px rgba(66,122,67,0.1);
+}
+
+/* Password wrap */
+.admin-profile-page .prof-password-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.admin-profile-page .prof-password-wrap .prof-input {
+    padding-right: 44px;
+}
+
+.admin-profile-page .prof-eye-btn {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    color: #9ca3af;
+    cursor: pointer;
+    font-size: 15px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    transition: color 0.15s;
+}
+
+.admin-profile-page .prof-eye-btn:hover { color: #427A43; }
+
+/* Password strength */
+.admin-profile-page .prof-strength-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.admin-profile-page .prof-strength-bar {
+    flex: 1;
+    height: 5px;
+    background: #f0f4f8;
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.admin-profile-page .prof-strength-fill {
+    height: 100%;
+    border-radius: 99px;
+    transition: width 0.3s ease, background 0.3s ease;
+    width: 0%;
+}
+
+.admin-profile-page .prof-strength-label {
+    font-size: 11.5px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* ── Save / action buttons ───────────────────────────────────── */
+
+.admin-profile-page .prof-card-footer-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.admin-profile-page .prof-btn-save {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, #1a6b1e, #2e7d32);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 24px;
+    font-size: 13.5px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(46,125,50,0.3);
+    transition: all 0.2s;
+}
+
+.admin-profile-page .prof-btn-save:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(46,125,50,0.4);
+}
+
+.admin-profile-page .prof-btn-save:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+    transform: none;
+}
+
+.admin-profile-page .prof-btn-security {
+    background: linear-gradient(135deg, #b45309, #d97706);
+    box-shadow: 0 4px 14px rgba(217,119,6,0.3);
+}
+
+.admin-profile-page .prof-btn-security:hover {
+    box-shadow: 0 6px 20px rgba(217,119,6,0.4);
+}
+
+.admin-profile-page .prof-btn-spinner {
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    border: 2px solid rgba(255,255,255,0.35);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: profSpin 0.7s linear infinite;
+}
+
+@keyframes profSpin { to { transform: rotate(360deg); } }
+
+/* ── Activity table ──────────────────────────────────────────── */
+
+.admin-profile-page .prof-activity-table {
+    font-size: 13.5px;
+    margin: 0;
+}
+
+.admin-profile-page .prof-activity-table thead th {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #6b7280;
+    background: #f9fafb;
+    border-bottom: 1px solid #f0f4f8;
+    padding: 12px 20px;
+    white-space: nowrap;
+}
+
+.admin-profile-page .prof-activity-table tbody td {
+    padding: 12px 20px;
+    vertical-align: middle;
+    border-bottom: 1px solid #f5f7fa;
+    color: #374151;
+}
+
+.admin-profile-page .prof-activity-row {
+    transition: background 0.15s;
+    animation: profRowIn 0.3s ease both;
+}
+
+@keyframes profRowIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.admin-profile-page .prof-activity-row:hover td { background: #f8faf8; }
+.admin-profile-page .prof-activity-row:last-child td { border-bottom: none; }
+
+.admin-profile-page .prof-activity-action {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    color: #1a2e1a;
+}
+
+.admin-profile-page .prof-activity-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #427A43;
+    flex-shrink: 0;
+}
+
+.admin-profile-page .prof-activity-date {
+    font-size: 12.5px;
+    color: #9ca3af;
+    white-space: nowrap;
+}
+
+/* ── Inline toast ────────────────────────────────────────────── */
+
+.admin-profile-page .prof-inline-toast {
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* ── Change Email Modal ──────────────────────────────────────── */
+
+.admin-profile-page .prof-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(0,0,0,0.5);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.admin-profile-page .prof-modal {
+    background: #fff;
+    border-radius: 18px;
+    width: 100%;
+    max-width: 460px;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.3);
+    animation: profModalIn 0.25s ease both;
+}
+
+@keyframes profModalIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.admin-profile-page .prof-modal-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px 22px;
+    background: linear-gradient(135deg, #0b2e12, #1a4d1e);
+}
+
+.admin-profile-page .prof-modal-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #a7f3d0;
+    font-size: 17px;
+    flex-shrink: 0;
+}
+
+.admin-profile-page .prof-modal-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.admin-profile-page .prof-modal-sub {
+    font-size: 12px;
+    color: rgba(167,243,208,0.7);
+    margin-top: 2px;
+}
+
+.admin-profile-page .prof-modal-close {
+    margin-left: auto;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.7);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: all 0.18s;
+    flex-shrink: 0;
+}
+
+.admin-profile-page .prof-modal-close:hover {
+    background: rgba(239,68,68,0.3);
+    border-color: rgba(239,68,68,0.5);
+    color: #fff;
+}
+
+.admin-profile-page .prof-modal-body {
+    padding: 22px;
+}
+
+.admin-profile-page .prof-modal-footer {
+    padding: 0 22px 22px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.admin-profile-page .prof-btn-cancel {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 9px 20px;
+    font-size: 13.5px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.18s;
+}
+
+.admin-profile-page .prof-btn-cancel:hover {
+    border-color: #9ca3af;
+    color: #374151;
+}
+
+/* ── Responsive ──────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+    .admin-profile-page .prof-container { padding-top: 90px; }
+    .admin-profile-page .prof-title     { font-size: 20px; }
+    .admin-profile-page .prof-email-row { flex-direction: column; align-items: stretch; }
+    .admin-profile-page .prof-change-email-btn { width: 100%; justify-content: center; }
 }

@@ -90,6 +90,10 @@ exports.login = async (req, res) => {
             });
         }
 
+        if (role === "admin") {
+            await Admin.findByIdAndUpdate(user._id, { lastLogin: new Date() });
+        }
+
         res.json({
             success:     true,
             message:     "Login successful",

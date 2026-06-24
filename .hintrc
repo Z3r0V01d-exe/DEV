@@ -23,7 +23,11 @@
       "default",
       {
         "ignore": [
-          "user-select"
+          "user-select",
+          "scrollbar-width",
+          "scrollbar-width: thin",
+          "scrollbar-color",
+          "-webkit-mask"
         ]
       }
     ]

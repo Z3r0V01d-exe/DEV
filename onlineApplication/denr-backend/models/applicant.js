@@ -2,37 +2,14 @@ const mongoose = require("mongoose")
 
 const ApplicantSchema = new mongoose.Schema({
 
-    firstName:{
-        type:String,
-        required:true
-    },
+    firstName: { type: String, required: true },
+    lastName:  { type: String, required: true },
+    email:     { type: String, required: true, unique: true },
+    password:  { type: String, required: true },
+    contact:   { type: String, required: true },
+    address:   { type: String, default: "" },
 
-    lastName:{
-        type:String,
-        required:true
-    },
-
-    email:{
-        type:String,
-        required:true,
-        unique:true
-    },
-
-    password:{
-        type:String,
-        required:true
-    },
-
-    contact:{
-        type:String,
-        required:true
-    },
-
-    createdAt:{
-        type:Date,
-        default:Date.now
-    }
-
+    createdAt: { type: Date, default: Date.now }
 })
 
 module.exports = mongoose.model("Applicant", ApplicantSchema)

@@ -2,21 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Applicants - DENR</title>
+    <title>Admin Profile - DENR</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/admin.css">
 </head>
-<body class="applicants-page">
+<body class="admin-profile-page">
 
     <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top gov-navbar">
         <div class="container">
-
-            <!-- Logo -->
             <a class="navbar-brand d-flex align-items-center gap-2" href="#">
                 <i class="bi bi-tree-fill fs-4"></i>
                 <div class="d-flex flex-column lh-sm">
@@ -24,50 +21,41 @@
                     <small>Department of Environment and Natural Resources</small>
                 </div>
             </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#navbarContent">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             <div class="collapse navbar-collapse" id="navbarContent">
                 <ul class="navbar-nav ms-auto align-items-lg-center">
-
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="goAdminDashboard()">
                             <i class="bi bi-house-door"></i> Dashboard
                         </a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="goManageVacancies()">
                             <i class="bi bi-briefcase"></i> Vacancies
                         </a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="goApplicants()">
                             <i class="bi bi-people-fill"></i> Applicants
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#" onclick="goReports()">
+                        <a class="nav-link" href="#" onclick="goReports()">
                             <i class="bi bi-bar-chart-fill"></i> Reports
                         </a>
                     </li>
-
-                    <!-- Account Dropdown -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center gap-1"
-                        href="#"
-                        role="button"
-                        data-bs-toggle="dropdown">
+                           href="#" role="button" data-bs-toggle="dropdown">
                             <i class="bi bi-person-circle fs-5"></i>
                             <span id="navUserName"></span>
                         </a>
-
                         <ul class="dropdown-menu dropdown-menu-end shadow" id="userMenu">
                             <li>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="#" onclick="adminProfile()">
                                     <i class="bi bi-person-gear"></i> View Profile
                                 </a>
                             </li>
@@ -78,165 +66,296 @@
                             </li>
                         </ul>
                     </li>
-
                 </ul>
             </div>
         </div>
     </nav>
 
     <!-- MAIN CONTENT -->
-    <main class="container mb-5">
+    <main class="container prof-container">
 
         <!-- PAGE HEADER -->
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="fw-bold">Admin Profile</h1>
+        <div class="prof-page-header">
+            <div>
+                <div class="prof-eyebrow">
+                    <i class="bi bi-person-gear me-1"></i> Account Settings
+                </div>
+                <h1 class="prof-title">Admin Profile</h1>
+                <p class="prof-sub">Manage your account information and security settings.</p>
+            </div>
         </div>
 
         <div class="row g-4">
-            <!-- LEFT PROFILE CARD -->
+
+            <!-- ── LEFT: PROFILE CARD ── -->
             <div class="col-lg-4">
-                <div class="card shadow-sm profile-card">
-                    <div class="card-body text-center">
-                        <i class="bi bi-person-circle profile-avatar"></i>
-                        <h4 id="adminName">Admin Name</h4>
-                        <p class="text-muted mb-1" id="adminRole">
-                            System Administrator
-                        </p>
-                        <small class="text-muted">
-                            DENR Recruitment System
-                        </small>
-                        <hr>
-                        <div class="text-start small">
-                            <p>
-                                <strong>Email:</strong>
-                                <span id="adminEmail">admin@email.com</span>
-                            </p>
-                            <p>
-                                <strong>Office:</strong>
-                                <span id="adminOffice">DENR Region IV-A</span>
-                            </p>
-                            <p>
-                                <strong>Last Login:</strong>
-                                <span id="adminLastLogin">--</span>
-                            </p>
+                <div class="prof-card prof-identity-card">
+
+                    <!-- Avatar -->
+                    <div class="prof-avatar-wrap">
+                        <div class="prof-avatar" id="profAvatarInitials">—</div>
+                        <div class="prof-avatar-ring"></div>
+                    </div>
+
+                    <!-- Name & role -->
+                    <h3 class="prof-name" id="adminName">Loading...</h3>
+                    <div class="prof-role-badge">
+                        <i class="bi bi-shield-check me-1"></i>
+                        System Administrator
+                    </div>
+                    <div class="prof-org">DENR Recruitment System</div>
+
+                    <div class="prof-divider"></div>
+
+                    <!-- Info rows -->
+                    <div class="prof-info-list">
+                        <div class="prof-info-row">
+                            <span class="prof-info-icon"><i class="bi bi-envelope-fill"></i></span>
+                            <div class="prof-info-content">
+                                <span class="prof-info-label">Email</span>
+                                <span class="prof-info-value" id="adminEmail">—</span>
+                            </div>
+                        </div>
+                        <div class="prof-info-row">
+                            <span class="prof-info-icon"><i class="bi bi-building"></i></span>
+                            <div class="prof-info-content">
+                                <span class="prof-info-label">Office</span>
+                                <span class="prof-info-value" id="adminOffice">—</span>
+                            </div>
+                        </div>
+                        <div class="prof-info-row">
+                            <span class="prof-info-icon"><i class="bi bi-clock-history"></i></span>
+                            <div class="prof-info-content">
+                                <span class="prof-info-label">Last Login</span>
+                                <span class="prof-info-value" id="adminLastLogin">—</span>
+                            </div>
                         </div>
                     </div>
+
+                    <!-- Toast slot for profile card feedback -->
+                    <div id="profCardToast" class="prof-inline-toast" style="display:none;"></div>
+
                 </div>
             </div>
 
-            <!-- RIGHT SETTINGS -->
+            <!-- ── RIGHT: SETTINGS ── -->
             <div class="col-lg-8">
-                <!-- ACCOUNT SETTINGS -->
-                <div class="card shadow-sm mb-4">
-                    <div class="card-header fw-semibold">
-                        Account Information
+
+                <!-- Account Information -->
+                <div class="prof-card mb-4">
+                    <div class="prof-card-header">
+                        <div class="prof-card-header-icon">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                        <div>
+                            <div class="prof-card-title">Account Information</div>
+                            <div class="prof-card-sub">Update your office assignment</div>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="form-label">First Name</label>
-                                <input class="form-control" id="adminFirstName">
+                    <div class="prof-card-body">
+
+                        <!-- Read-only: Name -->
+                        <div class="prof-field-group">
+                            <label class="prof-label">Full Name</label>
+                            <div class="prof-readonly-field">
+                                <i class="bi bi-person me-2 text-muted"></i>
+                                <span id="profileFullName">—</span>
+                                <span class="prof-locked-badge">
+                                    <i class="bi bi-lock-fill me-1"></i>Fixed
+                                </span>
                             </div>
+                            <span class="prof-hint">Name cannot be changed. Contact the system administrator.</span>
+                        </div>
 
-                            <div class="col-md-6">
-                                <label class="form-label">Last Name</label>
-                                <input class="form-control" id="adminLastName">
-                            </div>
-
-                            <div class="col-md-6">
-                                <label class="form-label">Email</label>
-                                <input class="form-control" id="adminEmailEdit">
-                            </div>
-
-                            <div class="col-md-6">
-                                <label class="form-label">Office</label>
-
-                                <select class="form-select" id="adminOfficeEdit">
-                                    <option>DENR Central Office</option>
-                                    <option>DENR Region I</option>
-                                    <option>DENR Region II</option>
-                                    <option>DENR Region III</option>
-                                    <option>DENR Region IV-A</option>
-                                    <option>DENR Region V</option>
-                                </select>
+                        <!-- Email display + change button -->
+                        <div class="prof-field-group">
+                            <label class="prof-label">Email Address</label>
+                            <div class="prof-email-row">
+                                <div class="prof-readonly-field prof-email-display">
+                                    <i class="bi bi-envelope me-2 text-muted"></i>
+                                    <span id="profileEmail">—</span>
+                                </div>
+                                <button class="prof-change-email-btn" onclick="openEmailModal()">
+                                    <i class="bi bi-pencil-fill me-1"></i> Change
+                                </button>
                             </div>
                         </div>
 
-                        <div class="mt-3 text-end">
-                            <button class="btn btn-success" onclick="saveProfile()">
-                                Save Changes
+                        <!-- Office select -->
+                        <div class="prof-field-group">
+                            <label class="prof-label">Office / Region</label>
+                            <select class="prof-select" id="adminOfficeEdit">
+                                <option value="DENR Central Office">DENR Central Office</option>
+                                <option value="DENR Region I">DENR Region I — Ilocos</option>
+                                <option value="DENR Region II">DENR Region II — Cagayan Valley</option>
+                                <option value="DENR Region III">DENR Region III — Central Luzon</option>
+                                <option value="DENR Region IV-A">DENR Region IV-A — CALABARZON</option>
+                                <option value="DENR Region IV-B">DENR Region IV-B — MIMAROPA</option>
+                                <option value="DENR Region V">DENR Region V — Bicol</option>
+                                <option value="DENR Region VI">DENR Region VI — Western Visayas</option>
+                                <option value="DENR Region VII">DENR Region VII — Central Visayas</option>
+                                <option value="DENR Region VIII">DENR Region VIII — Eastern Visayas</option>
+                                <option value="DENR Region IX">DENR Region IX — Zamboanga Peninsula</option>
+                                <option value="DENR Region X">DENR Region X — Northern Mindanao</option>
+                                <option value="DENR Region XI">DENR Region XI — Davao</option>
+                                <option value="DENR Region XII">DENR Region XII — SOCCSKSARGEN</option>
+                                <option value="DENR Region XIII">DENR Region XIII — Caraga</option>
+                                <option value="DENR CAR">DENR CAR — Cordillera</option>
+                                <option value="DENR BARMM">DENR BARMM — Bangsamoro</option>
+                            </select>
+                        </div>
+
+                        <div class="prof-card-footer-actions">
+                            <button class="prof-btn-save" onclick="saveProfile()" id="saveProfileBtn">
+                                <i class="bi bi-check-circle me-1"></i> Save Changes
                             </button>
                         </div>
+
+                        <div id="profileSaveToast" class="prof-inline-toast mt-3" style="display:none;"></div>
                     </div>
                 </div>
 
-                <!-- SECURITY SETTINGS -->
-                <div class="card shadow-sm mb-4">
-                    <div class="card-header fw-semibold">
-                        Security Settings
+                <!-- Security Settings -->
+                <div class="prof-card mb-4">
+                    <div class="prof-card-header">
+                        <div class="prof-card-header-icon prof-card-header-icon-sec">
+                            <i class="bi bi-shield-lock-fill"></i>
+                        </div>
+                        <div>
+                            <div class="prof-card-title">Security Settings</div>
+                            <div class="prof-card-sub">Change your login password</div>
+                        </div>
                     </div>
+                    <div class="prof-card-body">
 
-                    <div class="card-body">
-                        <div class="row g-3">
-                            <div class="col-md-4">
-                                <input type="password" class="form-control"
-                                placeholder="Current Password">
+                        <div class="prof-field-group">
+                            <label class="prof-label">Current Password</label>
+                            <div class="prof-password-wrap">
+                                <input type="password" class="prof-input" id="currentPassword"
+                                       placeholder="Enter your current password">
+                                <button class="prof-eye-btn" onclick="togglePassword('currentPassword', this)">
+                                    <i class="bi bi-eye"></i>
+                                </button>
                             </div>
-
-                            <div class="col-md-4">
-                                <input type="password" class="form-control"
-                                placeholder="New Password">
-                            </div>
-
-                            <div class="col-md-4">
-                                <input type="password" class="form-control"
-                                placeholder="Confirm Password">
-                            </div>
-
                         </div>
 
-                        <div class="mt-3 text-end">
-                            <button class="btn btn-warning" onclick="changePassword()">
-                                Change Password
+                        <div class="prof-field-group">
+                            <label class="prof-label">New Password</label>
+                            <div class="prof-password-wrap">
+                                <input type="password" class="prof-input" id="newPassword"
+                                       placeholder="At least 8 characters">
+                                <button class="prof-eye-btn" onclick="togglePassword('newPassword', this)">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                            <!-- Password strength bar -->
+                            <div class="prof-strength-wrap" id="strengthWrap" style="display:none;">
+                                <div class="prof-strength-bar">
+                                    <div class="prof-strength-fill" id="strengthFill"></div>
+                                </div>
+                                <span class="prof-strength-label" id="strengthLabel"></span>
+                            </div>
+                        </div>
+
+                        <div class="prof-field-group">
+                            <label class="prof-label">Confirm New Password</label>
+                            <div class="prof-password-wrap">
+                                <input type="password" class="prof-input" id="confirmPassword"
+                                       placeholder="Repeat new password">
+                                <button class="prof-eye-btn" onclick="togglePassword('confirmPassword', this)">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="prof-card-footer-actions">
+                            <button class="prof-btn-save prof-btn-security" onclick="changePassword()" id="changePassBtn">
+                                <i class="bi bi-lock me-1"></i> Update Password
                             </button>
                         </div>
+
+                        <div id="passwordToast" class="prof-inline-toast mt-3" style="display:none;"></div>
                     </div>
                 </div>
 
-
-                <!-- ADMIN ACTIVITY LOG -->
-                <div class="card shadow-sm">
-                    <div class="card-header fw-semibold">
-                        Recent Admin Activity
+                <!-- Recent Activity Log -->
+                <div class="prof-card">
+                    <div class="prof-card-header">
+                        <div class="prof-card-header-icon prof-card-header-icon-log">
+                            <i class="bi bi-journal-text"></i>
+                        </div>
+                        <div>
+                            <div class="prof-card-title">Recent Admin Activity</div>
+                            <div class="prof-card-sub">Your last 10 actions in the system</div>
+                        </div>
                     </div>
-
-                    <div class="card-body">
-                        <table class="table table-hover">
+                    <div class="prof-card-body p-0">
+                        <table class="table prof-activity-table mb-0">
                             <thead>
                                 <tr>
                                     <th>Action</th>
-                                    <th>Date</th>
+                                    <th>Date & Time</th>
                                 </tr>
                             </thead>
-
                             <tbody id="adminActivityLog">
                                 <tr>
-                                    <td colspan="2" class="text-center text-muted">
-                                        No activity yet.
+                                    <td colspan="2" class="text-center text-muted py-5">
+                                        <i class="bi bi-journal-x fs-3 d-block mb-2" style="color:#d1d5db;"></i>
+                                        No activity recorded yet.
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
+
             </div>
         </div>
     </main>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../js/admin/admin-vacancies.js"></script>
-    <script src="../js/admin/admin-auth.js"></script>
+    <!-- ── CHANGE EMAIL MODAL ── -->
+    <div id="emailModalOverlay" class="prof-modal-overlay" style="display:none;">
+        <div class="prof-modal">
+            <div class="prof-modal-header">
+                <div class="prof-modal-icon">
+                    <i class="bi bi-envelope-fill"></i>
+                </div>
+                <div>
+                    <div class="prof-modal-title">Change Email Address</div>
+                    <div class="prof-modal-sub">Enter your new email and confirm with your password</div>
+                </div>
+                <button class="prof-modal-close" onclick="closeEmailModal()">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            <div class="prof-modal-body">
+                <div class="prof-field-group">
+                    <label class="prof-label">New Email Address</label>
+                    <input type="email" class="prof-input" id="newEmail" placeholder="new@email.com">
+                </div>
+                <div class="prof-field-group">
+                    <label class="prof-label">Confirm with Password</label>
+                    <div class="prof-password-wrap">
+                        <input type="password" class="prof-input" id="emailConfirmPassword"
+                               placeholder="Enter your current password">
+                        <button class="prof-eye-btn" onclick="togglePassword('emailConfirmPassword', this)">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="emailModalToast" class="prof-inline-toast mt-2" style="display:none;"></div>
+            </div>
+            <div class="prof-modal-footer">
+                <button class="prof-btn-cancel" onclick="closeEmailModal()">Cancel</button>
+                <button class="prof-btn-save" onclick="saveEmail()" id="saveEmailBtn">
+                    <i class="bi bi-check-circle me-1"></i> Update Email
+                </button>
+            </div>
+        </div>
+    </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/admin/admin-profile.js"></script>
+    <script src="../js/admin/admin-auth.js"></script>
 </body>
 </html>

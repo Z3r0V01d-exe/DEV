@@ -1,16 +1,25 @@
 const express = require("express")
-const router = express.Router()
+const router  = express.Router()
 
 const {
     createVacancy,
     getApplicants,
-    updateApplicationStatus
+    updateApplicationStatus,
+    getAdminProfile,
+    updateAdminProfile,
+    updateAdminEmail,
+    updateAdminPassword
 } = require("../controllers/admincontroller")
 
-router.post("/create-vacancy", createVacancy)
+// ── Profile routes ─────────────────────────────────────────────────────────
+router.get  ("/profile",              getAdminProfile)
+router.patch("/profile/:adminId",     updateAdminProfile)
+router.patch("/profile/:adminId/email",    updateAdminEmail)
+router.patch("/profile/:adminId/password", updateAdminPassword)
 
-router.get("/applicants", getApplicants)
-
-router.put("/application-status", updateApplicationStatus)
+// ── Existing routes ────────────────────────────────────────────────────────
+router.post("/create-vacancy",      createVacancy)
+router.get ("/applicants",          getApplicants)
+router.put ("/application-status",  updateApplicationStatus)
 
 module.exports = router
